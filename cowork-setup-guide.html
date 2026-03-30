@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The CoWork Setup Guide — Build Your AI-Powered Second Brain</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+      --font-body: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+      --bg: #f5f3ee;
+      --surface: #faf9f7;
+      --surface2: #edeae4;
+      --surface-elevated: #faf9f7;
+      --border: rgba(0, 0, 0, 0.08);
+      --border-bright: rgba(0, 0, 0, 0.14);
+      --text: #1a1a1a;
+      --text-dim: #777777;
+      --text-light: #999999;
+
+      --navy: #1a1a1a;
+      --navy-dim: rgba(26, 26, 26, 0.06);
+      --gold: #c44d2b;
+      --gold-dim: rgba(196, 77, 43, 0.08);
+      --sage: #5a6e52;
+      --sage-dim: rgba(90, 110, 82, 0.08);
+      --rose: #8a3a4a;
+      --rose-dim: rgba(138, 58, 74, 0.08);
+      --terracotta: #c44d2b;
+      --terracotta-dim: rgba(196, 77, 43, 0.08);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1a1a1a;
+        --surface: #222222;
+        --surface2: #2a2a2a;
+        --surface-elevated: #252525;
+        --border: rgba(255, 255, 255, 0.08);
+        --border-bright: rgba(255, 255, 255, 0.14);
+        --text: #e8e4df;
+        --text-dim: #9a9590;
+        --text-light: #6a6560;
+
+        --navy: #e8e4df;
+        --navy-dim: rgba(232, 228, 223, 0.08);
+        --gold: #e07050;
+        --gold-dim: rgba(224, 112, 80, 0.10);
+        --sage: #8ab88a;
+        --sage-dim: rgba(138, 184, 138, 0.10);
+        --rose: #d4828f;
+        --rose-dim: rgba(212, 130, 143, 0.10);
+        --terracotta: #e07050;
+        --terracotta-dim: rgba(224, 112, 80, 0.10);
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--bg);
+      padding: 40px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---- LAYOUT ---- */
+    .wrap {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 0 48px;
+    }
+    .main { min-width: 0; max-width: 860px; }
+
+    /* ---- TOC ---- */
+    .toc {
+      position: sticky;
+      top: 32px;
+      align-self: start;
+      padding: 14px 0;
+      grid-row: 1 / -1;
+      max-height: calc(100dvh - 64px);
+      overflow-y: auto;
+    }
+    .toc::-webkit-scrollbar { width: 3px; }
+    .toc::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 2px; }
+
+    .toc-title {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-light);
+      padding: 0 0 10px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .toc a {
+      display: block;
+      font-size: 11px;
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 5px 8px;
+      border-radius: 5px;
+      border-left: 2px solid transparent;
+      transition: all 0.15s;
+      line-height: 1.35;
+      margin-bottom: 1px;
+    }
+    .toc a:hover { color: var(--text); background: var(--surface2); }
+    .toc a.active { color: var(--gold); border-left-color: var(--gold); font-weight: 600; }
+
+    /* ---- HERO ---- */
+    .hero {
+      margin-bottom: 64px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(36px, 5vw, 52px);
+      font-weight: 900;
+      line-height: 1.08;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-weight: 400;
+      font-style: italic;
+      color: var(--text-dim);
+    }
+    .hero .subtitle {
+      font-size: 17px;
+      color: var(--text-dim);
+      max-width: 580px;
+      line-height: 1.65;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .hero-stat .num {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--gold);
+    }
+    .hero-stat .label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-light);
+    }
+
+    /* ---- SECTION HEADERS ---- */
+    .sec-head {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-top: 64px;
+      margin-bottom: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      scroll-margin-top: 20px;
+    }
+    .sec-head::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+    .sec-head--navy { color: var(--navy); background: var(--navy-dim); }
+    .sec-head--gold { color: var(--gold); background: var(--gold-dim); }
+    .sec-head--sage { color: var(--sage); background: var(--sage-dim); }
+    .sec-head--rose { color: var(--rose); background: var(--rose-dim); }
+    .sec-head--terra { color: var(--terracotta); background: var(--terracotta-dim); }
+
+    h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 3.5vw, 36px);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      color: var(--text);
+      position: relative;
+    }
+    h3 {
+      font-family: var(--font-body);
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 36px;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    h4 {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      margin-top: 28px;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    p { margin-bottom: 14px; color: var(--text); }
+    p + p { margin-top: 0; }
+    .lead {
+      font-size: 17px;
+      color: var(--text-dim);
+      line-height: 1.65;
+      margin-bottom: 28px;
+      max-width: 640px;
+    }
+
+    strong { font-weight: 600; }
+    a { color: var(--navy); text-decoration: underline; text-decoration-color: var(--border-bright); text-underline-offset: 3px; }
+    a:hover { text-decoration-color: var(--navy); }
+
+    /* ---- CARDS ---- */
+    .ve-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-bottom: 16px;
+    }
+    .ve-card--hero {
+      background: color-mix(in srgb, var(--surface) 92%, var(--gold) 8%);
+      border-color: color-mix(in srgb, var(--border) 50%, var(--gold) 20%);
+      border-top: 2px solid var(--gold);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    }
+    .ve-card--recessed {
+      background: var(--surface2);
+      border-color: var(--border);
+    }
+    .ve-card h4 { margin-top: 0; }
+
+    .card-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .card-label::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .card-label--navy { color: var(--navy); }
+    .card-label--gold { color: var(--gold); }
+    .card-label--sage { color: var(--sage); }
+    .card-label--rose { color: var(--rose); }
+    .card-label--terra { color: var(--terracotta); }
+
+    /* ---- GRID LAYOUTS ---- */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .layer-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin: 28px 0;
+    }
+    .layer {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 20px;
+      border-radius: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .layer:hover {
+      transform: translateX(4px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .layer-num {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--gold);
+      width: 28px;
+      flex-shrink: 0;
+      text-align: center;
+    }
+    .layer-title {
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .layer-desc {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-left: auto;
+      text-align: right;
+    }
+
+    /* ---- CODE BLOCKS ---- */
+    .code-block {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      line-height: 1.6;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 16px 0 20px;
+      max-height: 480px;
+      overflow-y: auto;
+      color: var(--text);
+    }
+    .code-file {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 16px 0 20px;
+    }
+    .code-file__header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+    .code-file__body {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      line-height: 1.6;
+      padding: 20px 24px;
+      background: var(--surface2);
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 480px;
+      overflow: auto;
+      color: var(--text);
+      margin: 0;
+    }
+
+    /* ---- COLLAPSIBLES ---- */
+    details {
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    details summary {
+      padding: 14px 20px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      background: var(--surface);
+      user-select: none;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    details summary::before {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 5px solid var(--text-dim);
+      border-top: 4px solid transparent;
+      border-bottom: 4px solid transparent;
+      transition: transform 0.15s;
+      flex-shrink: 0;
+    }
+    details[open] summary::before {
+      transform: rotate(90deg);
+    }
+    details summary::-webkit-details-marker { display: none; }
+    details > :not(summary) { padding: 0 20px 20px; }
+    details .code-block, details .code-file { margin: 12px 0 0; }
+
+    /* ---- QUESTION CARDS ---- */
+    .q-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      border-radius: 2px 10px 10px 2px;
+      padding: 16px 20px;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    .q-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gold);
+      margin-right: 8px;
+    }
+
+    /* ---- TABLES ---- */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0 20px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+    thead th {
+      position: sticky;
+      top: 0;
+      background: var(--surface);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--text-dim);
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-bright);
+    }
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: color-mix(in srgb, var(--surface2) 40%, transparent); }
+    td code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: var(--surface2);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* ---- CALLOUTS ---- */
+    .callout {
+      padding: 20px 24px;
+      border-radius: 10px;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    .callout-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+    }
+    .callout--tip { background: var(--sage-dim); border-left: 3px solid var(--sage); }
+    .callout--tip .callout-title { color: var(--sage); }
+    .callout--warn { background: var(--gold-dim); border-left: 3px solid var(--gold); }
+    .callout--warn .callout-title { color: var(--gold); }
+    .callout--key { background: var(--navy-dim); border-left: 3px solid var(--navy); }
+    .callout--key .callout-title { color: var(--navy); }
+
+    /* ---- CHECKLIST ---- */
+    .checklist {
+      list-style: none;
+      margin: 16px 0;
+    }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .check-box {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border-bright);
+      border-radius: 5px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .checklist .session-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+      background: var(--surface2);
+      padding: 2px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    /* ---- PULL QUOTE ---- */
+    .pull-quote {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.45;
+      color: var(--text);
+      padding: 28px 0;
+      margin: 32px 0;
+      border-top: 2px solid var(--text);
+      border-bottom: 1px solid var(--border);
+      max-width: 560px;
+      position: relative;
+    }
+    .pull-quote::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 0;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    /* ---- SKILL ANATOMY DIAGRAM ---- */
+    .anatomy {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin: 20px 0;
+    }
+    .anatomy-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border-radius: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .anatomy-row .tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border-radius: 5px;
+      white-space: nowrap;
+      min-width: 100px;
+      text-align: center;
+    }
+    .tag--required { background: var(--navy-dim); color: var(--navy); }
+    .tag--important { background: var(--gold-dim); color: var(--gold); }
+    .tag--optional { background: var(--sage-dim); color: var(--sage); }
+
+    /* ---- GEOMETRIC DECORATIONS ---- */
+    .hero {
+      position: relative;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 8px;
+      right: 0;
+      width: 80px;
+      height: 80px;
+      border: 2px solid #e8d4c0;
+      border-radius: 50%;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      bottom: 80px;
+      right: 40px;
+      width: 10px;
+      height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    h2::after {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      margin-left: 8px;
+      vertical-align: super;
+      opacity: 0.7;
+    }
+
+    /* ---- FOOTER ---- */
+    .footer {
+      margin-top: 80px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* ---- ANIMATIONS ---- */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.5s ease-out forwards;
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in:nth-child(1) { animation-delay: 0.05s; }
+    .fade-in:nth-child(2) { animation-delay: 0.1s; }
+    .fade-in:nth-child(3) { animation-delay: 0.15s; }
+    .fade-in:nth-child(4) { animation-delay: 0.2s; }
+    .fade-in:nth-child(5) { animation-delay: 0.25s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade-in { opacity: 1; transform: none; animation: none; }
+    }
+
+    /* ---- MOBILE ---- */
+    @media (max-width: 1000px) {
+      body { padding: 20px; }
+      .wrap { grid-template-columns: 1fr; padding-top: 0; }
+      .toc {
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        max-height: none;
+        display: flex;
+        gap: 4px;
+        align-items: center;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        padding: 10px 0;
+        margin: 0 -20px 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        grid-row: auto;
+      }
+      .toc::-webkit-scrollbar { display: none; }
+      .toc-title { display: none; }
+      .toc a {
+        white-space: nowrap;
+        flex-shrink: 0;
+        border-left: none;
+        border-bottom: 2px solid transparent;
+        border-radius: 4px 4px 0 0;
+        padding: 6px 10px;
+        font-size: 10px;
+      }
+      .toc a.active {
+        border-left: none;
+        border-bottom-color: var(--gold);
+        color: var(--gold);
+        background: var(--surface);
+      }
+      .main { padding-top: 8px; }
+      .sec-head { scroll-margin-top: 52px; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .layer-desc { display: none; }
+      .footer { flex-direction: column; gap: 8px; }
+    }
+
+    /* ---- PASTE PROMPT ---- */
+    .paste-prompt {
+      margin: 24px 0;
+      border: 1px solid color-mix(in srgb, var(--gold) 30%, var(--border) 70%);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--surface);
+    }
+    .paste-prompt__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background: var(--gold-dim);
+      border-bottom: 1px solid color-mix(in srgb, var(--gold) 20%, var(--border) 80%);
+    }
+    .paste-prompt__label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .paste-prompt__label svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .paste-prompt__copy {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--gold);
+      background: var(--surface);
+      border: 1px solid color-mix(in srgb, var(--gold) 30%, var(--border) 70%);
+      border-radius: 6px;
+      padding: 5px 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .paste-prompt__copy:hover {
+      background: var(--gold-dim);
+      border-color: var(--gold);
+    }
+    .paste-prompt__copy.copied {
+      color: var(--sage);
+      border-color: var(--sage);
+      background: var(--sage-dim);
+    }
+    .paste-prompt__body {
+      padding: 20px 24px;
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 360px;
+      overflow-y: auto;
+    }
+    .paste-prompt__note {
+      padding: 10px 20px;
+      background: var(--surface2);
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-dim);
+      font-style: italic;
+    }
+
+    /* ---- INLINE UTILS ---- */
+    ul.disc { list-style: disc; padding-left: 24px; margin: 12px 0; }
+    ul.disc li { margin-bottom: 6px; font-size: 14px; }
+    .mb-0 { margin-bottom: 0; }
+    .mt-0 { margin-top: 0; }
+    .small { font-size: 13px; color: var(--text-dim); }
+    .mono { font-family: var(--font-mono); }
+    code {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      background: var(--surface2);
+      padding: 2px 7px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ====== TOC ====== -->
+  <nav class="toc" id="toc">
+    <div class="toc-title">Guide</div>
+    <a href="#overview">Overview</a>
+    <a href="#discovery">0. Discovery</a>
+    <a href="#global">1. Global Instructions</a>
+    <a href="#claudemd">2. CLAUDE.md</a>
+    <a href="#memory">3. Memory Files</a>
+    <a href="#folders">4. Folder Structure</a>
+    <a href="#skills">5. Custom Skills</a>
+    <a href="#automations">6. Automations</a>
+    <a href="#continuity">7. Session Continuity</a>
+    <a href="#tools">8. Connected Tools</a>
+    <a href="#maintenance">9. Maintenance</a>
+    <a href="#checklist">Setup Checklist</a>
+    <a href="#lessons">Lessons Learned</a>
+  </nav>
+
+  <!-- ====== MAIN ====== -->
+  <div class="main">
+
+    <!-- HERO -->
+    <div class="hero fade-in">
+      <div class="hero-label">The Complete Playbook</div>
+      <h1>Build Your <em>AI-Powered</em> Second Brain</h1>
+      <p class="subtitle">A comprehensive, step-by-step guide to setting up Claude CoWork as a personal operating system. Based on 25+ iterations, 20+ research sessions, and months of real-world use.</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="num">11</span>
+          <span class="label">System Layers</span>
+        </div>
+        <div class="hero-stat">
+          <span class="num">60+</span>
+          <span class="label">Discovery Questions</span>
+        </div>
+        <div class="hero-stat">
+          <span class="num">7</span>
+          <span class="label">Custom Skills</span>
+        </div>
+        <div class="hero-stat">
+          <span class="num">25+</span>
+          <span class="label">Iterations</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div id="overview" class="sec-head sec-head--navy">Overview</div>
+    <h2>How the System Works</h2>
+    <p class="lead">Your CoWork second brain has three core ingredients: context (who you are), instructions (how Claude should behave), and automations (work that happens while you're away). Everything else builds on these.</p>
+
+    <div class="layer-stack">
+      <div class="layer fade-in">
+        <span class="layer-num">1</span>
+        <div><span class="layer-title">Global Instructions</span></div>
+        <span class="layer-desc">How Claude should behave</span>
+      </div>
+      <div class="layer fade-in">
+        <span class="layer-num">2</span>
+        <div><span class="layer-title">CLAUDE.md</span></div>
+        <span class="layer-desc">Who you are</span>
+      </div>
+      <div class="layer fade-in">
+        <span class="layer-num">3</span>
+        <div><span class="layer-title">Memory Files</span></div>
+        <span class="layer-desc">Deep context on specific topics</span>
+      </div>
+      <div class="layer fade-in">
+        <span class="layer-num">4</span>
+        <div><span class="layer-title">Folder Structure</span></div>
+        <span class="layer-desc">Where everything lives (PARA)</span>
+      </div>
+      <div class="layer fade-in">
+        <span class="layer-num">5</span>
+        <div><span class="layer-title">Custom Skills</span></div>
+        <span class="layer-desc">Pre-built workflows</span>
+      </div>
+      <div class="layer fade-in">
+        <span class="layer-num">6</span>
+        <div><span class="layer-title">Scheduled Tasks</span></div>
+        <span class="layer-desc">Automations that run while you're away</span>
+      </div>
+      <div class="layer fade-in">
+        <span class="layer-num">7</span>
+        <div><span class="layer-title">Session Continuity</span></div>
+        <span class="layer-desc">So Claude picks up where it left off</span>
+      </div>
+      <div class="layer fade-in">
+        <span class="layer-num">8</span>
+        <div><span class="layer-title">Connected Tools</span></div>
+        <span class="layer-desc">Gmail, Calendar, Notion, Drive</span>
+      </div>
+      <div class="layer fade-in">
+        <span class="layer-num">9</span>
+        <div><span class="layer-title">Quick Capture</span></div>
+        <span class="layer-desc">Send tasks from your phone</span>
+      </div>
+    </div>
+
+    <div class="callout callout--key">
+      <div class="callout-title">How to work through this</div>
+      <p class="mb-0">Read the whole guide once to understand the layers. Then start a CoWork session and work through it section by section WITH Claude. Don't try to fill everything in one sitting. The best systems are built over multiple sessions and refined as you use them.</p>
+    </div>
+
+    <!-- PART 0: DISCOVERY -->
+    <div id="discovery" class="sec-head sec-head--gold">Part 0</div>
+    <h2>The Discovery Process</h2>
+    <p class="lead">Before you fill in a single template, you need to have the right conversations with Claude. The quality of your system depends entirely on the quality of information you put into it.</p>
+
+    <p>For each section below, there's a <strong>ready-to-paste prompt</strong> you can copy straight into your CoWork chat. Claude will interview you and ask the right questions. You don't have to think of what to say, just answer what Claude asks.</p>
+
+    <h3>Who You Are <span class="small">(15-20 min)</span></h3>
+
+    <div class="paste-prompt">
+      <div class="paste-prompt__header">
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
+        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="paste-prompt__body">I'm setting up my CoWork second brain from scratch. I want you to interview me so you can build a system that actually knows me.
+
+Start with who I am. Ask me these questions ONE AT A TIME (wait for my answer before moving to the next). Go conversational, not robotic:
+
+1. What do I do for work? Not just my title, but my actual day-to-day.
+2. What am I working toward right now? Career goals, personal goals, active projects.
+3. Walk me through a typical weekday. Then a typical weekend.
+4. What tools do I already use? (Note-taking, calendars, email, project management)
+5. What's broken in my current system? What falls through the cracks?
+6. What have I tried before that didn't work? (And why did it fail?)
+
+After I answer all 6, summarize what you learned and ask if I'd add or correct anything. Then save the notes to a file called "discovery-notes.md" in my workspace so we can reference them when building the system.
+
+Don't limit yourself to just these questions — if something I say sparks a follow-up or you think of other questions that would help you understand me better, ask those too.</div>
+      <div class="paste-prompt__note">Claude will ask each question one at a time and wait for your answer.</div>
+    </div>
+    <p class="small">Questions covered in the prompt above: your work, goals, daily routine, current tools, what's broken, and what you've tried before.</p>
+
+    <h3>How You Work <span class="small">(10-15 min)</span></h3>
+
+    <div class="paste-prompt">
+      <div class="paste-prompt__header">
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
+        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="paste-prompt__body">Now let's talk about how I work. Ask me these one at a time:
+
+1. How do I like information presented? Bullets, prose, visual, or something else?
+2. Am I a morning person or a night person? When am I most productive?
+3. When I ask you to do something complex, do I want you to ask me questions first, or just go and show me the result?
+4. What makes me feel productive vs. overwhelmed? What's the difference?
+5. What's my biggest time sink right now?
+6. Do I work in sprints or steady-state? How long can I focus before I need a break?
+
+After all 6, add these notes to the discovery-notes.md file under a "How I Work" section.
+
+These are starting points — ask me any other questions that come to mind about how I work best. The more you know, the better the system will be.</div>
+    </div>
+
+    <h3>The Personal Stuff <span class="small">(10-15 min)</span></h3>
+
+    <div class="paste-prompt">
+      <div class="paste-prompt__header">
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
+        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="paste-prompt__body">Now the personal stuff. This is what makes the system actually feel like mine instead of generic. Ask me one at a time:
+
+1. Who are the most important people in my life? Start with work (boss, direct reports, key collaborators), then personal (partner, family, close friends). Get names and enough context that you'd never have to ask "who is [name]?" again.
+2. What are my hobbies and interests? Include the guilty pleasures and the embarrassing ones.
+3. What do I eat? Am I picky? Any allergies or strong preferences? Favorite cuisines? (This matters for restaurant recs, travel planning, meal ideas.)
+4. What words, phrases, or writing styles make me cringe? What makes AI output feel fake or "off" to me?
+5. Are there any personality patterns that affect how I work? (Perfectionism, procrastination, avoidance, decision fatigue?)
+
+Add to discovery-notes.md under "Personal Context."
+
+Go beyond these questions if you want — ask me anything else that would help you actually know me as a person, not just a user profile.</div>
+    </div>
+
+    <h3>Your AI Relationship <span class="small">(5-10 min)</span></h3>
+
+    <div class="paste-prompt">
+      <div class="paste-prompt__header">
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
+        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="paste-prompt__body">Last discovery section — my relationship with AI. Ask one at a time:
+
+1. What AI tools have I used before? What worked, what didn't?
+2. How technical am I? Do I code? Do I want to?
+3. If this CoWork system could do ANYTHING for me, what would it do? Dream big.
+4. What am I NOT comfortable with Claude doing? Any boundaries?
+5. What would make me stop using this system? (What's my friction threshold?)
+
+Add to discovery-notes.md under "AI Relationship." Then give me a full summary of everything you learned across all 4 sections. We'll use this to build the actual system files next.
+
+If there's anything else you're curious about that would help you build a better system for me, ask. These questions are just the starting framework.</div>
+    </div>
+
+    <div class="callout callout--tip">
+      <div class="callout-title">Why this matters</div>
+      <p class="mb-0">Every section in this guide was born from conversations like these. The people.md file exists because knowing who "Nancy" is saves 30 seconds of context every session. The food-preferences.md exists because a picky eater got generic restaurant recommendations one too many times. You don't need everything perfect on day one. The system has a built-in correction loop.</p>
+    </div>
+
+    <!-- PART 1: GLOBAL INSTRUCTIONS -->
+    <div id="global" class="sec-head sec-head--navy">Part 1</div>
+    <h2>Global Instructions</h2>
+    <p class="lead">These go into Claude Desktop &gt; Settings &gt; Instructions. They're the behavioral rules that tell Claude HOW to interact with you. They load on every session automatically.</p>
+
+    <div class="grid-2">
+      <div class="ve-card">
+        <div class="card-label card-label--navy">Global Instructions</div>
+        <p class="small mb-0"><strong>How Claude should behave.</strong> Ask questions first, use my voice, don't delete files, re-read output before delivering.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--gold">CLAUDE.md</div>
+        <p class="small mb-0"><strong>Who you are.</strong> Your context, your people, your projects, your preferences. The knowledge base.</p>
+      </div>
+    </div>
+
+    <div class="paste-prompt">
+      <div class="paste-prompt__header">
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
+        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="paste-prompt__body">Now let's build my Global Instructions. These go into Claude Desktop > Settings > Instructions.
+
+Using everything from my discovery-notes.md, draft my Global Instructions file. It should include these sections:
+- "Who I Am" (1-2 sentences)
+- "How to Work With Me" (behavioral rules for every session)
+- "Output Style" (tone, format, length preferences based on what I told you)
+- "Standing Rules" (non-negotiable rules that apply every time)
+- "Quality Standard" (how to check your own work)
+- "How to Work Smarter" (parallel research, extended thinking, verification)
+
+Show me the draft. I'll tell you what to change. After I approve it, save it as GLOBAL-INSTRUCTIONS.md in my workspace. Then tell me exactly how to paste it into Settings.
+
+Feel free to ask me additional questions beyond this list if there's anything else that would help you write better instructions for yourself.</div>
+      <div class="paste-prompt__note">Claude will draft the file based on your discovery conversation, then ask for your approval before saving.</div>
+    </div>
+
+    <h3>What to Include</h3>
+    <div class="anatomy">
+      <div class="anatomy-row"><span class="tag tag--required">Required</span> Who I Am — name, role, where your files live</div>
+      <div class="anatomy-row"><span class="tag tag--required">Required</span> How to Work With Me — read CLAUDE.md first, ask clarifying questions, reference folders</div>
+      <div class="anatomy-row"><span class="tag tag--required">Required</span> Output Style — tone, format, length preferences</div>
+      <div class="anatomy-row"><span class="tag tag--required">Required</span> Standing Rules — rules for every session, no exceptions</div>
+      <div class="anatomy-row"><span class="tag tag--important">Important</span> Quality Standard — re-read output, verify facts, flag uncertainty</div>
+      <div class="anatomy-row"><span class="tag tag--optional">Optional</span> How to Work Smarter — parallel research, extended thinking, verification</div>
+    </div>
+
+    <details>
+      <summary>View template</summary>
+      <pre class="code-block">## Who I Am
+[1-2 sentences. Your name, what you do, where your files live.]
+
+## How to Work With Me
+- ALWAYS read CLAUDE.md first before starting any task
+- For any non-trivial task: ask me clarifying questions BEFORE doing work
+- Reference my folder structure — know where things go
+- Check the memory/ folder for deep context on specific topics
+- Use date prefixes (YYYY-MM-DD) for any time-sensitive files
+
+## Output Style
+- [Your preferred tone]
+- [Your preferred format — markdown? bullets? prose?]
+- Always end substantive work with a "Next Steps" section
+
+## Standing Rules
+- If you make a mistake: (1) fix it, (2) log it in CLAUDE.md,
+  (3) update relevant memory files
+- Never delete files — move to 04-archive/
+- Check 03-resources/skills/ for custom skills before starting
+
+## Quality Standard
+- Re-read output before delivering. Check for accuracy, tone,
+  completeness, and whether it answers what was asked.
+- If unsure about a fact, say so.</pre>
+    </details>
+
+    <details>
+      <summary>View filled-in example (real system)</summary>
+      <pre class="code-block">## Who I Am
+I'm Chloe Keywell. I'm leading AI upskilling across non-product
+functions at Bloomberg LP and I'm actively job searching for roles
+in the tech/AI industry. My second brain lives in the folder
+you're connected to.
+
+## How to Work With Me
+- ALWAYS read CLAUDE.md first before starting any task
+- For any non-trivial task: ask me clarifying questions BEFORE
+  doing work
+- Reference my folder structure (PARA method) — know where things go
+- Check the `memory/` folder for deep context on specific topics
+- Use date prefixes (YYYY-MM-DD) for any time-sensitive files
+
+## Output Style
+- Concise and direct — no corporate fluff
+- Markdown by default
+- Always end substantive work with a "Next Steps" section
+- When writing for my job search: use tech/AI industry language,
+  emphasize transferable skills from Bloomberg
+
+## Standing Rules
+- If I drop something in `00-inbox/`, process it: summarize, tag,
+  and suggest where it belongs
+- If you make a mistake or I correct you: (1) fix the mistake,
+  (2) add the learning to "Corrections &amp; Learnings" in CLAUDE.md
+- When doing research, always cite sources and include dates
+- For job-related tasks, keep a running log in
+  `01-projects/job-search/`
+- Never delete files — move to `04-archive/` instead</pre>
+    </details>
+
+    <!-- PART 2: CLAUDE.MD -->
+    <div id="claudemd" class="sec-head sec-head--gold">Part 2</div>
+    <h2>CLAUDE.md — The Master Memory File</h2>
+    <p class="lead">This is the single most important file in your system. It lives at the root of your workspace and Claude reads it automatically at the start of every session. It's the instruction manual for your life.</p>
+
+    <div class="grid-3">
+      <div class="ve-card">
+        <div class="card-label card-label--sage">Rule</div>
+        <p class="small mb-0"><strong>Keep it under ~150 lines.</strong> Detailed info goes in memory files. CLAUDE.md is the index, not the encyclopedia.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--sage">Rule</div>
+        <p class="small mb-0"><strong>Link, don't duplicate.</strong> Instead of listing every food preference, say "See memory/food-preferences.md."</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--sage">Rule</div>
+        <p class="small mb-0"><strong>Update regularly.</strong> Every weekly review should include a CLAUDE.md refresh.</p>
+      </div>
+    </div>
+
+    <div class="paste-prompt">
+      <div class="paste-prompt__header">
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
+        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="paste-prompt__body">Now let's build my CLAUDE.md — the master memory file that you'll read at the start of every session.
+
+Using my discovery-notes.md, draft a CLAUDE.md file with these sections. Ask me any follow-up questions you need to fill gaps — don't guess:
+
+1. "Who Is [My Name]" — A paragraph about me. Not a resume. Who I am as a person.
+2. "Quick Reference" — My email, voice description, tools I use, calendar setup.
+3. "Key Constraint" — The single biggest limitation on when/how I use Claude.
+4. "How [My Name] Works" — Communication style, what makes me productive, personality patterns.
+5. "Key Pain Points" — The problems I want this system to solve.
+6. "Key Memory Files" — A routing table (we'll create the memory files next, but set up the links now).
+7. "Folder Structure" — The PARA structure we'll create.
+8. "Output Preferences" — Tone, format, length by task type, date format.
+9. "Things to Avoid" — Anti-patterns, banned words, behaviors I hate.
+10. "Corrections & Learnings" — Empty section to start (this grows over time).
+
+Keep it under 150 lines. Link to memory files for detail instead of putting everything here. Show me the draft, get my approval, then save as CLAUDE.md.
+
+Ask me any other questions that would give you helpful context — anything about my life, preferences, or habits that would make you a better assistant.</div>
+    </div>
+
+    <h3>Sections to Include</h3>
+    <div class="anatomy">
+      <div class="anatomy-row"><span class="tag tag--required">Required</span> Who Is [You] — paragraph about who you are, not a resume</div>
+      <div class="anatomy-row"><span class="tag tag--required">Required</span> Quick Reference — email, voice, tools, calendar</div>
+      <div class="anatomy-row"><span class="tag tag--required">Required</span> Key Constraint — the single biggest limitation on how/when you use Claude</div>
+      <div class="anatomy-row"><span class="tag tag--required">Required</span> How [You] Works — communication style, decision-making, personality patterns</div>
+      <div class="anatomy-row"><span class="tag tag--required">Required</span> Key Pain Points — what's broken (the problems you want solved)</div>
+      <div class="anatomy-row"><span class="tag tag--required">Required</span> Memory File Routing — which files to read for which tasks</div>
+      <div class="anatomy-row"><span class="tag tag--important">Important</span> Folder Structure — map of your PARA system</div>
+      <div class="anatomy-row"><span class="tag tag--important">Important</span> Custom Skills — list with trigger phrases</div>
+      <div class="anatomy-row"><span class="tag tag--important">Important</span> Key Automations — what runs and when</div>
+      <div class="anatomy-row"><span class="tag tag--important">Important</span> Output Preferences — tone, format, length, date format</div>
+      <div class="anatomy-row"><span class="tag tag--important">Important</span> Things to Avoid / Anti-Patterns — banned words, behaviors</div>
+      <div class="anatomy-row"><span class="tag tag--required">Required</span> Corrections &amp; Learnings — grows over time, logged mistakes</div>
+      <div class="anatomy-row"><span class="tag tag--optional">Optional</span> Session Continuity — session-log.md instructions</div>
+      <div class="anatomy-row"><span class="tag tag--optional">Optional</span> Composable Skill Chains — multi-skill workflows</div>
+      <div class="anatomy-row"><span class="tag tag--optional">Optional</span> Visual Design Preferences — for HTML outputs</div>
+      <div class="anatomy-row"><span class="tag tag--optional">Optional</span> Recurring Dates — monthly/yearly events Claude should know</div>
+    </div>
+
+    <p class="small">The paste prompt above covers all the discovery questions Claude needs. It will ask you follow-up questions to fill any gaps.</p>
+
+    <!-- PART 3: MEMORY FILES -->
+    <div id="memory" class="sec-head sec-head--sage">Part 3</div>
+    <h2>Memory Files</h2>
+    <p class="lead">Memory files are the deep-context layer. CLAUDE.md points to them, but the details live here. Claude reads only the relevant ones based on what you're asking it to do.</p>
+
+    <p>Without memory files, Claude re-learns your preferences every session. With them, it already knows that "Nancy" is your boss, that you hate cottage cheese, and that you sign casual emails with "xx."</p>
+
+    <div class="pull-quote">Real writing samples beat descriptions. One real email teaches Claude more than a paragraph of adjectives.</div>
+
+    <div class="paste-prompt">
+      <div class="paste-prompt__header">
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
+        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="paste-prompt__body">Let's build my memory files. These are the deep-context files that make you actually useful. We'll go through each one. Start by interviewing me for writing-voice.md.
+
+For writing-voice.md, I need you to ask me:
+1. How would a friend describe the way I write? What's my vibe?
+2. Ask me to paste 3-5 real emails or messages I've sent recently — to different people in different contexts (a colleague, a friend, a professional contact). I'll paste them in.
+3. How do I sign off emails? Does it change by person?
+4. Do I use exclamation points, emojis, lowercase, any typing quirks?
+5. What words or phrases would I NEVER use in writing?
+6. How does my tone shift between casual and professional?
+
+After I answer, build the full writing-voice.md file: voice characteristics, professional writing style, casual style, "what my voice is NOT," banned words, and paste in my real writing samples with annotations about what to notice in each one. Show me the draft before saving to memory/writing-voice.md.
+
+Ask me anything else about how I communicate that would help you nail my voice — these questions are a starting point, not the whole picture.</div>
+      <div class="paste-prompt__note">This is the most important memory file. Real writing samples are the magic ingredient.</div>
+    </div>
+
+    <h3>Core Memory Files</h3>
+    <p>Everyone should have these five. They cover the 80% of context Claude needs most often.</p>
+
+    <div class="grid-2">
+      <div class="ve-card ve-card--hero">
+        <div class="card-label card-label--navy">Most Important</div>
+        <h4 class="mt-0">writing-voice.md</h4>
+        <p class="small">How you actually sound. Voice characteristics, sign-off habits, punctuation quirks, banned words, and 3-5 REAL writing samples across different contexts. This is the magic ingredient for emails that sound like you.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--gold">Core</div>
+        <h4 class="mt-0">people.md</h4>
+        <p class="small">Key people at work and in your personal life. Enough context that Claude never has to ask "who is [name]?" Includes roles, relationships, and relevant details.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--gold">Core</div>
+        <h4 class="mt-0">life-areas.md</h4>
+        <p class="small">Your daily routine, fitness habits, hobbies, goals, living situation, personality patterns. The "whole person" context that makes Claude actually useful.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--gold">Core</div>
+        <h4 class="mt-0">career-profile.md</h4>
+        <p class="small">Education, current role, career progression, target roles, skills to develop, job search status. For anyone doing career work with Claude.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--gold">Core</div>
+        <h4 class="mt-0">glossary.md</h4>
+        <p class="small">Acronyms, nicknames, jargon, shorthand. Grows organically every time Claude gets a term wrong. The decoder ring for your life.</p>
+      </div>
+    </div>
+
+    <h3>Optional Memory Files</h3>
+    <p>Add these based on what's relevant to your life. Each one saves enormous time when it applies.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>File</th><th>Who Needs It</th><th>What Goes In It</th></tr></thead>
+        <tbody>
+          <tr><td><code>food-preferences.md</code></td><td>Picky eaters, people with dietary restrictions, anyone who wants restaurant or meal-planning help</td><td>Likes, dislikes, allergies, cuisines, cooking level</td></tr>
+          <tr><td><code>travel-preferences.md</code></td><td>Frequent travelers</td><td>Airline loyalty, class preference, hotel vs Airbnb, activity style, budget</td></tr>
+          <tr><td><code>ai-industry-watchlist.md</code></td><td>People tracking specific companies, technologies, or trends</td><td>Companies to follow, topics, key people in the space</td></tr>
+          <tr><td><code>health-fitness.md</code></td><td>Anyone who wants Claude to help with workout planning or health tracking</td><td>Current routine, goals, gym memberships, preferences</td></tr>
+          <tr><td><code>financial-goals.md</code></td><td>People using Claude for budgeting or financial literacy</td><td>Income context, goals, investment interests, budget categories</td></tr>
+          <tr><td><code>creative-projects.md</code></td><td>People with ongoing side projects or hobbies</td><td>Active projects, status, materials, inspiration sources</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>The Memory File Routing Table</h3>
+    <p>This goes in CLAUDE.md and tells Claude which files to read for which tasks. Without this, Claude either reads everything (slow) or guesses wrong (bad).</p>
+
+    <div class="code-file">
+      <div class="code-file__header">CLAUDE.md excerpt</div>
+      <pre class="code-file__body">## Key Memory Files (read the RIGHT ones based on the task)
+- **Writing an email?** → Read memory/writing-voice.md + memory/people.md
+- **Job search?** → Read memory/career-profile.md + memory/ai-watchlist.md
+- **Planning a trip?** → Read memory/travel-preferences.md + memory/food-preferences.md
+- **Life admin?** → Read memory/life-areas.md
+- **Need to know who someone is?** → Read memory/people.md
+- **General task?** → Skim memory/life-areas.md for context
+
+**Don't recognize a term?** → Check memory/glossary.md first, then ask.</pre>
+    </div>
+
+    <h3>Then Build the Rest</h3>
+    <p>After writing-voice.md, use these prompts to build each remaining memory file. One per session or batch them if you're on a roll.</p>
+
+    <div class="paste-prompt">
+      <div class="paste-prompt__header">
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this — people.md</span>
+        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="paste-prompt__body">Let's build my people.md file. Interview me one section at a time:
+
+1. WORK: Who are the key people I work with? For each person, get their name, role, my relationship with them, and what we work on together. Ask follow-ups until you have enough context that you'd never need to ask "who is [name]?" again.
+2. PERSONAL: Partner, family members, close friends. Names and relevant context.
+3. PROFESSIONAL NETWORK: Mentors, coaches, key contacts. How I know them and why they matter.
+4. NICKNAMES: Any shortened names or nicknames I use that you should recognize.
+
+Build the full people.md with sections for Work, Personal, and Professional Network. Show me the draft before saving to memory/people.md.
+
+If you think of other questions that would help you understand my relationships and who matters in my world, ask those too.</div>
+    </div>
+
+    <div class="paste-prompt">
+      <div class="paste-prompt__header">
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this — life-areas.md</span>
+        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="paste-prompt__body">Let's build my life-areas.md file. Interview me section by section:
+
+1. DAILY LIFE: Where do I live? Living situation? Walk me through a typical weekday and weekend routine in detail (wake time, commute, work schedule, evenings, bedtime).
+2. HEALTH & FITNESS: Current workout routine, memberships, goals, dietary habits.
+3. HOBBIES: Everything I do for fun. Include side projects, creative interests, guilty pleasures.
+4. FINANCE: General financial goals, budgeting approach, anything relevant (only what I'm comfortable sharing).
+5. LEARNING: How do I learn best? What am I currently learning? Courses, books, interests.
+6. LIFE ADMIN: What's the state of my life admin? Email situation, file organization, recurring tasks.
+7. GOALS: What are my goals for this year?
+8. PERSONALITY PATTERNS: Anything about how I'm wired that affects my productivity (perfectionism, avoidance, energy patterns).
+
+Build life-areas.md with all sections. Show me the draft before saving to memory/life-areas.md.
+
+Don't stop at just these categories — ask me about anything else in my life that would be useful context. The more complete this file is, the better you'll be at helping me.</div>
+    </div>
+
+    <div class="paste-prompt">
+      <div class="paste-prompt__header">
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this — career-profile.md</span>
+        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="paste-prompt__body">Let's build my career-profile.md. Interview me:
+
+1. EDUCATION: Where did I go to school? Any programs or experiences that set me apart?
+2. CURRENT ROLE: What's my current job? What does my day-to-day actually involve? What skills have I developed?
+3. CAREER PROGRESSION: Walk through my career history. Key roles, responsibilities, achievements.
+4. TARGET ROLES: Where am I trying to go? What does the dream role look like?
+5. JOB SEARCH STATUS: Am I actively searching, passively open, or just thinking ahead?
+6. SKILLS TO DEVELOP: What skills do I want to build?
+7. ONLINE PRESENCE: Do I have or want a professional presence online?
+
+Build career-profile.md. Show me the draft before saving to memory/career-profile.md.
+
+Ask me any other career-related questions that would help you give me better job search and professional advice down the road.</div>
+    </div>
+
+    <div class="paste-prompt">
+      <div class="paste-prompt__header">
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this — glossary.md</span>
+        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="paste-prompt__body">Let's build my glossary.md — the decoder ring for my life. Ask me:
+
+1. What acronyms or jargon do I use at work that you might not understand?
+2. What tools or systems do I reference by shorthand? (e.g., "the terminal," "the Hub," "PARA")
+3. Any nicknames for people that you should recognize?
+4. Any other terms, abbreviations, or shorthand I use regularly?
+
+Build glossary.md as a table format (Term | Meaning | Context) grouped by category (Work, Personal, Tools, Nicknames). This file will grow over time — every time you get a term wrong, I'll tell you to add it here. Save to memory/glossary.md.
+
+If you've noticed any terms or shorthand I've already used in our conversations that you're unsure about, ask me about those now too.</div>
+    </div>
+
+    <!-- PART 4: FOLDER STRUCTURE -->
+    <div id="folders" class="sec-head sec-head--terra">Part 4</div>
+    <h2>Folder Structure (PARA)</h2>
+    <p class="lead">PARA stands for Projects, Areas, Resources, Archive. It's the organizational backbone. Everything has a home.</p>
+
+    <div class="code-file">
+      <div class="code-file__header">Folder structure</div>
+      <pre class="code-file__body">00-inbox/          → Drop zone. Unsorted captures, raw ideas.
+01-projects/       → Active projects with goals and end dates.
+   [project-name]/ → One folder per project.
+02-areas/          → Ongoing life areas. No end date. (Career, health, etc.)
+   [area-name]/    → One folder per area.
+03-resources/      → Reference material. Templates, skills, research.
+   skills/         → Custom Claude skills (see Part 5).
+   templates/      → Reusable templates for common outputs.
+   skill-feedback/ → Logs of what worked per skill.
+04-archive/        → Done or dormant. Nothing gets deleted.
+05-automations/    → Automation configs and logs.
+   logs/           → Output logs from scheduled tasks.
+memory/            → Deep context files Claude reads.</pre>
+    </div>
+
+    <div class="paste-prompt">
+      <div class="paste-prompt__header">
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
+        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="paste-prompt__body">Let's set up my PARA folder structure. Before you create anything, ask me:
+
+1. What active PROJECTS do I have right now? (Things with a clear goal and end date — job search, a side project, an event, etc.)
+2. What ongoing AREAS of my life do I want you to help manage? (These never "end" — career development, health, finances, learning, life admin, etc.)
+3. What REFERENCE material do I come back to regularly? (Templates, guides, saved research)
+4. Is there anything I've been meaning to organize but haven't? (That goes in the inbox.)
+
+Based on my answers, create the full folder structure:
+- 00-inbox/
+- 01-projects/ (with a subfolder for each project I mentioned)
+- 02-areas/ (with a subfolder for each area)
+- 03-resources/ (including skills/, templates/, skill-feedback/)
+- 04-archive/
+- 05-automations/logs/
+- memory/
+
+Create all folders and add a brief README.md in each project folder explaining what it's for. Then update my CLAUDE.md with the folder map.
+
+Ask me if there's anything else I'd want organized — side projects, collections, reference material — anything that should have a home in this system.</div>
+    </div>
+
+    <!-- PART 5: SKILLS -->
+    <div id="skills" class="sec-head sec-head--rose">Part 5</div>
+    <h2>Custom Skills</h2>
+    <p class="lead">Skills are pre-built workflows that tell Claude exactly how to handle your most common tasks. They live in <code>03-resources/skills/[skill-name]/SKILL.md</code>.</p>
+
+    <p>Without a skill, Claude handles every task from scratch. With a skill, it knows the exact steps, the right tone, which memory files to read, what format to use, and what mistakes to avoid.</p>
+
+    <h3>Anatomy of a Skill File</h3>
+    <div class="anatomy">
+      <div class="anatomy-row"><span class="tag tag--required">Required</span> <strong>Frontmatter</strong> — name + description with trigger phrases and "do NOT use for" conditions</div>
+      <div class="anatomy-row"><span class="tag tag--required">Required</span> <strong>Context</strong> — why this skill exists and what problem it solves</div>
+      <div class="anatomy-row"><span class="tag tag--important">Important</span> <strong>Pre-flight questions</strong> — what Claude should ask before diving in</div>
+      <div class="anatomy-row"><span class="tag tag--required">Required</span> <strong>Execution steps</strong> — the step-by-step process</div>
+      <div class="anatomy-row"><span class="tag tag--required">Required</span> <strong>Output format</strong> — exact template for the output</div>
+      <div class="anatomy-row"><span class="tag tag--important">Important</span> <strong>Key references</strong> — which memory files to read</div>
+      <div class="anatomy-row"><span class="tag tag--important">Important</span> <strong>Self-improvement loop</strong> — how the skill learns from corrections</div>
+      <div class="anatomy-row"><span class="tag tag--optional">Optional</span> <strong>Common mistakes</strong> — specific anti-patterns to avoid</div>
+      <div class="anatomy-row"><span class="tag tag--optional">Optional</span> <strong>Example</strong> — sample input/output showing the skill in action</div>
+    </div>
+
+    <h3>Skills Everyone Should Consider</h3>
+    <div class="grid-2">
+      <div class="ve-card">
+        <div class="card-label card-label--navy">Communication</div>
+        <h4 class="mt-0">Email Drafter</h4>
+        <p class="small mb-0">Writes emails in your voice. Reads writing-voice.md and people.md. Different templates for boss, colleague, friend, cold outreach.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--gold">Productivity</div>
+        <h4 class="mt-0">Inbox Triage</h4>
+        <p class="small mb-0">Scans email, prioritizes by tiers (needs response, FYI, skip). Offers to draft quick responses. Speed over perfection.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--sage">Research</div>
+        <h4 class="mt-0">Research Brief</h4>
+        <p class="small mb-0">Deep research on a topic, company, or person. Structured output with findings, implications, and next steps.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--rose">Planning</div>
+        <h4 class="mt-0">Trip Planner</h4>
+        <p class="small mb-0">Full trip plans respecting your specific preferences — airline status, dietary needs, fitness routine, budget.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--terra">Review</div>
+        <h4 class="mt-0">Weekly Review</h4>
+        <p class="small mb-0">End-of-week recap: what got done, what's stalled, memory file refresh, system health check, next week priorities.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--navy">Career</div>
+        <h4 class="mt-0">Interview Prep</h4>
+        <p class="small mb-0">Company-specific cheat sheet (60-second pitch, STAR stories, questions to ask, landmines) + mock Q&amp;A practice.</p>
+      </div>
+    </div>
+
+    <h3>The Self-Improvement Loop</h3>
+    <div class="callout callout--key">
+      <div class="callout-title">Don't skip this</div>
+      <p>Every skill should have a feedback mechanism. <strong>Before running:</strong> check the skill-feedback file for past corrections. <strong>After running:</strong> collect feedback. <strong>When corrected:</strong> (a) fix the output, (b) log the feedback with date, (c) if there's a pattern, propose an update to the SKILL.md itself.</p>
+      <p class="mb-0">This means your skills get better every time something goes wrong. After a few weeks, mediocre skills become excellent ones.</p>
+    </div>
+
+    <h3>Composable Skill Chains</h3>
+    <p>Skills can be chained for multi-step workflows. Define these in CLAUDE.md:</p>
+    <ul class="disc">
+      <li><strong>Research → Email:</strong> Research a company, then draft outreach referencing specific findings</li>
+      <li><strong>Triage → Draft:</strong> Scan inbox, identify emails needing responses, draft replies</li>
+      <li><strong>Research → Interview Prep:</strong> Research, then generate cheat sheet + mock Q&A</li>
+    </ul>
+
+    <h3>Build Your First Skill</h3>
+
+    <div class="paste-prompt">
+      <div class="paste-prompt__header">
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
+        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="paste-prompt__body">I want to build my first custom skill. Before we start, interview me to figure out which skill to build first:
+
+1. What tasks do I do repeatedly that follow a similar pattern each time?
+2. What tasks do you currently do "okay" but not great for me?
+3. What tasks do I avoid because they're tedious?
+4. If I could snap my fingers and have one thing done perfectly every time, what would it be?
+
+Based on my answers, recommend which skill to build first (pick the one with the highest impact). Then build it with me:
+
+- Ask me clarifying questions about how I want the task done (format, tone, what to include/exclude, what "good" looks like)
+- Create the SKILL.md file with all required sections: frontmatter (name + description + triggers + "do NOT use for"), context, pre-flight questions, execution steps, output format template, key memory file references, self-improvement loop, common mistakes, and one example
+- Save it to 03-resources/skills/[skill-name]/SKILL.md
+- Update CLAUDE.md with the new skill listed under Custom Skills
+
+Show me the draft before saving. I want to review it.
+
+Ask me anything else about how I want this task done — the more detail you get from me now, the better the skill will perform every time it runs.</div>
+      <div class="paste-prompt__note">Start with ONE skill. Get it right, then add more. Don't try to build 5 at once.</div>
+    </div>
+
+    <!-- PART 6: AUTOMATIONS -->
+    <div id="automations" class="sec-head sec-head--navy">Part 6</div>
+    <h2>Scheduled Tasks</h2>
+    <p class="lead">Scheduled tasks are Claude sessions that run automatically on a schedule. They do work while you're away so things are ready when you sit down.</p>
+
+    <div class="callout callout--warn">
+      <div class="callout-title">Important constraint</div>
+      <p class="mb-0">Scheduled tasks only run when your computer is awake and Claude Desktop is open. If your laptop is closed, the task misses its window. Build a habit of leaving Claude open.</p>
+    </div>
+
+    <div class="paste-prompt">
+      <div class="paste-prompt__header">
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
+        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="paste-prompt__body">Let's set up my scheduled automations. Before creating anything, ask me:
+
+1. What time do I usually wake up / start my day?
+2. When do I typically sit down to use Claude? (Morning, evening, weekends?)
+3. Do I have email connected? (Gmail / Google Workspace)
+4. Do I have a calendar connected?
+5. What would be most useful to have done FOR me automatically — email summary, calendar prep, weekly review, industry news, something else?
+6. Are there any recurring tasks I do on a schedule that could be automated?
+
+Based on my answers, recommend 2-3 scheduled tasks to start with (don't overwhelm me). For each one, explain what it will do and when it will run. Get my approval, then set them up.
+
+Important: Remind me that my laptop needs to be awake and Claude Desktop needs to be open for these to run.
+
+Ask me about anything else in my routine or workflow that could benefit from automation — I might not think of everything on my own.</div>
+    </div>
+
+    <h3>Automations to Consider</h3>
+
+    <div class="grid-2">
+      <div class="ve-card">
+        <div class="card-label card-label--gold">Daily</div>
+        <h4 class="mt-0">Morning Briefing</h4>
+        <p class="small mb-0">Email summary, today's calendar with per-meeting context, priorities, relevant news. Weekdays, 30-60 min before you start work.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--sage">Weekly</div>
+        <h4 class="mt-0">Weekly Review</h4>
+        <p class="small mb-0">What got done, what's stalled, project status, memory file refresh, system health check, next week priorities. Friday or Sunday.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--navy">Daily</div>
+        <h4 class="mt-0">Inbox Digest</h4>
+        <p class="small mb-0">Prioritized email summary timed for when you usually sit down with Claude. Batch-process responses.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--terra">Weekly</div>
+        <h4 class="mt-0">Industry Tracker</h4>
+        <p class="small mb-0">News, job postings, company updates in your target area. Weekly on whatever day makes sense for your rhythm.</p>
+      </div>
+    </div>
+
+    <h3>Tips for Reliable Automations</h3>
+    <ul class="disc">
+      <li><strong>Be specific in the prompt.</strong> Don't just say "check my email." Say exactly what to scan, how to prioritize, what format, and where to save output.</li>
+      <li><strong>Include file paths.</strong> Tell the automation where to save results.</li>
+      <li><strong>Reference skills.</strong> Tell the automation to follow a specific skill for format and tone.</li>
+      <li><strong>Build in verification.</strong> Cross-check against a known source of truth rather than guessing.</li>
+      <li><strong>Check outputs for the first few days.</strong> Automations need tuning. Review and correct early.</li>
+    </ul>
+
+    <!-- PART 7: SESSION CONTINUITY -->
+    <div id="continuity" class="sec-head sec-head--gold">Part 7</div>
+    <h2>Session Continuity</h2>
+    <p class="lead">Claude doesn't have memory between sessions by default. These two files solve that.</p>
+
+    <div class="paste-prompt">
+      <div class="paste-prompt__header">
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
+        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="paste-prompt__body">Set up my session continuity system. Create these two files:
+
+1. session-log.md — A shift handover file. The template should have sections for: session date, session type, what happened, completed items, key decisions made, pending items, files modified, and "next session could" suggestions. Start with an entry for today's session summarizing everything we've set up so far.
+
+2. TASKS.md — A task tracker with sections: Active, Waiting On, Someday, Done. Populate it based on anything I've mentioned wanting to do during our setup conversations.
+
+Then update CLAUDE.md to include Session Continuity instructions:
+- "At the END of every session: Write a shift handover to session-log.md"
+- "At the START of every session: Read session-log.md before beginning any work"
+
+Show me both files before saving.
+
+If you have other ideas for how to maintain continuity between our sessions — beyond what's listed here — suggest them.</div>
+    </div>
+
+    <div class="grid-2">
+      <div class="ve-card ve-card--hero">
+        <div class="card-label card-label--navy">Critical</div>
+        <h4 class="mt-0">session-log.md</h4>
+        <p class="small">The "shift handover" between sessions. At the end of every session, Claude writes what happened, what's pending, and any decisions made. At the start of the next session, Claude reads it and picks up where it left off.</p>
+        <p class="small mb-0"><strong>Sections:</strong> Date, session type, what happened, completed items, key decisions, pending items, files modified, what next session could do.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--gold">Useful</div>
+        <h4 class="mt-0">TASKS.md</h4>
+        <p class="small mb-0">A simple, always-current task list. Claude reads and writes to it. Sections: Active, Waiting On, Someday, Done. Check anytime by asking "what's on my plate?"</p>
+      </div>
+    </div>
+
+    <p>Add this to CLAUDE.md:</p>
+    <div class="code-file">
+      <div class="code-file__header">CLAUDE.md excerpt</div>
+      <pre class="code-file__body">## Session Continuity
+- At the END of every session: Write a shift handover to session-log.md
+- At the START of every session: Read session-log.md before beginning work</pre>
+    </div>
+
+    <!-- PART 8: CONNECTED TOOLS -->
+    <div id="tools" class="sec-head sec-head--sage">Part 8</div>
+    <h2>Connected Tools &amp; Quick Capture</h2>
+    <p class="lead">The more services you connect, the more useful the system becomes. And if you can't access Claude during the day, you need a bridge.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Service</th><th>What It Enables</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Gmail</strong></td><td>Inbox triage, email drafting, morning briefings, thread search</td></tr>
+          <tr><td><strong>Google Calendar</strong></td><td>Meeting prep, scheduling awareness, daily agenda</td></tr>
+          <tr><td><strong>Google Drive</strong></td><td>Document access, file search, shared doc references</td></tr>
+          <tr><td><strong>Notion</strong></td><td>Quick capture from phone, database access, cross-platform sync</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="paste-prompt">
+      <div class="paste-prompt__header">
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
+        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="paste-prompt__body">Let's set up my quick capture bridge so I can send tasks to you from my phone during the day.
+
+Ask me:
+1. Can I access Claude during the day, or only at certain times?
+2. Do I have Notion? (If yes, we'll create a Second Brain Hub page for quick captures.)
+3. Have I set up Dispatch in CoWork? (The phone-to-Claude feature.)
+4. What kind of things would I want to send you during the day? (Tasks, research requests, things to remember, ideas?)
+
+Based on my answers, set up the right bridge:
+- If Notion: Create the quick capture page structure and add a "Notion Bridge" section to CLAUDE.md with instructions for you to check it at session start
+- If Dispatch: Walk me through pairing and add Dispatch notes to CLAUDE.md
+- Update CLAUDE.md with whatever we set up
+
+Ask me about any other tools or services I use daily that might be worth connecting — I may forget to mention something obvious.</div>
+    </div>
+
+    <h3>Quick Capture Bridge</h3>
+    <p>If you can't access Claude during the day, you need a way to send tasks from your phone.</p>
+
+    <div class="grid-2">
+      <div class="ve-card">
+        <div class="card-label card-label--navy">Option 1</div>
+        <h4 class="mt-0">Notion Quick Capture</h4>
+        <p class="small mb-0">Create a "Second Brain Hub" page in Notion. Drop notes there from your phone during the day. Claude checks it at session start and processes items into the right workspace files.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--gold">Option 2</div>
+        <h4 class="mt-0">Dispatch</h4>
+        <p class="small mb-0">Pair your phone to CoWork via Dispatch (QR code). Send tasks anytime. They'll be waiting when Claude runs. Same "laptop must be awake" constraint.</p>
+      </div>
+    </div>
+
+    <!-- PART 9: MAINTENANCE -->
+    <div id="maintenance" class="sec-head sec-head--terra">Part 9</div>
+    <h2>Ongoing Maintenance</h2>
+    <p class="lead">A system is only as good as its maintenance. Here's the rhythm.</p>
+
+    <div class="paste-prompt">
+      <div class="paste-prompt__header">
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
+        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="paste-prompt__body">We've built the whole system. Now create my GETTING-STARTED.md — a personal reference doc that explains how everything works. It should include:
+
+1. "How It Works" (30-second version) — Context + Instructions + Automations
+2. "Setup Checklist" — What's connected, what's configured
+3. "What's In Here" — My folder structure, memory files, skills, automations
+4. "How to Use This Day-to-Day" — Quick commands, example prompts I can use
+5. "When Claude Gets Something Wrong" — How the correction loop works
+6. "Weekly Rhythm" — What happens each day of the week
+7. "Pro Tips" — The power-user stuff I should know
+8. "Things This System Can't Do (Yet)" — Honest limitations
+
+Write it in my voice (reference writing-voice.md). Save to GETTING-STARTED.md at the root of my workspace. This is the doc I'd reread if I forget how the system works.
+
+If there's anything else you think should be in this reference doc based on everything you've learned about me, add it — and ask me about anything you're unsure of.</div>
+    </div>
+
+    <div class="grid-3">
+      <div class="ve-card">
+        <div class="card-label card-label--navy">Every Session</div>
+        <p class="small mb-0">Claude reads session-log.md, checks TASKS.md, scans quick capture for new items. You correct mistakes (they get logged automatically).</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--gold">Weekly</div>
+        <p class="small mb-0">Summarize the week. Check projects for stalls. Refresh memory files. Review skill feedback. Update TASKS.md. System health check.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--rose">Monthly</div>
+        <p class="small mb-0">Review CLAUDE.md for accuracy. Archive completed projects. Check glossary. Evaluate if any manual workflow should become a skill.</p>
+      </div>
+    </div>
+
+    <h3>The Corrections Loop</h3>
+    <p>This is the single most important maintenance mechanism. Every time Claude makes a mistake:</p>
+    <div class="anatomy">
+      <div class="anatomy-row"><span class="tag tag--required">Step 1</span> Fix the mistake immediately</div>
+      <div class="anatomy-row"><span class="tag tag--required">Step 2</span> Log it in CLAUDE.md under Corrections &amp; Learnings with the date</div>
+      <div class="anatomy-row"><span class="tag tag--important">Step 3</span> Check if it reveals new info — update the relevant memory file</div>
+      <div class="anatomy-row"><span class="tag tag--important">Step 4</span> Check if it reveals a skill gap — propose an update to the SKILL.md</div>
+    </div>
+
+    <!-- SETUP CHECKLIST -->
+    <div id="checklist" class="sec-head sec-head--navy">Setup Checklist</div>
+    <h2>Your Step-by-Step Setup Flow</h2>
+
+    <ul class="checklist">
+      <li><span class="check-box"></span><span class="session-label">Session 1</span><div><strong>Discovery.</strong> Have the discovery conversation with Claude. Don't build anything yet. Just talk.</div></li>
+      <li><span class="check-box"></span><span class="session-label">Session 2</span><div><strong>Foundation.</strong> Create CLAUDE.md, Global Instructions, PARA folder structure.</div></li>
+      <li><span class="check-box"></span><span class="session-label">Session 3</span><div><strong>Memory.</strong> Build writing-voice.md (with real samples), people.md, life-areas.md, glossary.md.</div></li>
+      <li><span class="check-box"></span><span class="session-label">Session 3-4</span><div><strong>Context.</strong> Build career-profile.md and any optional memory files relevant to your life.</div></li>
+      <li><span class="check-box"></span><span class="session-label">Session 4-5</span><div><strong>Skills.</strong> Build your first 2-3 custom skills for your most common tasks.</div></li>
+      <li><span class="check-box"></span><span class="session-label">Session 5-6</span><div><strong>Automations.</strong> Set up scheduled tasks (morning briefing, weekly review).</div></li>
+      <li><span class="check-box"></span><span class="session-label">Session 6</span><div><strong>Continuity.</strong> Set up session-log.md, TASKS.md, quick capture bridge.</div></li>
+      <li><span class="check-box"></span><span class="session-label">Session 7</span><div><strong>Getting Started guide.</strong> Write your own GETTING-STARTED.md reference doc.</div></li>
+      <li><span class="check-box"></span><span class="session-label">Ongoing</span><div><strong>Refine.</strong> Use the system. Correct mistakes. Let the system learn. It gets better every session.</div></li>
+    </ul>
+
+    <!-- LESSONS -->
+    <div id="lessons" class="sec-head sec-head--gold">Lessons Learned</div>
+    <h2>What Actually Matters</h2>
+    <p class="lead">After months of iteration, these are the lessons that made the biggest difference.</p>
+
+    <div class="ve-card ve-card--hero" style="margin-bottom: 24px;">
+      <div class="card-label card-label--navy">Lesson 01</div>
+      <h4 class="mt-0">Real writing samples beat descriptions</h4>
+      <p class="small mb-0">You can describe your voice all day. One real email teaches Claude more than a paragraph of adjectives. Share actual messages across different contexts.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="ve-card">
+        <div class="card-label card-label--gold">Lesson 02</div>
+        <h4 class="mt-0">Negative instructions are as important as positive ones</h4>
+        <p class="small mb-0">"Never use these words" is just as valuable as "use this tone." The anti-pattern list prevents the most common AI cringe.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--sage">Lesson 03</div>
+        <h4 class="mt-0">The correction loop is the secret weapon</h4>
+        <p class="small mb-0">Systems that learn from mistakes get exponentially better. Systems that don't stay mediocre forever.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--rose">Lesson 04</div>
+        <h4 class="mt-0">Discovery before building</h4>
+        <p class="small mb-0">Sessions spent just talking, before any file was created, produced the best material. You can't build a system for someone you don't know.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--terra">Lesson 05</div>
+        <h4 class="mt-0">Skills need boundaries</h4>
+        <p class="small mb-0">"Do NOT use this skill for" is as important as the trigger. Without it, skills fire on the wrong tasks and produce bad output.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--navy">Lesson 06</div>
+        <h4 class="mt-0">Less is more in CLAUDE.md</h4>
+        <p class="small mb-0">Keep the master file lean (~150 lines) and link to memory files. A 300-line CLAUDE.md is harder for Claude to parse than a 100-line one with good links.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--gold">Lesson 07</div>
+        <h4 class="mt-0">Start with one pain point</h4>
+        <p class="small mb-0">Don't build everything at once. Pick your biggest pain point and build the skill for that first. Expand from there.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--sage">Lesson 08</div>
+        <h4 class="mt-0">Automations need babysitting at first</h4>
+        <p class="small mb-0">Check outputs for the first week. Tweak the prompts. They stabilize after a few iterations.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--rose">Lesson 09</div>
+        <h4 class="mt-0">Specific beats comprehensive</h4>
+        <p class="small mb-0">"Picky eater, loves seafood, hates most cheese" is more useful than a generic dietary questionnaire. Specificity wins.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--terra">Lesson 10</div>
+        <h4 class="mt-0">If maintaining it feels like work, something is wrong</h4>
+        <p class="small mb-0">The system should work for you, not create more work. Reduce friction until it's effortless. If you're avoiding it, redesign it.</p>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <span>Built from a real system. Tested over 25+ iterations.</span>
+      <span style="font-family: var(--font-mono); font-size: 11px;">March 2026</span>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /wrap -->
+
+<!-- COPY TO CLIPBOARD -->
+<script>
+function copyPrompt(btn) {
+  const body = btn.closest('.paste-prompt').querySelector('.paste-prompt__body');
+  const text = body.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    // Fallback for older browsers
+    const range = document.createRange();
+    range.selectNodeContents(body);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    document.execCommand('copy');
+    sel.removeAllRanges();
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
+<!-- SCROLL SPY -->
+<script>
+(function() {
+  const toc = document.getElementById('toc');
+  const links = toc.querySelectorAll('a');
+  const sections = [];
+
+  links.forEach(link => {
+    const id = link.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if (el) sections.push({ id, el, link });
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const match = sections.find(s => s.el === entry.target);
+        if (match) {
+          match.link.classList.add('active');
+          if (window.innerWidth <= 1000) {
+            match.link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          }
+        }
+      }
+    });
+  }, { rootMargin: '-10% 0px -80% 0px' });
+
+  sections.forEach(s => observer.observe(s.el));
+
+  links.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const id = link.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', '#' + id);
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
