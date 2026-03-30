@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Your Second Brain with Claude CoWork</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ===== VIEWPORT BASE ===== */
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+        html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-height: 100%;
+            overflow: hidden;
+            padding: var(--slide-padding);
+        }
+        :root {
+            --title-size: clamp(1.5rem, 5vw, 4rem);
+            --h2-size: clamp(1.25rem, 3.5vw, 2.5rem);
+            --h3-size: clamp(1rem, 2.5vw, 1.75rem);
+            --body-size: clamp(0.75rem, 1.5vw, 1.125rem);
+            --small-size: clamp(0.65rem, 1vw, 0.875rem);
+            --slide-padding: clamp(1rem, 4vw, 4rem);
+            --content-gap: clamp(0.5rem, 2vw, 2rem);
+            --element-gap: clamp(0.25rem, 1vw, 1rem);
+
+            /* Vintage Editorial Colors */
+            --cream: #f5f3ee;
+            --text: #1a1a1a;
+            --muted: #777;
+            --warm-accent: #e8d4c0;
+            --red-accent: #c44d2b;
+        }
+        .card, .container, .content-box {
+            max-width: min(90vw, 1000px);
+            max-height: min(80vh, 700px);
+        }
+        .feature-list, .bullet-list {
+            gap: clamp(0.4rem, 1vh, 1rem);
+        }
+        .feature-list li, .bullet-list li {
+            font-size: var(--body-size);
+            line-height: 1.4;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+            gap: clamp(0.5rem, 1.5vw, 1rem);
+        }
+        img, .image-container {
+            max-width: 100%;
+            max-height: min(50vh, 400px);
+            object-fit: contain;
+        }
+        @media (max-height: 700px) {
+            :root {
+                --slide-padding: clamp(0.75rem, 3vw, 2rem);
+                --content-gap: clamp(0.4rem, 1.5vw, 1rem);
+                --title-size: clamp(1.25rem, 4.5vw, 2.5rem);
+                --h2-size: clamp(1rem, 3vw, 1.75rem);
+            }
+        }
+        @media (max-height: 600px) {
+            :root {
+                --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
+                --content-gap: clamp(0.3rem, 1vw, 0.75rem);
+                --title-size: clamp(1.1rem, 4vw, 2rem);
+                --body-size: clamp(0.7rem, 1.2vw, 0.95rem);
+            }
+            .nav-dots, .keyboard-hint, .decorative {
+                display: none;
+            }
+        }
+        @media (max-height: 500px) {
+            :root {
+                --slide-padding: clamp(0.4rem, 2vw, 1rem);
+                --title-size: clamp(1rem, 3.5vw, 1.5rem);
+                --h2-size: clamp(0.9rem, 2.5vw, 1.25rem);
+                --body-size: clamp(0.65rem, 1vw, 0.85rem);
+            }
+        }
+        @media (max-width: 600px) {
+            :root {
+                --title-size: clamp(1.25rem, 7vw, 2.5rem);
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-dots {
+                display: none;
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+            html {
+                scroll-behavior: auto;
+            }
+        }
+
+        /* ===== GLOBAL STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4 {
+            font-family: "Fraunces", serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        h1 {
+            font-size: var(--title-size);
+            font-weight: 900;
+        }
+        h2 {
+            font-size: var(--h2-size);
+        }
+        h3 {
+            font-size: var(--h3-size);
+        }
+        p {
+            font-size: var(--body-size);
+            line-height: 1.6;
+        }
+        strong {
+            font-weight: 600;
+        }
+        em {
+            font-family: "Fraunces", serif;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--red-accent);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* ===== NAV DOTS ===== */
+        .nav-dots {
+            position: fixed;
+            right: clamp(1rem, 2vw, 2rem);
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            z-index: 999;
+        }
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(26, 26, 26, 0.2);
+            border: 2px solid rgba(26, 26, 26, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .nav-dot.active {
+            background: var(--red-accent);
+            border-color: var(--red-accent);
+            transform: scale(1.3);
+        }
+        .nav-dot:hover {
+            background: rgba(196, 77, 43, 0.4);
+        }
+
+        /* ===== SLIDE COUNTER ===== */
+        .slide-counter {
+            position: fixed;
+            bottom: clamp(1rem, 2vw, 2rem);
+            right: clamp(1rem, 2vw, 2rem);
+            font-family: "Work Sans", monospace;
+            font-size: var(--small-size);
+            color: var(--muted);
+            z-index: 999;
+        }
+
+        /* ===== EDIT MODE ===== */
+        .edit-hotzone {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .slide:hover .edit-hotzone {
+            opacity: 0.3;
+        }
+        .edit-hotzone:hover {
+            opacity: 0.6 !important;
+        }
+        .edit-label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 10px;
+            color: var(--red-accent);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .slide:hover .edit-label {
+            opacity: 0.6;
+        }
+        .edit-hotzone:hover ~ .edit-label {
+            opacity: 1 !important;
+        }
+        [contenteditable] {
+            outline: 2px dashed var(--warm-accent);
+            padding: 0.25rem;
+            border-radius: 4px;
+        }
+
+        /* ===== KEYBOARD HINT ===== */
+        .keyboard-hint {
+            position: fixed;
+            bottom: clamp(1rem, 2vw, 2rem);
+            left: clamp(1rem, 2vw, 2rem);
+            font-size: var(--small-size);
+            color: var(--muted);
+            z-index: 999;
+        }
+
+        /* ===== ANIMATIONS & TRANSITIONS ===== */
+        .slide {
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+        .slide.visible {
+            opacity: 1;
+        }
+        @keyframes slide-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .slide.visible h1,
+        .slide.visible h2,
+        .slide.visible h3,
+        .slide.visible p,
+        .slide.visible li,
+        .slide.visible .grid,
+        .slide.visible .feature-grid {
+            animation: slide-up 0.6s ease forwards;
+        }
+        .slide.visible h1 {
+            animation-delay: 0.1s;
+        }
+        .slide.visible h2 {
+            animation-delay: 0.15s;
+        }
+        .slide.visible h3 {
+            animation-delay: 0.1s;
+        }
+        .slide.visible .subtitle,
+        .slide.visible p {
+            animation-delay: 0.2s;
+        }
+        .slide.visible .feature-list,
+        .slide.visible .bullet-list {
+            animation-delay: 0.3s;
+        }
+        .slide.visible .decorative {
+            animation: fade-in 0.8s ease forwards;
+        }
+
+        /* ===== SLIDE-SPECIFIC LAYOUTS ===== */
+        /* Title Slide */
+        .title-slide .slide-content {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .title-slide h1 {
+            margin-bottom: var(--content-gap);
+        }
+        .subtitle {
+            font-size: var(--h3-size);
+            color: var(--muted);
+            margin-bottom: var(--content-gap);
+            font-family: "Fraunces", serif;
+            font-style: italic;
+            font-weight: 400;
+        }
+        .byline {
+            font-size: var(--body-size);
+            color: var(--muted);
+            margin-top: var(--content-gap);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Content Slide */
+        .content-slide .slide-content {
+            justify-content: flex-start;
+            padding-top: var(--content-gap);
+        }
+        .content-slide h2 {
+            margin-bottom: var(--content-gap);
+        }
+        .content-slide p {
+            margin-bottom: var(--content-gap);
+            max-width: 90%;
+        }
+
+        /* Section Header */
+        .section-header .slide-content {
+            justify-content: center;
+        }
+        .section-number {
+            font-size: var(--body-size);
+            color: var(--red-accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: var(--element-gap);
+        }
+        .section-header h2 {
+            font-size: clamp(2rem, 6vw, 4.5rem);
+            margin-bottom: var(--content-gap);
+            max-width: 90%;
+        }
+        .section-accent-bar {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--warm-accent) 0%, rgba(232, 212, 192, 0.3) 100%);
+            z-index: -1;
+        }
+
+        /* Quote Slide */
+        .quote-slide .slide-content {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .quote-slide blockquote {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-family: "Fraunces", serif;
+            font-weight: 700;
+            max-width: 85%;
+            line-height: 1.4;
+            margin-bottom: var(--content-gap);
+        }
+        .quote-attribution {
+            font-size: var(--body-size);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+            gap: clamp(0.3rem, 1vw, 0.75rem);
+            margin-top: var(--content-gap);
+        }
+        .feature-card {
+            background: rgba(232, 212, 192, 0.15);
+            padding: clamp(0.5rem, 1vw, 1rem);
+            border-radius: 8px;
+            border: 1px solid rgba(196, 77, 43, 0.1);
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            background: rgba(232, 212, 192, 0.25);
+            border-color: rgba(196, 77, 43, 0.2);
+            transform: translateY(-4px);
+        }
+        .feature-card-number {
+            font-size: var(--h3-size);
+            font-family: "Fraunces", serif;
+            font-weight: 900;
+            color: var(--red-accent);
+            margin-bottom: var(--element-gap);
+        }
+        .feature-card-title {
+            font-size: var(--body-size);
+            font-weight: 600;
+            margin-bottom: var(--element-gap);
+        }
+        .feature-card-desc {
+            font-size: clamp(0.7rem, 1.2vw, 0.95rem);
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        /* Bullet List */
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+        }
+        .bullet-list li {
+            display: flex;
+            gap: var(--element-gap);
+            margin-bottom: var(--element-gap);
+            align-items: flex-start;
+        }
+        .bullet-list li::before {
+            content: "→";
+            color: var(--red-accent);
+            font-weight: 600;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Numbered List */
+        .numbered-list {
+            list-style: none;
+            padding: 0;
+            counter-reset: list-counter;
+        }
+        .numbered-list li {
+            counter-increment: list-counter;
+            display: flex;
+            gap: var(--element-gap);
+            margin-bottom: var(--element-gap);
+            align-items: flex-start;
+        }
+        .numbered-list li::before {
+            content: counter(list-counter);
+            background: var(--warm-accent);
+            color: var(--text);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: var(--small-size);
+            flex-shrink: 0;
+        }
+
+        /* CTA Box */
+        .cta-box {
+            border: 3px solid var(--text);
+            padding: clamp(1rem, 2vw, 1.5rem);
+            margin: var(--content-gap) 0;
+            background: transparent;
+        }
+        .cta-box strong {
+            color: var(--red-accent);
+        }
+        .slide-number {
+            position: absolute;
+            bottom: clamp(0.75rem, 1.5vw, 1.5rem);
+            left: clamp(1rem, 2vw, 2rem);
+            font-family: "Work Sans", sans-serif;
+            font-size: clamp(0.6rem, 0.9vw, 0.8rem);
+            color: rgba(26, 26, 26, 0.3);
+            letter-spacing: 0.1em;
+        }
+
+        /* Decorative Elements */
+        .decorative {
+            position: absolute;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+        .decorative.circle-outline {
+            border: 2px solid var(--red-accent);
+            border-radius: 50%;
+        }
+        .decorative.dot {
+            width: 12px;
+            height: 12px;
+            background: var(--red-accent);
+            border-radius: 50%;
+        }
+        .decorative.line {
+            background: var(--red-accent);
+            height: 2px;
+        }
+        .decorative.accent-bar {
+            background: linear-gradient(90deg, var(--warm-accent) 0%, transparent 100%);
+            height: 4px;
+        }
+
+        /* Layer Diagram */
+        .layer-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.2rem, 0.8vh, 0.6rem);
+            margin-top: var(--content-gap);
+        }
+        .layer {
+            background: rgba(232, 212, 192, 0.2);
+            border-left: 4px solid var(--red-accent);
+            padding: clamp(0.3rem, 0.6vh, 0.5rem) var(--content-gap);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: var(--content-gap);
+        }
+        .layer-number {
+            font-family: "Fraunces", serif;
+            font-weight: 900;
+            font-size: var(--h3-size);
+            color: var(--red-accent);
+            flex-shrink: 0;
+        }
+        .layer-content {
+            flex: 1;
+        }
+        .layer-title {
+            font-weight: 600;
+            font-size: var(--body-size);
+            margin-bottom: var(--element-gap);
+        }
+        .layer-desc {
+            font-size: clamp(0.7rem, 1.2vw, 0.95rem);
+            color: var(--muted);
+        }
+
+        /* Table / Routing Table */
+        .routing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--content-gap);
+        }
+        .routing-table th,
+        .routing-table td {
+            padding: var(--element-gap);
+            text-align: left;
+            border-bottom: 1px solid rgba(26, 26, 26, 0.1);
+            font-size: clamp(0.7rem, 1.2vw, 0.95rem);
+        }
+        .routing-table th {
+            font-weight: 600;
+            color: var(--red-accent);
+            background: rgba(232, 212, 192, 0.1);
+        }
+        .routing-table td {
+            color: var(--text);
+        }
+
+        /* Code Block */
+        .code-block {
+            background: rgba(26, 26, 26, 0.05);
+            border-left: 4px solid var(--warm-accent);
+            padding: var(--content-gap);
+            border-radius: 4px;
+            font-family: "JetBrains Mono", monospace;
+            font-size: clamp(0.65rem, 1vw, 0.875rem);
+            line-height: 1.5;
+            overflow-x: auto;
+            margin-top: var(--element-gap);
+        }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        .checklist li {
+            display: flex;
+            gap: var(--element-gap);
+            margin-bottom: var(--element-gap);
+            align-items: flex-start;
+        }
+        .checklist li::before {
+            content: "✓";
+            color: var(--red-accent);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Flow Diagram */
+        .flow-diagram {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: var(--element-gap);
+            margin-top: var(--content-gap);
+        }
+        .flow-step {
+            background: rgba(232, 212, 192, 0.2);
+            padding: var(--element-gap) var(--content-gap);
+            border-radius: 6px;
+            font-size: clamp(0.7rem, 1.2vw, 0.95rem);
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        .flow-arrow {
+            color: var(--red-accent);
+            font-size: var(--body-size);
+            margin: 0 var(--element-gap);
+        }
+
+        /* Dark Accent Slide */
+        .dark-accent .slide-content {
+            background: rgba(196, 77, 43, 0.08);
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar"></div>
+
+    <!-- Navigation Dots -->
+    <div class="nav-dots"></div>
+
+    <!-- Slide Counter -->
+    <div class="slide-counter"><span class="current-slide">1</span> / <span class="total-slides">41</span></div>
+
+    <!-- Keyboard Hint -->
+    <div class="keyboard-hint">↑ ↓ SPACE • E to edit</div>
+
+    <!-- SLIDE 1: Title -->
+    <section class="slide title-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h1>Build Your Second Brain with Claude CoWork</h1>
+            <p class="subtitle">A complete framework for turning Claude into a system that actually knows you.</p>
+            <p class="byline">chlokey • 2026</p>
+        </div>
+        <div class="decorative circle-outline" style="width: 120px; height: 120px; top: 10%; left: 5%; border-radius: 50%;"></div>
+        <div class="decorative dot" style="width: 20px; height: 20px; bottom: 15%; right: 10%;"></div>    
+        <div class="slide-number">1</div>
+    </section>
+
+    <!-- SLIDE 2: What This Is -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>What This Is</h2>
+            <p>This deck walks you through every layer of setting up Claude CoWork as a personal operating system.</p>
+            <p><strong>By the end, you'll have:</strong></p>
+            <ul class="bullet-list">
+                <li>A master memory file (CLAUDE.md)</li>
+                <li>Deep-context memory files</li>
+                <li>Organized PARA folders</li>
+                <li>Custom skills for repeatable workflows</li>
+                <li>Scheduled automations</li>
+                <li>Session continuity</li>
+            </ul>
+        </div>
+        <div class="decorative line" style="width: 60px; height: 3px; top: 20%; right: 8%;"></div>
+    
+        <div class="slide-number">2</div></section>
+
+    <!-- SLIDE 3: The 9 Layers -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>The 9 Layers</h2>
+            <div class="layer-diagram">
+                <div class="layer">
+                    <div class="layer-number">1</div>
+                    <div class="layer-content">
+                        <div class="layer-title">Global Instructions</div>
+                        <div class="layer-desc">How Claude behaves across all sessions</div>
+                    </div>
+                </div>
+                <div class="layer">
+                    <div class="layer-number">2</div>
+                    <div class="layer-content">
+                        <div class="layer-title">CLAUDE.md</div>
+                        <div class="layer-desc">The master file — who you are + how to work with you</div>
+                    </div>
+                </div>
+                <div class="layer">
+                    <div class="layer-number">3</div>
+                    <div class="layer-content">
+                        <div class="layer-title">Memory Files</div>
+                        <div class="layer-desc">Deep context Claude reads based on the task</div>
+                    </div>
+                </div>
+                <div class="layer">
+                    <div class="layer-number">4</div>
+                    <div class="layer-content">
+                        <div class="layer-title">PARA Folders</div>
+                        <div class="layer-desc">Where everything lives (Projects, Areas, Resources, Archive)</div>
+                    </div>
+                </div>
+                <div class="layer">
+                    <div class="layer-number">5</div>
+                    <div class="layer-content">
+                        <div class="layer-title">Custom Skills</div>
+                        <div class="layer-desc">Pre-built workflows for your most common tasks</div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        <div class="slide-number">3</div>
+    </section>
+
+    <!-- SLIDE 3b: The 9 Layers (continued) -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>The 9 Layers (continued)</h2>
+            <div class="layer-diagram">
+                <div class="layer">
+                    <div class="layer-number">6</div>
+                    <div class="layer-content">
+                        <div class="layer-title">Scheduled Tasks</div>
+                        <div class="layer-desc">Automations that run on your schedule</div>
+                    </div>
+                </div>
+                <div class="layer">
+                    <div class="layer-number">7</div>
+                    <div class="layer-content">
+                        <div class="layer-title">Session Continuity</div>
+                        <div class="layer-desc">Handover docs so Claude picks up where you left off</div>
+                    </div>
+                </div>
+                <div class="layer">
+                    <div class="layer-number">8</div>
+                    <div class="layer-content">
+                        <div class="layer-title">Connected Tools</div>
+                        <div class="layer-desc">Gmail, Google Drive, Notion, calendar, and more</div>
+                    </div>
+                </div>
+                <div class="layer">
+                    <div class="layer-number">9</div>
+                    <div class="layer-content">
+                        <div class="layer-title">Quick Capture</div>
+                        <div class="layer-desc">Drop ideas anywhere — they flow into your system</div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        <div class="slide-number">4</div>
+    </section>
+
+    <!-- SLIDE 4: The Golden Rule -->
+    <section class="slide quote-slide dark-accent">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <blockquote>"The quality of your system depends entirely on the quality of information you put into it."</blockquote>
+            <p class="quote-attribution">Discovery before building. Always.</p>
+        </div>
+        <div class="decorative accent-bar" style="width: 150px; height: 6px; top: 30%; left: 5%;"></div>    
+        <div class="slide-number">5</div>
+    </section>
+
+    <!-- SLIDE 5: Part 0 - Section Header -->
+    <section class="slide section-header">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="section-accent-bar"></div>
+        <div class="slide-content">
+            <div class="section-number">Part 0</div>
+            <h2>The Discovery Process</h2>
+            <p style="margin-top: var(--content-gap); color: var(--muted);">Before you build anything, have real conversations with Claude. 4 conversations. ~45 minutes total. No files created yet.</p>
+        </div>    
+        <div class="slide-number">6</div>
+    </section>
+
+    <!-- SLIDE 6: Discovery - The 4 Conversations -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>The 4 Discovery Conversations</h2>
+            <ol class="numbered-list">
+                <li><strong>Who You Are</strong> (15–20 min) — Work, goals, daily routine, tools, what's broken</li>
+                <li><strong>How You Work</strong> (10–15 min) — Preferences, productivity patterns, time sinks</li>
+                <li><strong>The Personal Stuff</strong> (10–15 min) — People, hobbies, food, writing pet peeves</li>
+                <li><strong>Your AI Relationship</strong> (5–10 min) — Experience, comfort level, dream scenario</li>
+            </ol>
+        </div>
+        <div class="decorative circle-outline" style="width: 80px; height: 80px; bottom: 10%; right: 5%;"></div>
+    
+        <div class="slide-number">7</div></section>
+
+    <!-- SLIDE 7: Discovery Pro Tips -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>Discovery Pro Tips</h2>
+            <ul class="bullet-list">
+                <li>Ask Claude to go ONE question at a time — don't dump all questions at once</li>
+                <li>Paste real writing samples. One email teaches more than a paragraph of adjectives.</li>
+                <li>Tell Claude to ask follow-up questions beyond the script</li>
+                <li>Save everything to <code>discovery-notes.md</code></li>
+            </ul>
+            <div class="cta-box" style="margin-top: var(--content-gap);">
+                <strong>Pro move:</strong> Read your discovery notes aloud. You'll catch the real patterns.
+            </div>
+        </div>
+    
+        <div class="slide-number">8</div></section>
+
+    <!-- SLIDE 8: Part 1 - Section Header -->
+    <section class="slide section-header">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="section-accent-bar"></div>
+        <div class="slide-content">
+            <div class="section-number">Part 1</div>
+            <h2>Global Instructions</h2>
+            <p style="margin-top: var(--content-gap); color: var(--muted);">These go in Claude Desktop > Settings > Instructions. Behavioral rules that load on every session automatically.</p>
+        </div>    
+        <div class="slide-number">9</div>
+    </section>
+
+    <!-- SLIDE 9: Global Instructions Content -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>What Global Instructions Include</h2>
+            <ul class="bullet-list">
+                <li><strong>Who I Am</strong> — 1–2 sentences. The essentials.</li>
+                <li><strong>How to Work With Me</strong> — Behavioral rules that matter to you</li>
+                <li><strong>Output Style</strong> — Tone, format, length preferences</li>
+                <li><strong>Standing Rules</strong> — Non-negotiable every-session rules</li>
+                <li><strong>Quality Standard</strong> — Re-read output, verify facts</li>
+                <li><strong>How to Work Smarter</strong> — Parallel research, extended thinking, etc.</li>
+            </ul>
+        </div>
+    
+        <div class="slide-number">10</div></section>
+
+    <!-- SLIDE 10: Part 2 - Section Header -->
+    <section class="slide section-header">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="section-accent-bar"></div>
+        <div class="slide-content">
+            <div class="section-number">Part 2</div>
+            <h2>CLAUDE.md</h2>
+            <p style="margin-top: var(--content-gap); color: var(--muted);">The single most important file in your system. Lives at the root of your workspace. Claude reads it automatically.</p>
+        </div>    
+        <div class="slide-number">11</div>
+    </section>
+
+    <!-- SLIDE 11: CLAUDE.md - The 3 Rules -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>CLAUDE.md — The 3 Rules</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-card-number">1</div>
+                    <div class="feature-card-title">Keep It Under ~150 Lines</div>
+                    <div class="feature-card-desc">It's the index, not the encyclopedia. Link to memory files for detail.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-number">2</div>
+                    <div class="feature-card-title">Link, Don't Duplicate</div>
+                    <div class="feature-card-desc">CLAUDE.md points to deeper files. Claude reads only what's relevant.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-number">3</div>
+                    <div class="feature-card-title">Update Regularly</div>
+                    <div class="feature-card-desc">Every weekly review should include a refresh. Keep it current.</div>
+                </div>
+            </div>
+        </div>    
+        <div class="slide-number">12</div>
+    </section>
+
+    <!-- SLIDE 12: CLAUDE.md Sections -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>CLAUDE.md — Core Sections</h2>
+            <ul class="bullet-list">
+                <li><strong>Who Is [You]</strong> — A paragraph, not a resume</li>
+                <li><strong>Quick Reference</strong> — Email, voice, tools, calendar</li>
+                <li><strong>Key Constraint</strong> — Biggest limitation on Claude access</li>
+                <li><strong>How [You] Works</strong> — Communication style, patterns</li>
+                <li><strong>Key Pain Points</strong> — What's broken</li>
+            </ul>
+        </div>    
+        <div class="slide-number">13</div></section>
+
+    <!-- SLIDE 12b: CLAUDE.md Sections (continued) -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>CLAUDE.md — System Sections</h2>
+            <ul class="bullet-list">
+                <li><strong>Memory File Routing Table</strong> — Which files for which tasks</li>
+                <li><strong>Folder Structure</strong> — PARA map</li>
+                <li><strong>Output Preferences</strong> — Tone, format, length</li>
+                <li><strong>Things to Avoid / Anti-Patterns</strong></li>
+                <li><strong>Corrections & Learnings</strong> — Grows over time</li>
+            </ul>
+        </div>    
+        <div class="slide-number">14</div></section>
+
+    </ul>
+        </div>
+    </section>
+
+    <!-- SLIDE 13: The Routing Table -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>The Routing Table</h2>
+            <p style="margin-bottom: var(--content-gap);">A simple map that tells Claude which memory file to read for which task.</p>
+            <table class="routing-table">
+                <tr>
+                    <th>If you're...</th>
+                    <th>Read these files</th>
+                </tr>
+                <tr>
+                    <td>Writing an email</td>
+                    <td><code>writing-voice.md</code> + <code>people.md</code></td>
+                </tr>
+                <tr>
+                    <td>Job searching</td>
+                    <td><code>career-profile.md</code></td>
+                </tr>
+                <tr>
+                    <td>Planning a trip</td>
+                    <td><code>travel-preferences.md</code> + <code>food-preferences.md</code></td>
+                </tr>
+                <tr>
+                    <td>Need to know who someone is</td>
+                    <td><code>people.md</code></td>
+                </tr>
+                <tr>
+                    <td>Lost on jargon</td>
+                    <td><code>glossary.md</code></td>
+                </tr>
+            </table>
+        </div>
+    
+        <div class="slide-number">15</div></section>
+
+    <!-- SLIDE 14: Part 3 - Section Header -->
+    <section class="slide section-header">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="section-accent-bar"></div>
+        <div class="slide-content">
+            <div class="section-number">Part 3</div>
+            <h2>Memory Files</h2>
+            <p style="margin-top: var(--content-gap); color: var(--muted);">The deep-context layer. CLAUDE.md points to them. Claude reads only the relevant ones.</p>
+        </div>    
+        <div class="slide-number">16</div>
+    </section>
+
+    <!-- SLIDE 15: The 5 Core Memory Files -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>The 5 Core Memory Files</h2>
+            <ol class="numbered-list">
+                <li><strong>writing-voice.md</strong> — How you actually sound (THE most important one)</li>
+                <li><strong>people.md</strong> — Key people, enough context to never ask "who is [name]?"</li>
+                <li><strong>life-areas.md</strong> — Routine, fitness, hobbies, goals, personality patterns</li>
+                <li><strong>career-profile.md</strong> — Education, role, target, job search status</li>
+                <li><strong>glossary.md</strong> — Decoder ring for your life's acronyms and jargon</li>
+            </ol>
+        </div>
+        <div class="decorative line" style="width: 100px; height: 3px; bottom: 10%; left: 5%;"></div>
+    
+        <div class="slide-number">17</div></section>
+
+    <!-- SLIDE 16: writing-voice.md -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>writing-voice.md — The Magic File</h2>
+            <p><strong>Real writing samples beat descriptions. Every time.</strong></p>
+            <p style="margin-top: var(--element-gap);">What goes in:</p>
+            <ul class="bullet-list">
+                <li>Voice characteristics (bold? funny? formal? casual?)</li>
+                <li>Professional style</li>
+                <li>Casual style</li>
+                <li>Sign-off habits</li>
+                <li>Punctuation quirks</li>
+                <li>Banned words</li>
+                <li>3–5 <em>real</em> writing samples with annotations</li>
+            </ul>
+            <div class="cta-box">
+                <strong>This file is your secret weapon.</strong> It teaches Claude how to sound like you better than any rubric could.
+            </div>
+        </div>
+    
+        <div class="slide-number">18</div></section>
+
+    <!-- SLIDE 17: Optional Memory Files -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>Optional Memory Files</h2>
+            <ul class="bullet-list">
+                <li><strong>food-preferences.md</strong> — Picky eaters, dietary restrictions</li>
+                <li><strong>travel-preferences.md</strong> — Airline loyalty, hotel vs Airbnb</li>
+                <li><strong>ai-industry-watchlist.md</strong> — Companies and topics to track</li>
+                <li><strong>health-fitness.md</strong> — Workout planning, health tracking</li>
+                <li><strong>financial-goals.md</strong> — Budgeting, investment interests</li>
+                <li><strong>creative-projects.md</strong> — Side projects, hobbies</li>
+            </ul>
+            <p style="margin-top: var(--content-gap); color: var(--muted); font-style: italic;">Start with the 5 core files. Add optional ones as your system grows.</p>
+        </div>
+    
+        <div class="slide-number">19</div></section>
+
+    <!-- SLIDE 18: Part 4 - Section Header -->
+    <section class="slide section-header">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="section-accent-bar"></div>
+        <div class="slide-content">
+            <div class="section-number">Part 4</div>
+            <h2>PARA Folders</h2>
+            <p style="margin-top: var(--content-gap); color: var(--muted);">Projects, Areas, Resources, Archive. Everything has a home.</p>
+        </div>    
+        <div class="slide-number">20</div>
+    </section>
+
+    <!-- SLIDE 19: The Folder Structure -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>The PARA Folder Structure</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-card-title">00-inbox/</div>
+                    <div class="feature-card-desc">Drop zone for unsorted captures, quick notes, raw ideas</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">01-projects/</div>
+                    <div class="feature-card-desc">Active projects with goals and end dates</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">02-areas/</div>
+                    <div class="feature-card-desc">Ongoing life areas with no end date</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">03-resources/</div>
+                    <div class="feature-card-desc">Reference material, templates, skills</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">04-archive/</div>
+                    <div class="feature-card-desc">Done or dormant (nothing deleted)</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">memory/</div>
+                    <div class="feature-card-desc">Deep context files</div>
+                </div>
+            </div>
+        </div>    
+        <div class="slide-number">21</div>
+    </section>
+
+    <!-- SLIDE 20: Part 5 - Section Header -->
+    <section class="slide section-header">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="section-accent-bar"></div>
+        <div class="slide-content">
+            <div class="section-number">Part 5</div>
+            <h2>Custom Skills</h2>
+            <p style="margin-top: var(--content-gap); color: var(--muted);">Pre-built workflows that tell Claude exactly how to handle your most common tasks.</p>
+        </div>    
+        <div class="slide-number">22</div>
+    </section>
+
+    <!-- SLIDE 21: Anatomy of a Skill -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>Anatomy of a Skill</h2>
+            <ul class="bullet-list">
+                <li><strong>Frontmatter</strong> — Name, description, triggers, "do NOT use for"</li>
+                <li><strong>Context</strong> — Why this skill exists</li>
+                <li><strong>Pre-flight Questions</strong> — What to ask before diving in</li>
+                <li><strong>Execution Steps</strong> — Step-by-step process</li>
+                <li><strong>Output Format</strong> — Template for the result</li>
+                <li><strong>Key References</strong> — Which memory files to read</li>
+                <li><strong>Self-Improvement Loop</strong> — How it learns from corrections</li>
+            </ul>
+        </div>
+        <div class="decorative dot" style="width: 16px; height: 16px; top: 25%; right: 8%;"></div>
+    
+        <div class="slide-number">23</div></section>
+
+    <!-- SLIDE 22: Skills Everyone Should Consider -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>6 Skills Everyone Should Build</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-card-number">1</div>
+                    <div class="feature-card-title">Email Drafter</div>
+                    <div class="feature-card-desc">Writes in your voice, reads <code>writing-voice.md</code></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-number">2</div>
+                    <div class="feature-card-title">Inbox Triage</div>
+                    <div class="feature-card-desc">Scan, prioritize, draft responses</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-number">3</div>
+                    <div class="feature-card-title">Research Brief</div>
+                    <div class="feature-card-desc">Deep research with structured output</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-number">4</div>
+                    <div class="feature-card-title">Trip Planner</div>
+                    <div class="feature-card-desc">Plans respecting your preferences</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-number">5</div>
+                    <div class="feature-card-title">Weekly Review</div>
+                    <div class="feature-card-desc">Recap + system health check</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-number">6</div>
+                    <div class="feature-card-title">Interview Prep</div>
+                    <div class="feature-card-desc">Cheat sheet + mock Q&A</div>
+                </div>
+            </div>
+        </div>    
+        <div class="slide-number">24</div>
+    </section>
+
+    <!-- SLIDE 23: The Self-Improvement Loop -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>The Self-Improvement Loop</h2>
+            <div class="flow-diagram">
+                <div class="flow-step">Before: Check feedback</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">Run skill</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">Collect feedback</div>
+            </div>
+            <div class="flow-diagram" style="margin-top: var(--element-gap);">
+                <div class="flow-step">When corrected</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">Fix output</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">Log feedback</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">Update SKILL.md</div>
+            </div>
+            <div class="cta-box" style="margin-top: var(--content-gap);">
+                <strong>Your skills get better every time something goes wrong.</strong>
+            </div>
+        </div>    
+        <div class="slide-number">25</div>
+    </section>
+
+    <!-- SLIDE 24: Skill Chains -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>Skill Chains</h2>
+            <p style="margin-bottom: var(--content-gap);">Combine skills for multi-step workflows:</p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-card-title">Research → Email</div>
+                    <div class="feature-card-desc">Research a company, then draft outreach referencing findings</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">Triage → Draft</div>
+                    <div class="feature-card-desc">Scan inbox, identify priority, draft replies</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">Research → Interview Prep</div>
+                    <div class="feature-card-desc">Research, then generate cheat sheet + mock Q&A</div>
+                </div>
+            </div>
+        </div>    
+        <div class="slide-number">26</div></section>
+
+    <!-- SLIDE 25: Part 6 - Section Header -->
+    <section class="slide section-header">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="section-accent-bar"></div>
+        <div class="slide-content">
+            <div class="section-number">Part 6</div>
+            <h2>Scheduled Tasks</h2>
+            <p style="margin-top: var(--content-gap); color: var(--muted);">Claude sessions that run automatically on a schedule. They work while you're away.</p>
+        </div>    
+        <div class="slide-number">27</div>
+    </section>
+
+    <!-- SLIDE 26: Automations to Consider -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>Automations to Consider</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-card-title">Morning Briefing</div>
+                    <div class="feature-card-desc"><strong>Daily.</strong> Email summary, calendar prep, priorities</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">Weekly Review</div>
+                    <div class="feature-card-desc"><strong>Weekly.</strong> Recap, stall detection, memory refresh</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">Inbox Digest</div>
+                    <div class="feature-card-desc"><strong>Daily.</strong> Prioritized email summary</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">Industry Tracker</div>
+                    <div class="feature-card-desc"><strong>Weekly.</strong> News, jobs, company updates</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">Expense Processor</div>
+                    <div class="feature-card-desc"><strong>Weekly.</strong> Scan receipts + confirmations</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">Task Cleanup</div>
+                    <div class="feature-card-desc"><strong>Weekly.</strong> Archive done, flag overdue</div>
+                </div>
+            </div>
+        </div>    
+        <div class="slide-number">28</div>
+    </section>
+
+    <!-- SLIDE 27: Automation Ground Rules -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>Automation Ground Rules</h2>
+            <ul class="bullet-list">
+                <li>Laptop must be awake + Claude Desktop open</li>
+                <li>Be specific in the prompt (don't say "check my email" — say exactly what to scan, prioritize, format, save)</li>
+                <li>Include file paths for where to save output</li>
+                <li>Reference skills for format and tone</li>
+                <li>Check outputs for the first few days — they need tuning</li>
+            </ul>
+            <div class="cta-box">
+                <strong>Automations work best when they're specific, not vague.</strong>
+            </div>
+        </div>    
+        <div class="slide-number">29</div></section>
+
+    <!-- SLIDE 28: Part 7 - Section Header -->
+    <section class="slide section-header">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="section-accent-bar"></div>
+        <div class="slide-content">
+            <div class="section-number">Part 7</div>
+            <h2>Session Continuity</h2>
+            <p style="margin-top: var(--content-gap); color: var(--muted);">Claude doesn't remember between sessions by default. Two files fix that.</p>
+        </div>    
+        <div class="slide-number">30</div>
+    </section>
+
+    <!-- SLIDE 29: The Two Files -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>The Two Session Continuity Files</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-card-title">session-log.md</div>
+                    <div class="feature-card-desc">The "shift handover." At the end of every session, Claude writes what happened, what's pending, decisions made. Next session reads it first.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">TASKS.md</div>
+                    <div class="feature-card-desc">Always-current task list. Sections: Active, Waiting On, Someday, Done. Updated every session.</div>
+                </div>
+            </div>
+        </div>
+        <div class="decorative accent-bar" style="width: 120px; height: 4px; bottom: 15%; right: 5%;"></div>    
+        <div class="slide-number">31</div>
+    </section>
+
+    <!-- SLIDE 30: Part 8 - Section Header -->
+    <section class="slide section-header">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="section-accent-bar"></div>
+        <div class="slide-content">
+            <div class="section-number">Part 8</div>
+            <h2>Connected Tools & Quick Capture</h2>
+            <p style="margin-top: var(--content-gap); color: var(--muted);">The more you connect, the more useful the system gets.</p>
+        </div>    
+        <div class="slide-number">32</div>
+    </section>
+
+    <!-- SLIDE 31: What to Connect -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>What to Connect + Quick Capture</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-card-title">Gmail</div>
+                    <div class="feature-card-desc">Inbox triage, email drafting, morning briefings</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">Google Calendar</div>
+                    <div class="feature-card-desc">Meeting prep, scheduling awareness</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">Google Drive</div>
+                    <div class="feature-card-desc">Document access, file search</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">Notion</div>
+                    <div class="feature-card-desc">Quick capture from phone, database access</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">Dispatch</div>
+                    <div class="feature-card-desc">Phone-to-Claude task queue (QR code pair)</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">Apple Notes</div>
+                    <div class="feature-card-desc">Quick notes (transitioning to Notion)</div>
+                </div>
+            </div>
+        </div>    
+        <div class="slide-number">33</div>
+    </section>
+
+    <!-- SLIDE 32: Part 9 - Section Header -->
+    <section class="slide section-header">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="section-accent-bar"></div>
+        <div class="slide-content">
+            <div class="section-number">Part 9</div>
+            <h2>Ongoing Maintenance</h2>
+            <p style="margin-top: var(--content-gap); color: var(--muted);">A system is only as good as its maintenance.</p>
+        </div>    
+        <div class="slide-number">34</div>
+    </section>
+
+    <!-- SLIDE 33: The Rhythm -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>The Maintenance Rhythm</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-card-title">Every Session</div>
+                    <div class="feature-card-desc">Read session-log, check TASKS.md, scan quick capture, correct mistakes</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">Weekly</div>
+                    <div class="feature-card-desc">Summarize week, check for stalls, refresh memory files, review skill feedback</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-title">Monthly</div>
+                    <div class="feature-card-desc">CLAUDE.md accuracy, archive projects, evaluate manual → skill conversions</div>
+                </div>
+            </div>
+        </div>    
+        <div class="slide-number">35</div>
+    </section>
+
+    <!-- SLIDE 34: The Corrections Loop -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>The Corrections Loop</h2>
+            <ol class="numbered-list">
+                <li><strong>Fix</strong> the mistake immediately</li>
+                <li><strong>Log</strong> it in CLAUDE.md under Corrections & Learnings</li>
+                <li><strong>Check</strong> if it reveals new info → update memory file</li>
+                <li><strong>Check</strong> if it reveals a skill gap → propose SKILL.md update</li>
+            </ol>
+            <div class="cta-box" style="margin-top: var(--content-gap);">
+                <strong>This is the single most important maintenance mechanism.</strong> Your system gets smarter with every mistake.
+            </div>
+        </div>
+        <div class="decorative circle-outline" style="width: 100px; height: 100px; bottom: 5%; right: 5%;"></div>
+    
+        <div class="slide-number">36</div></section>
+
+    <!-- SLIDE 35: Your Setup Flow -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>Your Setup Flow</h2>
+            <ul class="checklist">
+                <li>Session 1: Discovery conversations</li>
+                <li>Session 2: CLAUDE.md + Global Instructions + PARA folders</li>
+                <li>Session 3: Core memory files (writing-voice, people, life-areas, glossary)</li>
+                <li>Session 3–4: Career-profile + optional memory files</li>
+                <li>Session 4–5: First 2–3 custom skills</li>
+            </ul>
+        </div>    
+        <div class="slide-number">37</div></section>
+
+    <!-- SLIDE 35b: Your Setup Flow (continued) -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>Your Setup Flow (continued)</h2>
+            <ul class="checklist">
+                <li>Session 4–5: First 2–3 custom skills</li>
+                <li>Session 5–6: Scheduled tasks</li>
+                <li>Session 6: Session continuity + quick capture</li>
+                <li>Session 7: GETTING-STARTED.md reference doc</li>
+                <li>Ongoing: Use it. Correct mistakes. Let it learn.</li>
+            </ul>
+        </div>    
+        <div class="slide-number">38</div></section>
+
+    </ul>
+        </div>
+
+    <!-- SLIDE 36: 10 Lessons - Part 1 -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>10 Lessons That Actually Matter</h2>
+            <ol class="numbered-list" style="margin-bottom: var(--content-gap);">
+                <li><strong>Real writing samples beat descriptions.</strong> Always.</li>
+                <li><strong>Negative instructions matter as much as positive ones.</strong> "Don't do this" is as important as "do this."</li>
+                <li><strong>The correction loop is your secret weapon.</strong> Embrace it.</li>
+                <li><strong>Discovery before building.</strong> Always. No exceptions.</li>
+                <li><strong>Skills need boundaries.</strong> "Do NOT use for" matters.</li>
+            </ol>
+        </div>
+    
+        <div class="slide-number">39</div></section>
+
+    <!-- SLIDE 37: 10 Lessons - Part 2 -->
+    <section class="slide content-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h2>10 Lessons (continued)</h2>
+            <ol class="numbered-list" style="counter-reset: list-counter 5;">
+                <li><strong>Less is more in CLAUDE.md.</strong> ~150 lines, link to memory files.</li>
+                <li><strong>Start with one pain point, not everything at once.</strong> Build progressively.</li>
+                <li><strong>Automations need babysitting at first.</strong> Check outputs, tune, iterate.</li>
+                <li><strong>Specific beats comprehensive.</strong> "Draft an email to Nancy about X" > "draft an email."</li>
+                <li><strong>If maintaining it feels like work, something is wrong.</strong> Redesign.</li>
+            </ol>
+        </div>
+    
+        <div class="slide-number">40</div></section>
+
+    <!-- SLIDE 38: Closing -->
+    <section class="slide title-slide">
+        <div class="edit-hotzone"></div>
+        <div class="edit-label">Edit</div>
+        <div class="slide-content">
+            <h1>The System Gets Smarter Every Session</h1>
+            <p class="subtitle">Start with discovery. Build one layer at a time. Let the corrections loop do its job.</p>
+            <p class="byline">chlokey • @chl0key</p>
+        </div>
+        <div class="decorative dot" style="width: 24px; height: 24px; top: 15%; left: 8%;"></div>
+        <div class="decorative line" style="width: 80px; height: 4px; bottom: 20%; right: 8%;"></div>    
+        <div class="slide-number">41</div>
+    </section>
+
+    <script>
+        class SlidePresentation {
+            constructor() {
+                this.slides = Array.from(document.querySelectorAll('.slide'));
+                this.currentIndex = 0;
+                this.totalSlides = this.slides.length;
+                this.isEditMode = false;
+                this.editTimeout = null;
+
+                this.init();
+            }
+
+            init() {
+                this.updateProgress();
+                this.createNavDots();
+                this.attachEventListeners();
+                this.observeSlides();
+                this.scrollToSlide(0);
+            }
+
+            createNavDots() {
+                const dotsContainer = document.querySelector('.nav-dots');
+                for (let i = 0; i < this.totalSlides; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'nav-dot';
+                    if (i === 0) dot.classList.add('active');
+                    dot.addEventListener('click', () => this.goToSlide(i));
+                    dotsContainer.appendChild(dot);
+                }
+            }
+
+            attachEventListeners() {
+                document.addEventListener('keydown', (e) => this.handleKeyboard(e));
+                document.addEventListener('wheel', (e) => this.handleWheel(e), { passive: false });
+
+                // Touch/swipe
+                let touchStart = 0;
+                document.addEventListener('touchstart', (e) => { touchStart = e.touches[0].clientY; });
+                document.addEventListener('touchend', (e) => {
+                    const touchEnd = e.changedTouches[0].clientY;
+                    if (touchStart - touchEnd > 50) this.nextSlide();
+                    if (touchEnd - touchStart > 50) this.prevSlide();
+                });
+
+                // Edit hotzone hover
+                this.setupEditMode();
+            }
+
+            setupEditMode() {
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'E' || e.key === 'e') {
+                        this.toggleEditMode();
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.ctrlKey && e.key === 's') {
+                        e.preventDefault();
+                        this.saveEditState();
+                    }
+                });
+
+                // Hover-based edit hotzone with 400ms delay
+                document.addEventListener('mouseover', (e) => {
+                    if (e.target.classList.contains('edit-hotzone')) {
+                        if (this.editTimeout) clearTimeout(this.editTimeout);
+                        this.editTimeout = setTimeout(() => {
+                            const slide = e.target.closest('.slide');
+                            this.enableSlideEditing(slide);
+                        }, 400);
+                    }
+                });
+
+                document.addEventListener('mouseout', (e) => {
+                    if (e.target.classList.contains('edit-hotzone')) {
+                        if (this.editTimeout) clearTimeout(this.editTimeout);
+                    }
+                });
+            }
+
+            toggleEditMode() {
+                this.isEditMode = !this.isEditMode;
+                const currentSlide = this.slides[this.currentIndex];
+                if (this.isEditMode) {
+                    this.enableSlideEditing(currentSlide);
+                } else {
+                    this.disableSlideEditing(currentSlide);
+                }
+            }
+
+            enableSlideEditing(slide) {
+                const editables = slide.querySelectorAll('h1, h2, h3, p, li, blockquote');
+                editables.forEach(el => {
+                    el.contentEditable = true;
+                });
+            }
+
+            disableSlideEditing(slide) {
+                const editables = slide.querySelectorAll('[contenteditable]');
+                editables.forEach(el => {
+                    el.contentEditable = false;
+                });
+            }
+
+            saveEditState() {
+                const slide = this.slides[this.currentIndex];
+                const editables = slide.querySelectorAll('[contenteditable]');
+                const content = {};
+                editables.forEach((el, idx) => {
+                    content[idx] = el.innerHTML;
+                });
+                localStorage.setItem(`slide-${this.currentIndex}`, JSON.stringify(content));
+            }
+
+            handleKeyboard(e) {
+                if (e.key === 'ArrowDown' || e.key === ' ') {
+                    e.preventDefault();
+                    this.nextSlide();
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    this.prevSlide();
+                } else if (e.key === 'PageDown') {
+                    e.preventDefault();
+                    this.nextSlide();
+                } else if (e.key === 'PageUp') {
+                    e.preventDefault();
+                    this.prevSlide();
+                }
+            }
+
+            handleWheel(e) {
+                e.preventDefault();
+                if (e.deltaY > 0) {
+                    this.nextSlide();
+                } else {
+                    this.prevSlide();
+                }
+            }
+
+            nextSlide() {
+                if (this.currentIndex < this.totalSlides - 1) {
+                    this.goToSlide(this.currentIndex + 1);
+                }
+            }
+
+            prevSlide() {
+                if (this.currentIndex > 0) {
+                    this.goToSlide(this.currentIndex - 1);
+                }
+            }
+
+            goToSlide(index) {
+                if (index < 0 || index >= this.totalSlides) return;
+                this.currentIndex = index;
+                this.scrollToSlide(index);
+                this.updateProgress();
+            }
+
+            scrollToSlide(index) {
+                const slide = this.slides[index];
+                slide.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            updateProgress() {
+                const progressBar = document.querySelector('.progress-bar');
+                const progress = ((this.currentIndex + 1) / this.totalSlides) * 100;
+                progressBar.style.width = progress + '%';
+
+                // Update counter
+                document.querySelector('.current-slide').textContent = String(this.currentIndex + 1).padStart(2, '0');
+
+                // Update nav dots
+                document.querySelectorAll('.nav-dot').forEach((dot, idx) => {
+                    dot.classList.toggle('active', idx === this.currentIndex);
+                });
+            }
+
+            observeSlides() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            const index = this.slides.indexOf(entry.target);
+                            if (index !== -1) {
+                                this.currentIndex = index;
+                                this.updateProgress();
+                            }
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                this.slides.forEach((slide) => observer.observe(slide));
+            }
+        }
+
+        // Initialize on DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new SlidePresentation();
+        });
+    </script>
+</body>
+</html>
