@@ -815,9 +815,238 @@
       padding: 2px 7px;
       border-radius: 5px;
     }
+
+    /* ---- MODE TOGGLE ---- */
+    .mode-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 300;
+      display: flex;
+      gap: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      backdrop-filter: blur(8px);
+    }
+    .mode-toggle button {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-dim);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 8px 14px;
+      border-radius: 20px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .mode-toggle button:hover {
+      color: var(--text);
+    }
+    .mode-toggle button.active {
+      background: color-mix(in srgb, var(--gold) 12%, transparent);
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .mode-toggle {
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mode-toggle {
+        top: 10px;
+        right: 10px;
+        gap: 0;
+      }
+      .mode-toggle button {
+        padding: 6px 10px;
+        font-size: 9px;
+      }
+    }
+
+    /* ---- MOCKUPS ---- */
+    .mockup {
+      margin: 24px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+    .mockup__titlebar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+    }
+    .mockup__dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--border-bright);
+    }
+    .mockup__title {
+      margin-left: 8px;
+      font-size: 11px;
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+    .mockup__body {
+      padding: 16px 20px;
+      line-height: 1.6;
+      color: var(--text-dim);
+      font-size: 12.5px;
+    }
+    .mockup__label {
+      text-align: center;
+      padding: 8px;
+      font-size: 11px;
+      color: var(--text-light);
+      font-family: var(--font-body);
+      font-style: italic;
+    }
+    /* Chat bubbles */
+    .mockup__chat {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .mockup__message {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .mockup__message.user {
+      justify-content: flex-end;
+    }
+    .mockup__bubble {
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      max-width: 70%;
+      line-height: 1.4;
+    }
+    .mockup__bubble.user {
+      background: var(--gold);
+      color: var(--bg);
+    }
+    .mockup__bubble.assistant {
+      background: var(--surface2);
+      color: var(--text);
+    }
+    /* Folder tree */
+    .mockup__tree {
+      padding: 16px 20px;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+    }
+    .mockup__tree-item {
+      padding: 4px 0;
+      margin-left: 20px;
+      position: relative;
+      color: var(--text);
+    }
+    .mockup__tree-item::before {
+      content: '';
+      position: absolute;
+      left: -10px;
+      top: 50%;
+      width: 8px;
+      height: 1px;
+      background: var(--border-bright);
+      transform: translateY(-50%);
+    }
+    .mockup__tree-folder {
+      color: var(--text);
+      font-weight: 500;
+      padding: 6px 0;
+    }
+    .mockup__tree-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--text-light);
+      margin-left: 8px;
+    }
+    /* Timeline */
+    .mockup__timeline {
+      padding: 16px 20px;
+    }
+    .mockup__timeline-item {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .mockup__timeline-dot {
+      width: 12px;
+      height: 12px;
+      background: var(--gold);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+    .mockup__timeline-content {
+      flex: 1;
+    }
+    .mockup__timeline-time {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-bottom: 2px;
+    }
+    .mockup__timeline-label {
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    /* ---- MINIMAL MODE HIDING ---- */
+    body[data-mode="minimal"] details,
+    body[data-mode="minimal"] .callout,
+    body[data-mode="minimal"] .grid-2,
+    body[data-mode="minimal"] .grid-3,
+    body[data-mode="minimal"] .layer-stack {
+      display: none !important;
+    }
+
+    body[data-mode="minimal"] .main > .anatomy,
+    body[data-mode="minimal"] .main > p:not(.lead):not(.subtitle),
+    body[data-mode="minimal"] .main > .small {
+      display: none !important;
+    }
+
+    /* Smooth transitions */
+    body[data-mode="minimal"] details,
+    body[data-mode="minimal"] .callout,
+    body[data-mode="minimal"] .grid-2,
+    body[data-mode="minimal"] .grid-3,
+    body[data-mode="minimal"] .layer-stack,
+    body[data-mode="minimal"] .main > .anatomy,
+    body[data-mode="minimal"] .main > p:not(.lead):not(.subtitle),
+    body[data-mode="minimal"] .main > .small {
+      opacity: 0;
+      transition: opacity 0.2s ease-out;
+    }
   </style>
 </head>
-<body>
+<body data-mode="full">
+
+<!-- MODE TOGGLE -->
+<div class="mode-toggle">
+  <button class="active" onclick="setMode('full')">Full Guide</button>
+  <button onclick="setMode('minimal')">Quick Start</button>
+</div>
 
 <div class="wrap">
 
@@ -930,6 +1159,26 @@
     <h2>The Discovery Process</h2>
     <p class="lead">Before you fill in a single template, you need to have the right conversations with Claude. The quality of your system depends entirely on the quality of information you put into it.</p>
 
+    <div class="mockup">
+      <div class="mockup__titlebar">
+        <div class="mockup__dot"></div>
+        <div class="mockup__dot"></div>
+        <div class="mockup__dot"></div>
+        <div class="mockup__title">CoWork Chat</div>
+      </div>
+      <div class="mockup__body">
+        <div class="mockup__chat">
+          <div class="mockup__message user">
+            <div class="mockup__bubble user">I'm setting up my CoWork second brain...</div>
+          </div>
+          <div class="mockup__message">
+            <div class="mockup__bubble assistant">Great! Let's start with who you are. What do you do for work? Not just your title — what does your actual day-to-day look like?</div>
+          </div>
+        </div>
+      </div>
+      <div class="mockup__label">Claude interviews you one question at a time</div>
+    </div>
+
     <p>For each section below, there's a <strong>ready-to-paste prompt</strong> you can copy straight into your CoWork chat. Claude will interview you and ask the right questions. You don't have to think of what to say, just answer what Claude asks.</p>
 
     <h3>Who You Are <span class="small">(15-20 min)</span></h3>
@@ -1027,6 +1276,34 @@ If there's anything else you're curious about that would help you build a better
     <div id="global" class="sec-head sec-head--navy">Part 1</div>
     <h2>Global Instructions</h2>
     <p class="lead">These go into Claude Desktop &gt; Settings &gt; Instructions. They're the behavioral rules that tell Claude HOW to interact with you. They load on every session automatically.</p>
+
+    <div class="mockup">
+      <div class="mockup__titlebar">
+        <div class="mockup__dot"></div>
+        <div class="mockup__dot"></div>
+        <div class="mockup__dot"></div>
+        <div class="mockup__title">Claude Settings</div>
+      </div>
+      <div class="mockup__body">
+        <div style="display: flex; gap: 16px; height: 200px;">
+          <div style="width: 120px; border-right: 1px solid var(--border); padding-right: 12px;">
+            <div style="font-size: 11px; color: var(--gold); font-weight: 600; margin-bottom: 8px;">Instructions</div>
+            <div style="font-size: 12px; color: var(--text-light); line-height: 1.6;">
+              Profile<br>
+              <span style="color: var(--gold); font-weight: 500;">Instructions</span><br>
+              Shortcuts
+            </div>
+          </div>
+          <div style="flex: 1; font-size: 12px; line-height: 1.5; color: var(--text-dim);">
+            <div style="font-weight: 500; color: var(--text); margin-bottom: 8px;">## Who I Am</div>
+            <div style="margin-bottom: 8px;">I'm [Your Name]. I [your role]...</div>
+            <div style="font-weight: 500; color: var(--text); margin-bottom: 8px;">## How to Work With Me</div>
+            <div>- ALWAYS read CLAUDE.md first...</div>
+          </div>
+        </div>
+      </div>
+      <div class="mockup__label">Claude Desktop → Settings → Instructions</div>
+    </div>
 
     <div class="grid-2">
       <div class="ve-card">
@@ -1138,6 +1415,34 @@ you're connected to.
     <h2>CLAUDE.md — The Master Memory File</h2>
     <p class="lead">This is the single most important file in your system. It lives at the root of your workspace and Claude reads it automatically at the start of every session. It's the instruction manual for your life.</p>
 
+    <div class="mockup">
+      <div class="mockup__titlebar">
+        <div class="mockup__dot"></div>
+        <div class="mockup__dot"></div>
+        <div class="mockup__dot"></div>
+        <div class="mockup__title">CLAUDE.md</div>
+      </div>
+      <div class="mockup__body">
+        <div style="font-size: 12.5px; line-height: 1.6; color: var(--text);">
+          <div style="color: #6a994e; font-weight: 500;">## Who Is [Name]</div>
+          <div style="margin-bottom: 12px; font-size: 12px; color: var(--text-dim);">[A paragraph about who you are as a person, not a resume...]</div>
+
+          <div style="color: #6a994e; font-weight: 500;">## Quick Reference</div>
+          <div style="margin-bottom: 12px; font-size: 12px; color: var(--text-dim); font-family: var(--font-mono);">
+            - Email: [your email]<br>
+            - Voice: [description]<br>
+            - Calendar: Apple Calendar
+          </div>
+
+          <div style="color: #6a994e; font-weight: 500;">## Key Constraint</div>
+          <div style="margin-bottom: 12px; font-size: 12px; color: var(--text-dim);">[Your biggest limitation...]</div>
+
+          <div style="color: var(--text-light); font-style: italic; font-size: 11px;">... more sections below ...</div>
+        </div>
+      </div>
+      <div class="mockup__label">The master file Claude reads every session</div>
+    </div>
+
     <div class="grid-3">
       <div class="ve-card">
         <div class="card-label card-label--sage">Rule</div>
@@ -1204,6 +1509,41 @@ Ask me any other questions that would give you helpful context — anything abou
     <div id="memory" class="sec-head sec-head--sage">Part 3</div>
     <h2>Memory Files</h2>
     <p class="lead">Memory files are the deep-context layer. CLAUDE.md points to them, but the details live here. Claude reads only the relevant ones based on what you're asking it to do.</p>
+
+    <div class="mockup">
+      <div class="mockup__titlebar">
+        <div class="mockup__dot"></div>
+        <div class="mockup__dot"></div>
+        <div class="mockup__dot"></div>
+        <div class="mockup__title">memory/</div>
+      </div>
+      <div class="mockup__tree">
+        <div style="margin-bottom: 8px;">
+          <div style="color: var(--text); font-weight: 500;">memory/</div>
+        </div>
+        <div class="mockup__tree-item">
+          <span style="color: var(--text);">writing-voice.md</span>
+          <span class="mockup__tree-label">← How you write</span>
+        </div>
+        <div class="mockup__tree-item">
+          <span style="color: var(--text);">people.md</span>
+          <span class="mockup__tree-label">← Who matters</span>
+        </div>
+        <div class="mockup__tree-item">
+          <span style="color: var(--text);">career-profile.md</span>
+          <span class="mockup__tree-label">← Your career context</span>
+        </div>
+        <div class="mockup__tree-item">
+          <span style="color: var(--text);">life-areas.md</span>
+          <span class="mockup__tree-label">← Your routine & goals</span>
+        </div>
+        <div class="mockup__tree-item">
+          <span style="color: var(--text);">glossary.md</span>
+          <span class="mockup__tree-label">← Your shorthand</span>
+        </div>
+      </div>
+      <div class="mockup__label">Each file is deep context on one topic</div>
+    </div>
 
     <p>Without memory files, Claude re-learns your preferences every session. With them, it already knows that "Nancy" is your boss, that you hate cottage cheese, and that you sign casual emails with "xx."</p>
 
@@ -1377,6 +1717,45 @@ If you've noticed any terms or shorthand I've already used in our conversations 
     <h2>Folder Structure (PARA)</h2>
     <p class="lead">PARA stands for Projects, Areas, Resources, Archive. It's the organizational backbone. Everything has a home.</p>
 
+    <div class="mockup">
+      <div class="mockup__titlebar">
+        <div class="mockup__dot"></div>
+        <div class="mockup__dot"></div>
+        <div class="mockup__dot"></div>
+        <div class="mockup__title">Workspace</div>
+      </div>
+      <div class="mockup__tree">
+        <div style="margin-bottom: 8px;">
+          <div style="color: var(--text); font-weight: 500;">CoWork Workspace/</div>
+        </div>
+        <div class="mockup__tree-item">
+          <span style="color: var(--text);">00-inbox/</span>
+        </div>
+        <div class="mockup__tree-item">
+          <span style="color: var(--text);">01-projects/</span>
+        </div>
+        <div class="mockup__tree-item">
+          <span style="color: var(--text);">02-areas/</span>
+        </div>
+        <div class="mockup__tree-item">
+          <span style="color: var(--text);">03-resources/</span>
+        </div>
+        <div class="mockup__tree-item">
+          <span style="color: var(--text);">04-archive/</span>
+        </div>
+        <div class="mockup__tree-item">
+          <span style="color: var(--text);">05-automations/</span>
+        </div>
+        <div class="mockup__tree-item">
+          <span style="color: var(--text);">memory/</span>
+        </div>
+        <div class="mockup__tree-item">
+          <span style="color: var(--text);">CLAUDE.md</span>
+        </div>
+      </div>
+      <div class="mockup__label">The PARA method: everything has a home</div>
+    </div>
+
     <div class="code-file">
       <div class="code-file__header">Folder structure</div>
       <pre class="code-file__body">00-inbox/          → Drop zone. Unsorted captures, raw ideas.
@@ -1424,6 +1803,32 @@ Ask me if there's anything else I'd want organized — side projects, collection
     <div id="skills" class="sec-head sec-head--rose">Part 5</div>
     <h2>Custom Skills</h2>
     <p class="lead">Skills are pre-built workflows that tell Claude exactly how to handle your most common tasks. They live in <code>03-resources/skills/[skill-name]/SKILL.md</code>.</p>
+
+    <div class="mockup">
+      <div class="mockup__titlebar">
+        <div class="mockup__dot"></div>
+        <div class="mockup__dot"></div>
+        <div class="mockup__dot"></div>
+        <div class="mockup__title">email-drafter/SKILL.md</div>
+      </div>
+      <div class="mockup__body">
+        <div style="font-size: 12px; line-height: 1.6; color: var(--text);">
+          <div style="color: var(--text-light); font-style: italic; margin-bottom: 8px;">---</div>
+          <div style="font-size: 11px; font-weight: 600; color: var(--text-dim); margin-bottom: 8px;">name: Email Drafter</div>
+          <div style="font-size: 11px; font-weight: 600; color: var(--text-dim); margin-bottom: 8px;">triggers: ["draft", "email"]</div>
+          <div style="color: var(--text-light); font-style: italic; margin-bottom: 12px;">---</div>
+
+          <div style="color: #6a994e; font-weight: 500; margin-bottom: 4px;">## Pre-flight Questions</div>
+          <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 8px;">- Who is this to? (boss, colleague, cold outreach?)</div>
+          <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 8px;">- What's the purpose?</div>
+
+          <div style="color: #6a994e; font-weight: 500; margin-bottom: 4px;">## Steps</div>
+          <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 4px;">1. Read writing-voice.md + people.md</div>
+          <div style="font-size: 12px; color: var(--text-dim);">2. Draft in your authentic voice...</div>
+        </div>
+      </div>
+      <div class="mockup__label">Skills are reusable workflows</div>
+    </div>
 
     <p>Without a skill, Claude handles every task from scratch. With a skill, it knows the exact steps, the right tone, which memory files to read, what format to use, and what mistakes to avoid.</p>
 
@@ -1521,6 +1926,39 @@ Ask me anything else about how I want this task done — the more detail you get
     <h2>Scheduled Tasks</h2>
     <p class="lead">Scheduled tasks are Claude sessions that run automatically on a schedule. They do work while you're away so things are ready when you sit down.</p>
 
+    <div class="mockup">
+      <div class="mockup__titlebar">
+        <div class="mockup__dot"></div>
+        <div class="mockup__dot"></div>
+        <div class="mockup__dot"></div>
+        <div class="mockup__title">Automations</div>
+      </div>
+      <div class="mockup__timeline">
+        <div class="mockup__timeline-item">
+          <div class="mockup__timeline-dot"></div>
+          <div class="mockup__timeline-content">
+            <div class="mockup__timeline-time">7:00 AM</div>
+            <div class="mockup__timeline-label">Morning Briefing</div>
+          </div>
+        </div>
+        <div class="mockup__timeline-item">
+          <div class="mockup__timeline-dot"></div>
+          <div class="mockup__timeline-content">
+            <div class="mockup__timeline-time">5:00 PM</div>
+            <div class="mockup__timeline-label">AI Radar Sweep</div>
+          </div>
+        </div>
+        <div class="mockup__timeline-item">
+          <div class="mockup__timeline-dot"></div>
+          <div class="mockup__timeline-content">
+            <div class="mockup__timeline-time">Friday 5:00 PM</div>
+            <div class="mockup__timeline-label">Weekly Review</div>
+          </div>
+        </div>
+      </div>
+      <div class="mockup__label">Tasks that run while you're away</div>
+    </div>
+
     <div class="callout callout--warn">
       <div class="callout-title">Important constraint</div>
       <p class="mb-0">Scheduled tasks only run when your computer is awake and Claude Desktop is open. If your laptop is closed, the task misses its window. Build a habit of leaving Claude open.</p>
@@ -1585,6 +2023,34 @@ Ask me about anything else in my routine or workflow that could benefit from aut
     <div id="continuity" class="sec-head sec-head--gold">Part 7</div>
     <h2>Session Continuity</h2>
     <p class="lead">Claude doesn't have memory between sessions by default. These two files solve that.</p>
+
+    <div class="mockup">
+      <div class="mockup__titlebar">
+        <div class="mockup__dot"></div>
+        <div class="mockup__dot"></div>
+        <div class="mockup__dot"></div>
+        <div class="mockup__title">session-log.md  |  TASKS.md</div>
+      </div>
+      <div class="mockup__body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 12px; line-height: 1.5; color: var(--text);">
+          <div style="border-right: 1px solid var(--border); padding-right: 16px;">
+            <div style="color: #6a994e; font-weight: 500; margin-bottom: 6px;">## Latest Session</div>
+            <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 8px;">**Date:** March 23, 2026</div>
+            <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 8px;">**What happened:**</div>
+            <div style="font-size: 11px; color: var(--text-light); margin-bottom: 8px;">Set up PARA structure and memory files...</div>
+            <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 8px;">**Pending:** Build skills</div>
+          </div>
+          <div>
+            <div style="color: #6a994e; font-weight: 500; margin-bottom: 6px;">## Active</div>
+            <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 4px;">- [ ] Build writing-voice skill</div>
+            <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 4px;">- [ ] Interview for people.md</div>
+            <div style="color: #6a994e; font-weight: 500; margin-top: 10px; margin-bottom: 6px;">## Done</div>
+            <div style="font-size: 11px; color: var(--text-dim);">- [x] Set up folder structure</div>
+          </div>
+        </div>
+      </div>
+      <div class="mockup__label">Claude picks up where it left off</div>
+    </div>
 
     <div class="paste-prompt">
       <div class="paste-prompt__header">
@@ -1815,6 +2281,17 @@ If there's anything else you think should be in this reference doc based on ever
 
   </div><!-- /main -->
 </div><!-- /wrap -->
+
+<!-- MODE TOGGLE LOGIC -->
+<script>
+function setMode(mode) {
+  document.body.setAttribute('data-mode', mode);
+  document.querySelectorAll('.mode-toggle button').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  event.target.classList.add('active');
+}
+</script>
 
 <!-- COPY TO CLIPBOARD -->
 <script>
