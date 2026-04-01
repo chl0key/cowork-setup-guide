@@ -514,6 +514,12 @@
     .callout--key .callout-title { color: var(--navy); }
 
     /* ---- CHECKLIST ---- */
+    /* ---- COLLAPSIBLE DETAILS ---- */
+    details summary::-webkit-details-marker,
+    details summary::marker { display: none; content: ''; }
+    details summary:hover { background: var(--surface); border-radius: 16px; }
+    details[open] > summary > span:last-child { display: none; }
+
     .checklist {
       list-style: none;
       margin: 16px 0;
@@ -667,6 +673,24 @@
     }
     @keyframes fadeUp {
       to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    .logo-zero {
+      display: inline-block;
+      width: 0.6em;
+      height: 0.75em;
+      border: 2.5px solid currentColor;
+      border-radius: 50%;
+      margin: 0 0.02em;
+      position: relative;
+      top: 0.05em;
+    }
+    .logo-zero--sm {
+      width: 0.55em;
+      height: 0.7em;
+      border-width: 2px;
     }
     .fade-in:nth-child(1) { animation-delay: 0.05s; }
     .fade-in:nth-child(2) { animation-delay: 0.1s; }
@@ -1061,23 +1085,36 @@
     <a href="#claudemd">2. CLAUDE.md</a>
     <a href="#memory">3. Memory Files</a>
     <a href="#folders">4. Folder Structure</a>
-    <a href="#skills">5. Custom Skills</a>
-    <a href="#automations">6. Automations</a>
-    <a href="#continuity">7. Session Continuity</a>
-    <a href="#tools">8. Connected Tools</a>
+    <a href="#intermission" style="color: var(--text-dim); font-style: italic; font-size: 12px;">— Intermission —</a>
+    <a href="#continuity">5. Session Continuity</a>
+    <a href="#connectors">6. Connectors</a>
+    <a href="#quickcapture" style="padding-left: 16px; font-size: 10px;">Bonus: Quick Capture</a>
+    <a href="#skills">7. Custom Skills</a>
+    <a href="#automations">8. Scheduled Tasks</a>
     <a href="#maintenance">9. Maintenance</a>
     <a href="#checklist">Setup Checklist</a>
-    <a href="#lessons">Lessons Learned</a>
   </nav>
 
   <!-- ====== MAIN ====== -->
   <div class="main">
 
     <!-- HERO -->
+    <!-- STICKY LOGO -->
+    <div id="sticky-logo" style="position: fixed; top: 16px; right: 24px; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; display: flex; align-items: baseline; gap: 3px;">
+      <span style="font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', var(--font-mono); font-size: 14px; font-weight: 700; color: var(--text);">chl<span class="logo-zero logo-zero--sm"></span>key</span><span style="font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', var(--font-mono); font-size: 14px; font-weight: 700; color: var(--text); animation: blink 1s step-end infinite;">_</span>
+    </div>
+
+    <div id="hero-logo" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 0 24px; border-bottom: 1px solid var(--border); margin-bottom: 32px;">
+      <div style="display: flex; align-items: baseline; gap: 4px;">
+        <span style="font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', var(--font-mono); font-size: 24px; font-weight: 700; letter-spacing: -0.5px; color: var(--text);">chl<span class="logo-zero"></span>key</span><span style="font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', var(--font-mono); font-size: 24px; font-weight: 700; color: var(--text); animation: blink 1s step-end infinite;">_</span>
+      </div>
+      <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim);">Learning Out Loud</span>
+    </div>
+
     <div class="hero fade-in">
-      <div class="hero-label">The Complete Playbook</div>
+      <div class="hero-label">chl0key's Complete Playbook</div>
       <h1>Build Your <em>AI-Powered</em> Second Brain</h1>
-      <p class="subtitle">A comprehensive, step-by-step guide to setting up Claude CoWork as a personal operating system. Based on 25+ iterations, 20+ research sessions, and months of real-world use.</p>
+      <p class="subtitle">A comprehensive, step-by-step guide to setting up Claude CoWork as a personal operating system. Based on 25+ iterations, 20+ research sessions, and months of real-world use. Want the short version first? Read <a href="https://open.substack.com/pub/chlokey/p/what-a-tuesday-looks-like-when-ai" target="_blank" style="color: var(--terra); text-decoration: underline; text-underline-offset: 3px;">What a Tuesday Looks Like When AI Runs Your Life</a>.</p>
       <div class="hero-stats">
         <div class="hero-stat">
           <span class="num">1</span>
@@ -1091,6 +1128,40 @@
           <span class="num">∞</span>
           <span class="label">Hours Saved</span>
         </div>
+      </div>
+    </div>
+
+    <!-- BEFORE YOU START -->
+    <h2 style="margin-top: 0;">Before You Start</h2>
+
+    <p style="font-size: 15px; line-height: 1.7;">Make sure you have these three things in place:</p>
+    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+      <div style="display: flex; gap: 14px; align-items: flex-start;">
+        <span style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; min-width: 28px; border-radius: 50%; background: var(--terra); color: #fff; font-size: 14px; font-weight: 600; margin-top: 1px;">1</span>
+        <div style="font-size: 15px; line-height: 1.6;"><strong>A Claude Pro or Max subscription.</strong> CoWork requires a paid plan. Sign up at <a href="https://claude.ai" target="_blank" style="color: var(--terra); text-decoration: underline; text-underline-offset: 3px;">claude.ai</a> if you haven't already.</div>
+      </div>
+      <div style="display: flex; gap: 14px; align-items: flex-start;">
+        <span style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; min-width: 28px; border-radius: 50%; background: var(--terra); color: #fff; font-size: 14px; font-weight: 600; margin-top: 1px;">2</span>
+        <div style="font-size: 15px; line-height: 1.6;"><strong>The Claude desktop app.</strong> Download it from <a href="https://claude.ai/download" target="_blank" style="color: var(--terra); text-decoration: underline; text-underline-offset: 3px;">claude.ai/download</a>. CoWork runs inside the desktop app, not the browser.</div>
+      </div>
+      <div style="display: flex; gap: 14px; align-items: flex-start;">
+        <span style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; min-width: 28px; border-radius: 50%; background: var(--terra); color: #fff; font-size: 14px; font-weight: 600; margin-top: 1px;">3</span>
+        <div style="font-size: 15px; line-height: 1.6;"><strong>Open CoWork.</strong> Launch the desktop app and click <strong>"Cowork"</strong> in the top navigation bar (next to Chat and Code). That's the interface you'll use for everything in this guide.</div>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 16px; margin: 24px 0;">
+      <div style="flex: 1; min-width: 0;">
+        <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+          <img src="images/cowork-home.png" alt="The CoWork home screen" style="width: 100%; display: block;">
+        </div>
+        <p class="small" style="text-align: center; color: var(--text-dim); margin-top: 8px;">The CoWork home screen — where you start new sessions and access your workspace.</p>
+      </div>
+      <div style="flex: 1; min-width: 0;">
+        <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+          <img src="images/cowork-session.png" alt="A CoWork session in progress" style="width: 100%; display: block;">
+        </div>
+        <p class="small" style="text-align: center; color: var(--text-dim); margin-top: 8px;">A CoWork session in progress — your conversation, progress tracker, workspace files, and context panel.</p>
       </div>
     </div>
 
@@ -1149,7 +1220,9 @@
 
     <div class="ve-card ve-card--hero" style="margin-top: 32px; padding: 28px 32px;">
       <h3 style="margin-top: 0; font-family: var(--font-serif); font-size: 22px; font-weight: 900; color: var(--gold); margin-bottom: 12px;">Before you start: here's how this works</h3>
-      <p style="font-size: 16px; line-height: 1.7; margin-bottom: 0;">Read the whole guide once to understand the layers. Then open a CoWork session and work through it section by section WITH Claude. Each section has a ready-to-paste prompt that does the heavy lifting for you. You don't need to do everything in one sitting. Start with Discovery, build from there, and refine as you go.</p>
+      <p style="font-size: 16px; line-height: 1.7; margin-bottom: 14px;">Read the whole guide once to understand the layers. Then open a CoWork session and work through it section by section WITH Claude.</p>
+      <p style="font-size: 16px; line-height: 1.7; margin-bottom: 14px;">Every section below has a <strong>ready-to-paste prompt</strong> you can copy straight into CoWork. Claude will do the heavy lifting — interviewing you, drafting files, building your system. You don't have to think of what to say. Just paste the prompt, answer Claude's questions, and move to the next section.</p>
+      <p style="font-size: 16px; line-height: 1.7; margin-bottom: 0;">You don't need to do everything in one sitting. Start with Discovery, build from there, and refine as you go.</p>
     </div>
 
     <!-- PART 0: DISCOVERY -->
@@ -1157,27 +1230,15 @@
     <h2>The Discovery Process</h2>
     <p class="lead">Before you fill in a single template, you need to have the right conversations with Claude. The quality of your system depends entirely on the quality of information you put into it.</p>
 
-    <div class="mockup">
-      <div class="mockup__titlebar">
-        <div class="mockup__dot"></div>
-        <div class="mockup__dot"></div>
-        <div class="mockup__dot"></div>
-        <div class="mockup__title">CoWork Chat</div>
-      </div>
-      <div class="mockup__body">
-        <div class="mockup__chat">
-          <div class="mockup__message user">
-            <div class="mockup__bubble user">I'm setting up my CoWork second brain...</div>
-          </div>
-          <div class="mockup__message">
-            <div class="mockup__bubble assistant">Great! Let's start with who you are. What do you do for work? Not just your title — what does your actual day-to-day look like?</div>
-          </div>
-        </div>
-      </div>
-      <div class="mockup__label">Claude interviews you one question at a time</div>
-    </div>
+    <!-- Instructions + one-session callout -->
+    <div style="margin: 24px 0 32px;">
+      <p style="font-size: 15px; line-height: 1.7; margin-bottom: 16px;"><strong>Here's what to do:</strong> Open Claude Desktop, click <strong>Cowork</strong> at the top, and start a <strong>new session</strong>. Then copy the first prompt below and paste it into the text box. Claude will start asking you questions — just answer them naturally. When you finish one prompt, paste the next one into the same chat and keep going.</p>
 
-    <p>For each section below, there's a <strong>ready-to-paste prompt</strong> you can copy straight into your CoWork chat. Claude will interview you and ask the right questions. You don't have to think of what to say, just answer what Claude asks.</p>
+      <div class="callout callout--tip" style="margin-bottom: 0; border-left: 4px solid var(--gold); background: var(--gold-dim); padding: 16px 20px;">
+        <div class="callout-title" style="color: var(--gold); font-weight: 700; margin-bottom: 4px;">Keep all 4 prompts in one session</div>
+        <p class="mb-0" style="font-size: 14px;">Do all 4 Discovery prompts in the <strong>same CoWork chat</strong>. Don't start a new session between them — Claude needs the context from each conversation to build on the next. Paste one prompt, answer the questions, then paste the next when you're ready. You can take breaks, just come back to the same session.</p>
+      </div>
+    </div>
 
     <h3>Who You Are <span class="small">(15-20 min)</span></h3>
 
@@ -1267,51 +1328,16 @@ If there's anything else you're curious about that would help you build a better
 
     <div class="callout callout--tip">
       <div class="callout-title">Why this matters</div>
-      <p class="mb-0">Every section in this guide was born from conversations like these. The people.md file exists because knowing who "Nancy" is saves 30 seconds of context every session. The food-preferences.md exists because a picky eater got generic restaurant recommendations one too many times. You don't need everything perfect on day one. The system has a built-in correction loop.</p>
+      <p class="mb-0">Without this step, every time you open a new session you'd have to re-explain who you are, what you're working on, and how you like things done. The Discovery conversation gives Claude enough context about your life that it can actually help you — not just answer generic questions. Think of it like onboarding a new assistant: the more they know upfront, the less you have to repeat yourself later. You don't need to get everything perfect right now. The system is designed to learn and improve as you use it.</p>
     </div>
 
     <!-- PART 1: GLOBAL INSTRUCTIONS -->
     <div id="global" class="sec-head sec-head--navy">Part 1</div>
     <h2>Global Instructions</h2>
-    <p class="lead">These go into Claude Desktop &gt; Settings &gt; Instructions. They're the behavioral rules that tell Claude HOW to interact with you. They load on every session automatically.</p>
+    <p class="lead">In Discovery, you told Claude about yourself. Now you're going to turn that into a set of rules Claude follows every time you open a new session. These are called Global Instructions — they live in Claude Desktop &gt; Settings &gt; Instructions and load automatically.</p>
 
-    <div class="mockup">
-      <div class="mockup__titlebar">
-        <div class="mockup__dot"></div>
-        <div class="mockup__dot"></div>
-        <div class="mockup__dot"></div>
-        <div class="mockup__title">Claude Settings</div>
-      </div>
-      <div class="mockup__body">
-        <div style="display: flex; gap: 16px; height: 200px;">
-          <div style="width: 120px; border-right: 1px solid var(--border); padding-right: 12px;">
-            <div style="font-size: 11px; color: var(--gold); font-weight: 600; margin-bottom: 8px;">Instructions</div>
-            <div style="font-size: 12px; color: var(--text-light); line-height: 1.6;">
-              Profile<br>
-              <span style="color: var(--gold); font-weight: 500;">Instructions</span><br>
-              Shortcuts
-            </div>
-          </div>
-          <div style="flex: 1; font-size: 12px; line-height: 1.5; color: var(--text-dim);">
-            <div style="font-weight: 500; color: var(--text); margin-bottom: 8px;">## Who I Am</div>
-            <div style="margin-bottom: 8px;">I'm [Your Name]. I [your role]...</div>
-            <div style="font-weight: 500; color: var(--text); margin-bottom: 8px;">## How to Work With Me</div>
-            <div>- ALWAYS read CLAUDE.md first...</div>
-          </div>
-        </div>
-      </div>
-      <div class="mockup__label">Claude Desktop → Settings → Instructions</div>
-    </div>
-
-    <div class="grid-2">
-      <div class="ve-card">
-        <div class="card-label card-label--navy">Global Instructions</div>
-        <p class="small mb-0"><strong>How Claude should behave.</strong> Ask questions first, use my voice, don't delete files, re-read output before delivering.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--gold">CLAUDE.md</div>
-        <p class="small mb-0"><strong>Who you are.</strong> Your context, your people, your projects, your preferences. The knowledge base.</p>
-      </div>
+    <div style="margin: 20px 0 24px;">
+      <p style="font-size: 15px; line-height: 1.7; margin-bottom: 0;"><strong>Start a new CoWork session for this section.</strong> Copy the prompt below and paste it in. Claude will read your Discovery notes from the previous session and use them to draft your instructions.</p>
     </div>
 
     <div class="paste-prompt">
@@ -1319,9 +1345,9 @@ If there's anything else you're curious about that would help you build a better
         <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
         <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
       </div>
-      <div class="paste-prompt__body">Now let's build my Global Instructions. These go into Claude Desktop > Settings > Instructions.
+      <div class="paste-prompt__body">First, read the file called discovery-notes.md in my workspace — it has everything from my Discovery conversation.
 
-Using everything from my discovery-notes.md, draft my Global Instructions file. It should include these sections:
+Now let's build my Global Instructions. These go into Claude Desktop > Settings > Instructions. Using everything from that file, draft my Global Instructions. It should include these sections:
 - "Who I Am" (1-2 sentences)
 - "How to Work With Me" (behavioral rules for every session)
 - "Output Style" (tone, format, length preferences based on what I told you)
@@ -1335,18 +1361,50 @@ Feel free to ask me additional questions beyond this list if there's anything el
       <div class="paste-prompt__note">Claude will draft the file based on your discovery conversation, then ask for your approval before saving.</div>
     </div>
 
-    <h3>What to Include</h3>
+    <div style="margin: 20px 0 24px;">
+      <p style="font-size: 15px; line-height: 1.7; margin-bottom: 0;">CoWork will walk you through the process, but once you have your Global Instructions drafted, here's a visual reference for getting them saved to your settings.</p>
+    </div>
+
+    <div style="display: flex; gap: 12px; margin: 28px 0;">
+      <div style="flex: 1; min-width: 0;">
+        <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+          <img src="images/globalinstructions-1.png" alt="Global Instructions setup — step 1" style="width: 100%; display: block;">
+        </div>
+      </div>
+      <div style="flex: 1; min-width: 0;">
+        <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+          <img src="images/globalinstructions-2.png" alt="Global Instructions setup — step 2" style="width: 100%; display: block;">
+        </div>
+      </div>
+      <div style="flex: 1; min-width: 0;">
+        <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+          <img src="images/globalinstructions-3.png" alt="Global Instructions setup — step 3" style="width: 100%; display: block;">
+        </div>
+      </div>
+    </div>
+
+    <h3>What to look for in Claude's draft</h3>
+    <p class="small" style="margin-bottom: 12px;">When Claude shows you its draft, these are the sections that make up a strong set of Global Instructions. Use this as a checklist to make sure nothing important is missing.</p>
     <div class="anatomy">
       <div class="anatomy-row"><span class="tag tag--required">Required</span> Who I Am — name, role, where your files live</div>
       <div class="anatomy-row"><span class="tag tag--required">Required</span> How to Work With Me — read CLAUDE.md first, ask clarifying questions, reference folders</div>
       <div class="anatomy-row"><span class="tag tag--required">Required</span> Output Style — tone, format, length preferences</div>
       <div class="anatomy-row"><span class="tag tag--required">Required</span> Standing Rules — rules for every session, no exceptions</div>
       <div class="anatomy-row"><span class="tag tag--important">Important</span> Quality Standard — re-read output, verify facts, flag uncertainty</div>
-      <div class="anatomy-row"><span class="tag tag--optional">Optional</span> How to Work Smarter — parallel research, extended thinking, verification</div>
+      <div class="anatomy-row" style="flex-wrap: wrap; cursor: pointer;" onclick="var d=this.querySelector('.anatomy-expand');d.style.display=d.style.display==='none'?'block':'none';">
+        <span class="tag tag--optional">Optional</span> How to Work Smarter — you can skip this for now and add it later <span style="font-size: 11px; color: var(--text-dim); font-style: italic;">(click to learn more)</span>
+        <div class="anatomy-expand" style="display: none; width: 100%; font-size: 12px; line-height: 1.6; color: var(--text-dim); padding-top: 8px; margin-top: 8px; border-top: 1px solid var(--border);">
+          <strong>Parallel research</strong> — Claude works on multiple things at the same time instead of one by one.<br>
+          <strong>Extended thinking</strong> — Claude takes extra time to think through complex or high-stakes tasks.<br>
+          <strong>Verification</strong> — Claude double-checks its own work before showing it to you.
+        </div>
+      </div>
     </div>
 
     <details>
-      <summary>View template</summary>
+      <summary>DIY template — if you want to build it yourself</summary>
+      <p class="small" style="margin: 12px 0 8px; padding: 0 16px;">If you'd rather write your Global Instructions manually instead of using the prompt above, copy this template into a new <code>.md</code> file in your workspace folder and fill in each section. (In CoWork, you can ask Claude: "Create a new file called GLOBAL-INSTRUCTIONS.md with this template.")</p>
+      <p class="small" style="margin: 0 0 8px; padding: 0 16px; color: var(--text-dim); font-style: italic;">You'll see references to folders and files that don't exist yet (like memory/ and 04-archive/). That's fine — you'll build those in later sections. Everything connects.</p>
       <pre class="code-block">## Who I Am
 [1-2 sentences. Your name, what you do, where your files live.]
 
@@ -1375,7 +1433,8 @@ Feel free to ask me additional questions beyond this list if there's anything el
     </details>
 
     <details>
-      <summary>View filled-in example (real system)</summary>
+      <summary>Real-life example — see what a finished version looks like</summary>
+      <p class="small" style="margin: 12px 0 8px; padding: 0 16px;">This is from a real system. Yours will look different — the point is to see the level of specificity that makes Global Instructions useful.</p>
       <pre class="code-block">## Who I Am
 I'm Chloe Keywell. I'm leading AI upskilling across non-product
 functions at Bloomberg LP and I'm actively job searching for roles
@@ -1408,52 +1467,24 @@ you're connected to.
 - Never delete files — move to `04-archive/` instead</pre>
     </details>
 
+    <div class="grid-2" style="margin-top: 24px;">
+      <div class="ve-card">
+        <div class="card-label card-label--navy">Global Instructions</div>
+        <p class="small mb-0"><strong>How Claude should behave.</strong> The rules it follows in every session — ask questions first, use your voice, check its work. This is what you just built.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--gold">CLAUDE.md (up next)</div>
+        <p class="small mb-0"><strong>Who you are.</strong> Your context, your people, your projects, your preferences. This is the knowledge base you'll build in the next section.</p>
+      </div>
+    </div>
+
     <!-- PART 2: CLAUDE.MD -->
     <div id="claudemd" class="sec-head sec-head--gold">Part 2</div>
     <h2>CLAUDE.md — The Master Memory File</h2>
-    <p class="lead">This is the single most important file in your system. It lives at the root of your workspace and Claude reads it automatically at the start of every session. It's the instruction manual for your life.</p>
+    <p class="lead">Global Instructions tell Claude how to behave. CLAUDE.md tells Claude who you are. It's the single most important file in your system — it lives at the root of your workspace and Claude reads it automatically at the start of every session.</p>
 
-    <div class="mockup">
-      <div class="mockup__titlebar">
-        <div class="mockup__dot"></div>
-        <div class="mockup__dot"></div>
-        <div class="mockup__dot"></div>
-        <div class="mockup__title">CLAUDE.md</div>
-      </div>
-      <div class="mockup__body">
-        <div style="font-size: 12.5px; line-height: 1.6; color: var(--text);">
-          <div style="color: #6a994e; font-weight: 500;">## Who Is [Name]</div>
-          <div style="margin-bottom: 12px; font-size: 12px; color: var(--text-dim);">[A paragraph about who you are as a person, not a resume...]</div>
-
-          <div style="color: #6a994e; font-weight: 500;">## Quick Reference</div>
-          <div style="margin-bottom: 12px; font-size: 12px; color: var(--text-dim); font-family: var(--font-mono);">
-            - Email: [your email]<br>
-            - Voice: [description]<br>
-            - Calendar: Apple Calendar
-          </div>
-
-          <div style="color: #6a994e; font-weight: 500;">## Key Constraint</div>
-          <div style="margin-bottom: 12px; font-size: 12px; color: var(--text-dim);">[Your biggest limitation...]</div>
-
-          <div style="color: var(--text-light); font-style: italic; font-size: 11px;">... more sections below ...</div>
-        </div>
-      </div>
-      <div class="mockup__label">The master file Claude reads every session</div>
-    </div>
-
-    <div class="grid-3">
-      <div class="ve-card">
-        <div class="card-label card-label--sage">Rule</div>
-        <p class="small mb-0"><strong>Keep it under ~150 lines.</strong> Detailed info goes in memory files. CLAUDE.md is the index, not the encyclopedia.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--sage">Rule</div>
-        <p class="small mb-0"><strong>Link, don't duplicate.</strong> Instead of listing every food preference, say "See memory/food-preferences.md."</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--sage">Rule</div>
-        <p class="small mb-0"><strong>Update regularly.</strong> Every weekly review should include a CLAUDE.md refresh.</p>
-      </div>
+    <div style="margin: 20px 0 24px;">
+      <p style="font-size: 15px; line-height: 1.7; margin-bottom: 0;"><strong>Start a new CoWork session for this section.</strong> Copy the prompt below and paste it in. Claude will read your Discovery notes and Global Instructions from the previous sessions and use them to draft your master memory file.</p>
     </div>
 
     <div class="paste-prompt">
@@ -1461,9 +1492,9 @@ you're connected to.
         <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
         <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
       </div>
-      <div class="paste-prompt__body">Now let's build my CLAUDE.md — the master memory file that you'll read at the start of every session.
+      <div class="paste-prompt__body">First, read these files in my workspace: discovery-notes.md and GLOBAL-INSTRUCTIONS.md. Those have everything from my previous sessions.
 
-Using my discovery-notes.md, draft a CLAUDE.md file with these sections. Ask me any follow-up questions you need to fill gaps — don't guess:
+Now let's build my CLAUDE.md — the master memory file that you'll read at the start of every session. Using those files, draft a CLAUDE.md with these sections. Ask me any follow-up questions you need to fill gaps — don't guess:
 
 1. "Who Is [My Name]" — A paragraph about me. Not a resume. Who I am as a person.
 2. "Quick Reference" — My email, voice description, tools I use, calendar setup.
@@ -1476,16 +1507,27 @@ Using my discovery-notes.md, draft a CLAUDE.md file with these sections. Ask me 
 9. "Things to Avoid" — Anti-patterns, banned words, behaviors I hate.
 10. "Corrections & Learnings" — Empty section to start (this grows over time).
 
+Also add a "How to Work With Me" section that includes this rule: Always use AskUserQuestion to ask clarifying questions before starting any complex task. Don't guess — check first. This applies to research, email drafts, trip planning, anything with multiple possible approaches.
+
 Keep it under 150 lines. Link to memory files for detail instead of putting everything here. Show me the draft, get my approval, then save as CLAUDE.md.
 
 Ask me any other questions that would give you helpful context — anything about my life, preferences, or habits that would make you a better assistant.</div>
     </div>
 
-    <h3>Sections to Include</h3>
+    <div class="callout callout--key" style="margin: 20px 0;">
+      <div class="callout-title">Make Claude ask before it assumes</div>
+      <p>CoWork has a built-in feature called <strong>AskUserQuestion</strong> — it lets Claude show you a set of options to pick from before it starts working. Instead of guessing what you want and getting it half-right, Claude checks first. It looks like a little card with choices you can click.</p>
+      <p>This is especially useful for complex tasks like "plan a trip" or "draft an email" where there are a dozen ways Claude could go. One quick question up front saves you from a mediocre output you have to redo.</p>
+      <p class="mb-0">The paste prompt above already tells Claude to add this to your CLAUDE.md. Once it's in there, Claude will do this automatically on every task that needs clarification — you don't have to ask for it.</p>
+    </div>
+
+    <h3>What to look for in Claude's draft</h3>
+    <p class="small" style="margin-bottom: 12px;">When Claude shows you the draft, check that it includes these sections. Some reference things you'll build in later steps (like memory files and folder structure) — that's expected. Claude will set up the links now and you'll fill them in as you go.</p>
     <div class="anatomy">
       <div class="anatomy-row"><span class="tag tag--required">Required</span> Who Is [You] — paragraph about who you are, not a resume</div>
       <div class="anatomy-row"><span class="tag tag--required">Required</span> Quick Reference — email, voice, tools, calendar</div>
       <div class="anatomy-row"><span class="tag tag--required">Required</span> Key Constraint — the single biggest limitation on how/when you use Claude</div>
+      <div class="anatomy-row"><span class="tag tag--required">Required</span> How to Work With Me — ask before assuming (AskUserQuestion), clarify before complex tasks</div>
       <div class="anatomy-row"><span class="tag tag--required">Required</span> How [You] Works — communication style, decision-making, personality patterns</div>
       <div class="anatomy-row"><span class="tag tag--required">Required</span> Key Pain Points — what's broken (the problems you want solved)</div>
       <div class="anatomy-row"><span class="tag tag--required">Required</span> Memory File Routing — which files to read for which tasks</div>
@@ -1501,58 +1543,76 @@ Ask me any other questions that would give you helpful context — anything abou
       <div class="anatomy-row"><span class="tag tag--optional">Optional</span> Recurring Dates — monthly/yearly events Claude should know</div>
     </div>
 
-    <p class="small">The paste prompt above covers all the discovery questions Claude needs. It will ask you follow-up questions to fill any gaps.</p>
+    <div class="grid-3" style="margin-top: 24px;">
+      <div class="ve-card">
+        <div class="card-label card-label--sage">Pro tip</div>
+        <p class="small mb-0"><strong>Keep it under ~150 lines.</strong> Detailed info goes in memory files (the next section). CLAUDE.md is the index, not the encyclopedia.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--sage">Pro tip</div>
+        <p class="small mb-0"><strong>Be specific about what you hate.</strong> The "Things to Avoid" section is just as important as the rest. Telling Claude what NOT to do saves you from correcting the same mistakes over and over.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--sage">Pro tip</div>
+        <p class="small mb-0"><strong>Update it over time.</strong> Paste this into any session: <em>"Re-read CLAUDE.md and update it with anything new you've learned about me in this conversation."</em></p>
+      </div>
+    </div>
 
     <!-- PART 3: MEMORY FILES -->
     <div id="memory" class="sec-head sec-head--sage">Part 3</div>
     <h2>Memory Files</h2>
-    <p class="lead">Memory files are the deep-context layer. CLAUDE.md points to them, but the details live here. Claude reads only the relevant ones based on what you're asking it to do.</p>
+    <p class="lead">CLAUDE.md is the overview — it tells Claude the big picture. Memory files go deeper. Each one is a detailed reference on a single topic (how you write, who's in your life, your career context). Claude only reads the ones it needs for the task at hand.</p>
 
-    <div class="mockup">
-      <div class="mockup__titlebar">
-        <div class="mockup__dot"></div>
-        <div class="mockup__dot"></div>
-        <div class="mockup__dot"></div>
-        <div class="mockup__title">memory/</div>
-      </div>
-      <div class="mockup__tree">
-        <div style="margin-bottom: 8px;">
-          <div style="color: var(--text); font-weight: 500;">memory/</div>
-        </div>
-        <div class="mockup__tree-item">
-          <span style="color: var(--text);">writing-voice.md</span>
-          <span class="mockup__tree-label">← How you write</span>
-        </div>
-        <div class="mockup__tree-item">
-          <span style="color: var(--text);">people.md</span>
-          <span class="mockup__tree-label">← Who matters</span>
-        </div>
-        <div class="mockup__tree-item">
-          <span style="color: var(--text);">career-profile.md</span>
-          <span class="mockup__tree-label">← Your career context</span>
-        </div>
-        <div class="mockup__tree-item">
-          <span style="color: var(--text);">life-areas.md</span>
-          <span class="mockup__tree-label">← Your routine & goals</span>
-        </div>
-        <div class="mockup__tree-item">
-          <span style="color: var(--text);">glossary.md</span>
-          <span class="mockup__tree-label">← Your shorthand</span>
-        </div>
-      </div>
-      <div class="mockup__label">Each file is deep context on one topic</div>
+    <p>Without memory files, Claude forgets your preferences between sessions. With them, it already knows who the key people in your life are, how you actually sound in emails, and what your daily routine looks like — without you having to explain it every time.</p>
+
+    <div style="margin: 20px 0 24px;">
+      <p style="font-size: 15px; line-height: 1.7; margin-bottom: 0;"><strong>Start a new CoWork session for this section.</strong> The first prompt builds your most important memory file — your writing voice. This one takes the most time because you'll paste in real writing samples.</p>
     </div>
 
-    <p>Without memory files, Claude re-learns your preferences every session. With them, it already knows that "Nancy" is your boss, that you hate cottage cheese, and that you sign casual emails with "xx."</p>
+    <div class="callout callout--tip" style="margin-bottom: 24px;">
+      <div class="callout-title">Pro tip</div>
+      <p class="mb-0">Real writing samples beat descriptions. One real email teaches Claude more about your voice than a paragraph of adjectives. Have a few recent emails or messages ready to paste in before you start.</p>
+    </div>
 
-    <div class="pull-quote">Real writing samples beat descriptions. One real email teaches Claude more than a paragraph of adjectives.</div>
+    <h3>Core Memory Files</h3>
+    <p>Everyone should have these five. They cover the 80% of context Claude needs most often. <strong>Click any card to load its prompt below</strong>, then copy and paste it into CoWork.</p>
 
-    <div class="paste-prompt">
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 16px 0;">
+      <div class="ve-card memory-card memory-card--active" style="cursor: pointer; transition: box-shadow 0.2s; padding: 14px 16px; border: 2px solid var(--gold);" onclick="switchMemoryPrompt('writing-voice')">
+        <div class="card-label card-label--navy" style="margin-bottom: 4px;">Start here</div>
+        <h4 class="mt-0" style="font-size: 13px; margin-bottom: 4px;">writing-voice.md</h4>
+        <p class="small mb-0" style="font-size: 11px; line-height: 1.4;">How you actually sound — samples, quirks, banned words</p>
+      </div>
+      <div class="ve-card memory-card" style="cursor: pointer; transition: box-shadow 0.2s; padding: 14px 16px;" onclick="switchMemoryPrompt('people')">
+        <div class="card-label card-label--gold" style="margin-bottom: 4px;">Core</div>
+        <h4 class="mt-0" style="font-size: 13px; margin-bottom: 4px;">people.md</h4>
+        <p class="small mb-0" style="font-size: 11px; line-height: 1.4;">Key people in your work and personal life</p>
+      </div>
+      <div class="ve-card memory-card" style="cursor: pointer; transition: box-shadow 0.2s; padding: 14px 16px;" onclick="switchMemoryPrompt('life-areas')">
+        <div class="card-label card-label--gold" style="margin-bottom: 4px;">Core</div>
+        <h4 class="mt-0" style="font-size: 13px; margin-bottom: 4px;">life-areas.md</h4>
+        <p class="small mb-0" style="font-size: 11px; line-height: 1.4;">Routine, hobbies, goals, personality</p>
+      </div>
+      <div class="ve-card memory-card" style="cursor: pointer; transition: box-shadow 0.2s; padding: 14px 16px;" onclick="switchMemoryPrompt('career-profile')">
+        <div class="card-label card-label--gold" style="margin-bottom: 4px;">Core</div>
+        <h4 class="mt-0" style="font-size: 13px; margin-bottom: 4px;">career-profile.md</h4>
+        <p class="small mb-0" style="font-size: 11px; line-height: 1.4;">Career history, target roles, job search</p>
+      </div>
+      <div class="ve-card memory-card" style="cursor: pointer; transition: box-shadow 0.2s; padding: 14px 16px;" onclick="switchMemoryPrompt('glossary')">
+        <div class="card-label card-label--gold" style="margin-bottom: 4px;">Core</div>
+        <h4 class="mt-0" style="font-size: 13px; margin-bottom: 4px;">glossary.md</h4>
+        <p class="small mb-0" style="font-size: 11px; line-height: 1.4;">Acronyms, nicknames, jargon, shorthand</p>
+      </div>
+    </div>
+
+    <div class="paste-prompt" id="memory-prompt-box">
       <div class="paste-prompt__header">
-        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> <span id="memory-prompt-label">Paste this — writing-voice.md</span></span>
         <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
       </div>
-      <div class="paste-prompt__body">Let's build my memory files. These are the deep-context files that make you actually useful. We'll go through each one. Start by interviewing me for writing-voice.md.
+      <div class="paste-prompt__body" id="memory-prompt-body">First, read these files in my workspace: discovery-notes.md, GLOBAL-INSTRUCTIONS.md, and CLAUDE.md. Those have everything from my previous sessions.
+
+Let's build my memory files. These are the deep-context files that make you actually useful. We'll start with the most important one: writing-voice.md.
 
 For writing-voice.md, I need you to ask me:
 1. How would a friend describe the way I write? What's my vibe?
@@ -1565,210 +1625,22 @@ For writing-voice.md, I need you to ask me:
 After I answer, build the full writing-voice.md file: voice characteristics, professional writing style, casual style, "what my voice is NOT," banned words, and paste in my real writing samples with annotations about what to notice in each one. Show me the draft before saving to memory/writing-voice.md.
 
 Ask me anything else about how I communicate that would help you nail my voice — these questions are a starting point, not the whole picture.</div>
-      <div class="paste-prompt__note">This is the most important memory file. Real writing samples are the magic ingredient.</div>
+      <div class="paste-prompt__note" id="memory-prompt-note">This is the most important memory file. Real writing samples are the magic ingredient.</div>
     </div>
 
-    <h3>Core Memory Files</h3>
-    <p>Everyone should have these five. They cover the 80% of context Claude needs most often.</p>
-
-    <div class="grid-2">
-      <div class="ve-card ve-card--hero">
-        <div class="card-label card-label--navy">Most Important</div>
-        <h4 class="mt-0">writing-voice.md</h4>
-        <p class="small">How you actually sound. Voice characteristics, sign-off habits, punctuation quirks, banned words, and 3-5 REAL writing samples across different contexts. This is the magic ingredient for emails that sound like you.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--gold">Core</div>
-        <h4 class="mt-0">people.md</h4>
-        <p class="small">Key people at work and in your personal life. Enough context that Claude never has to ask "who is [name]?" Includes roles, relationships, and relevant details.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--gold">Core</div>
-        <h4 class="mt-0">life-areas.md</h4>
-        <p class="small">Your daily routine, fitness habits, hobbies, goals, living situation, personality patterns. The "whole person" context that makes Claude actually useful.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--gold">Core</div>
-        <h4 class="mt-0">career-profile.md</h4>
-        <p class="small">Education, current role, career progression, target roles, skills to develop, job search status. For anyone doing career work with Claude.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--gold">Core</div>
-        <h4 class="mt-0">glossary.md</h4>
-        <p class="small">Acronyms, nicknames, jargon, shorthand. Grows organically every time Claude gets a term wrong. The decoder ring for your life.</p>
-      </div>
-    </div>
-
-    <h3>Optional Memory Files</h3>
-    <p>Add these based on what's relevant to your life. Each one saves enormous time when it applies.</p>
-
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>File</th><th>Who Needs It</th><th>What Goes In It</th></tr></thead>
-        <tbody>
-          <tr><td><code>food-preferences.md</code></td><td>Picky eaters, people with dietary restrictions, anyone who wants restaurant or meal-planning help</td><td>Likes, dislikes, allergies, cuisines, cooking level</td></tr>
-          <tr><td><code>travel-preferences.md</code></td><td>Frequent travelers</td><td>Airline loyalty, class preference, hotel vs Airbnb, activity style, budget</td></tr>
-          <tr><td><code>ai-industry-watchlist.md</code></td><td>People tracking specific companies, technologies, or trends</td><td>Companies to follow, topics, key people in the space</td></tr>
-          <tr><td><code>health-fitness.md</code></td><td>Anyone who wants Claude to help with workout planning or health tracking</td><td>Current routine, goals, gym memberships, preferences</td></tr>
-          <tr><td><code>financial-goals.md</code></td><td>People using Claude for budgeting or financial literacy</td><td>Income context, goals, investment interests, budget categories</td></tr>
-          <tr><td><code>creative-projects.md</code></td><td>People with ongoing side projects or hobbies</td><td>Active projects, status, materials, inspiration sources</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h3>The Memory File Routing Table</h3>
-    <p>This goes in CLAUDE.md and tells Claude which files to read for which tasks. Without this, Claude either reads everything (slow) or guesses wrong (bad).</p>
-
-    <div class="code-file">
-      <div class="code-file__header">CLAUDE.md excerpt</div>
-      <pre class="code-file__body">## Key Memory Files (read the RIGHT ones based on the task)
-- **Writing an email?** → Read memory/writing-voice.md + memory/people.md
-- **Job search?** → Read memory/career-profile.md + memory/ai-watchlist.md
-- **Planning a trip?** → Read memory/travel-preferences.md + memory/food-preferences.md
-- **Life admin?** → Read memory/life-areas.md
-- **Need to know who someone is?** → Read memory/people.md
-- **General task?** → Skim memory/life-areas.md for context
-
-**Don't recognize a term?** → Check memory/glossary.md first, then ask.</pre>
-    </div>
-
-    <h3>Then Build the Rest</h3>
-    <p>After writing-voice.md, use these prompts to build each remaining memory file. One per session or batch them if you're on a roll.</p>
-
-    <div class="paste-prompt">
-      <div class="paste-prompt__header">
-        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this — people.md</span>
-        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
-      </div>
-      <div class="paste-prompt__body">Let's build my people.md file. Interview me one section at a time:
-
-1. WORK: Who are the key people I work with? For each person, get their name, role, my relationship with them, and what we work on together. Ask follow-ups until you have enough context that you'd never need to ask "who is [name]?" again.
-2. PERSONAL: Partner, family members, close friends. Names and relevant context.
-3. PROFESSIONAL NETWORK: Mentors, coaches, key contacts. How I know them and why they matter.
-4. NICKNAMES: Any shortened names or nicknames I use that you should recognize.
-
-Build the full people.md with sections for Work, Personal, and Professional Network. Show me the draft before saving to memory/people.md.
-
-If you think of other questions that would help you understand my relationships and who matters in my world, ask those too.</div>
-    </div>
-
-    <div class="paste-prompt">
-      <div class="paste-prompt__header">
-        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this — life-areas.md</span>
-        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
-      </div>
-      <div class="paste-prompt__body">Let's build my life-areas.md file. Interview me section by section:
-
-1. DAILY LIFE: Where do I live? Living situation? Walk me through a typical weekday and weekend routine in detail (wake time, commute, work schedule, evenings, bedtime).
-2. HEALTH & FITNESS: Current workout routine, memberships, goals, dietary habits.
-3. HOBBIES: Everything I do for fun. Include side projects, creative interests, guilty pleasures.
-4. FINANCE: General financial goals, budgeting approach, anything relevant (only what I'm comfortable sharing).
-5. LEARNING: How do I learn best? What am I currently learning? Courses, books, interests.
-6. LIFE ADMIN: What's the state of my life admin? Email situation, file organization, recurring tasks.
-7. GOALS: What are my goals for this year?
-8. PERSONALITY PATTERNS: Anything about how I'm wired that affects my productivity (perfectionism, avoidance, energy patterns).
-
-Build life-areas.md with all sections. Show me the draft before saving to memory/life-areas.md.
-
-Don't stop at just these categories — ask me about anything else in my life that would be useful context. The more complete this file is, the better you'll be at helping me.</div>
-    </div>
-
-    <div class="paste-prompt">
-      <div class="paste-prompt__header">
-        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this — career-profile.md</span>
-        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
-      </div>
-      <div class="paste-prompt__body">Let's build my career-profile.md. Interview me:
-
-1. EDUCATION: Where did I go to school? Any programs or experiences that set me apart?
-2. CURRENT ROLE: What's my current job? What does my day-to-day actually involve? What skills have I developed?
-3. CAREER PROGRESSION: Walk through my career history. Key roles, responsibilities, achievements.
-4. TARGET ROLES: Where am I trying to go? What does the dream role look like?
-5. JOB SEARCH STATUS: Am I actively searching, passively open, or just thinking ahead?
-6. SKILLS TO DEVELOP: What skills do I want to build?
-7. ONLINE PRESENCE: Do I have or want a professional presence online?
-
-Build career-profile.md. Show me the draft before saving to memory/career-profile.md.
-
-Ask me any other career-related questions that would help you give me better job search and professional advice down the road.</div>
-    </div>
-
-    <div class="paste-prompt">
-      <div class="paste-prompt__header">
-        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this — glossary.md</span>
-        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
-      </div>
-      <div class="paste-prompt__body">Let's build my glossary.md — the decoder ring for my life. Ask me:
-
-1. What acronyms or jargon do I use at work that you might not understand?
-2. What tools or systems do I reference by shorthand? (e.g., "the terminal," "the Hub," "PARA")
-3. Any nicknames for people that you should recognize?
-4. Any other terms, abbreviations, or shorthand I use regularly?
-
-Build glossary.md as a table format (Term | Meaning | Context) grouped by category (Work, Personal, Tools, Nicknames). This file will grow over time — every time you get a term wrong, I'll tell you to add it here. Save to memory/glossary.md.
-
-If you've noticed any terms or shorthand I've already used in our conversations that you're unsure about, ask me about those now too.</div>
-    </div>
+    <p class="small" style="margin-top: 8px;">You can stay in the same session and keep going through each file, or come back later — just paste the next prompt when you're ready.</p>
 
     <!-- PART 4: FOLDER STRUCTURE -->
     <div id="folders" class="sec-head sec-head--terra">Part 4</div>
     <h2>Folder Structure (PARA)</h2>
-    <p class="lead">PARA stands for Projects, Areas, Resources, Archive. It's the organizational backbone. Everything has a home.</p>
+    <p class="lead">You've built your instruction files and memory files. Now Claude needs to know where to put things — and where to find them.</p>
 
-    <div class="mockup">
-      <div class="mockup__titlebar">
-        <div class="mockup__dot"></div>
-        <div class="mockup__dot"></div>
-        <div class="mockup__dot"></div>
-        <div class="mockup__title">Workspace</div>
-      </div>
-      <div class="mockup__tree">
-        <div style="margin-bottom: 8px;">
-          <div style="color: var(--text); font-weight: 500;">CoWork Workspace/</div>
-        </div>
-        <div class="mockup__tree-item">
-          <span style="color: var(--text);">00-inbox/</span>
-        </div>
-        <div class="mockup__tree-item">
-          <span style="color: var(--text);">01-projects/</span>
-        </div>
-        <div class="mockup__tree-item">
-          <span style="color: var(--text);">02-areas/</span>
-        </div>
-        <div class="mockup__tree-item">
-          <span style="color: var(--text);">03-resources/</span>
-        </div>
-        <div class="mockup__tree-item">
-          <span style="color: var(--text);">04-archive/</span>
-        </div>
-        <div class="mockup__tree-item">
-          <span style="color: var(--text);">05-automations/</span>
-        </div>
-        <div class="mockup__tree-item">
-          <span style="color: var(--text);">memory/</span>
-        </div>
-        <div class="mockup__tree-item">
-          <span style="color: var(--text);">CLAUDE.md</span>
-        </div>
-      </div>
-      <div class="mockup__label">The PARA method: everything has a home</div>
-    </div>
+    <p>Without a folder structure, Claude dumps everything into one place. Your job search notes mix with your grocery lists. Files pile up with no logic. And when Claude needs to find something you made three weeks ago, it can't. A folder structure is like giving Claude a filing cabinet with labeled drawers — it always knows where things go and where to look.</p>
 
-    <div class="code-file">
-      <div class="code-file__header">Folder structure</div>
-      <pre class="code-file__body">00-inbox/          → Drop zone. Unsorted captures, raw ideas.
-01-projects/       → Active projects with goals and end dates.
-   [project-name]/ → One folder per project.
-02-areas/          → Ongoing life areas. No end date. (Career, health, etc.)
-   [area-name]/    → One folder per area.
-03-resources/      → Reference material. Templates, skills, research.
-   skills/         → Custom Claude skills (see Part 5).
-   templates/      → Reusable templates for common outputs.
-   skill-feedback/ → Logs of what worked per skill.
-04-archive/        → Done or dormant. Nothing gets deleted.
-05-automations/    → Automation configs and logs.
-   logs/           → Output logs from scheduled tasks.
-memory/            → Deep context files Claude reads.</pre>
+    <p>PARA is just a way to organize folders by purpose: active <strong style="color: var(--terracotta);">P</strong>rojects, ongoing <strong style="color: var(--terracotta);">A</strong>reas of your life, <strong style="color: var(--terracotta);">R</strong>esources you reference, and an <strong style="color: var(--terracotta);">A</strong>rchive for anything you're done with.</p>
+
+    <div style="margin: 20px 0 24px;">
+      <p style="font-size: 15px; line-height: 1.7; margin-bottom: 0;"><strong>Start a new CoWork session for this section.</strong> Copy the prompt below and paste it in. Claude will read your existing files and build the folder structure around them.</p>
     </div>
 
     <div class="paste-prompt">
@@ -1776,7 +1648,9 @@ memory/            → Deep context files Claude reads.</pre>
         <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
         <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
       </div>
-      <div class="paste-prompt__body">Let's set up my PARA folder structure. Before you create anything, ask me:
+      <div class="paste-prompt__body">First, read these files in my workspace: discovery-notes.md, GLOBAL-INSTRUCTIONS.md, and CLAUDE.md. Those have everything from my previous sessions.
+
+Let's set up my PARA folder structure. Before you create anything, ask me:
 
 1. What active PROJECTS do I have right now? (Things with a clear goal and end date — job search, a side project, an event, etc.)
 2. What ongoing AREAS of my life do I want you to help manage? (These never "end" — career development, health, finances, learning, life admin, etc.)
@@ -1797,109 +1671,289 @@ Create all folders and add a brief README.md in each project folder explaining w
 Ask me if there's anything else I'd want organized — side projects, collections, reference material — anything that should have a home in this system.</div>
     </div>
 
-    <!-- PART 5: SKILLS -->
-    <div id="skills" class="sec-head sec-head--rose">Part 5</div>
-    <h2>Custom Skills</h2>
-    <p class="lead">Skills are pre-built workflows that tell Claude exactly how to handle your most common tasks. They live in <code>03-resources/skills/[skill-name]/SKILL.md</code>.</p>
-
-    <div class="mockup">
-      <div class="mockup__titlebar">
-        <div class="mockup__dot"></div>
-        <div class="mockup__dot"></div>
-        <div class="mockup__dot"></div>
-        <div class="mockup__title">email-drafter/SKILL.md</div>
-      </div>
-      <div class="mockup__body">
-        <div style="font-size: 12px; line-height: 1.6; color: var(--text);">
-          <div style="color: var(--text-light); font-style: italic; margin-bottom: 8px;">---</div>
-          <div style="font-size: 11px; font-weight: 600; color: var(--text-dim); margin-bottom: 8px;">name: Email Drafter</div>
-          <div style="font-size: 11px; font-weight: 600; color: var(--text-dim); margin-bottom: 8px;">triggers: ["draft", "email"]</div>
-          <div style="color: var(--text-light); font-style: italic; margin-bottom: 12px;">---</div>
-
-          <div style="color: #6a994e; font-weight: 500; margin-bottom: 4px;">## Pre-flight Questions</div>
-          <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 8px;">- Who is this to? (boss, colleague, cold outreach?)</div>
-          <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 8px;">- What's the purpose?</div>
-
-          <div style="color: #6a994e; font-weight: 500; margin-bottom: 4px;">## Steps</div>
-          <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 4px;">1. Read writing-voice.md + people.md</div>
-          <div style="font-size: 12px; color: var(--text-dim);">2. Draft in your authentic voice...</div>
-        </div>
-      </div>
-      <div class="mockup__label">Skills are reusable workflows</div>
+    <div class="code-file">
+      <div class="code-file__header">What Claude will create — your folder structure</div>
+      <pre class="code-file__body">00-inbox/          → Drop zone. Unsorted captures, raw ideas.
+01-projects/       → Active projects with goals and end dates.
+   [project-name]/ → One folder per project.
+02-areas/          → Ongoing life areas. No end date. (Career, health, etc.)
+   [area-name]/    → One folder per area.
+03-resources/      → Reference material. Templates, skills, research.
+   skills/         → Custom Claude skills (see Part 7).
+   templates/      → Reusable templates for common outputs.
+   skill-feedback/ → Logs of what worked per skill.
+04-archive/        → Done or dormant. Nothing gets deleted.
+05-automations/    → Automation configs and logs.
+   logs/           → Output logs from scheduled tasks.
+memory/            → Deep context files Claude reads.</pre>
     </div>
 
-    <p>Without a skill, Claude handles every task from scratch. With a skill, it knows the exact steps, the right tone, which memory files to read, what format to use, and what mistakes to avoid.</p>
+    <!-- INTERMISSION -->
+    <div id="intermission" style="margin: 60px 0; padding: 48px 32px; background: var(--surface2); border-radius: 16px; text-align: center;">
+      <p style="font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 12px;">Intermission</p>
+      <h2 style="font-size: 28px; margin-bottom: 12px;">Go touch grass. Seriously.</h2>
+      <p style="font-size: 16px; color: var(--text-dim); max-width: 540px; margin: 0 auto 28px;">You just built a working second brain. Claude knows who you are, how you think, and where everything goes. That's the hard part — and it's done.</p>
 
-    <h3>Anatomy of a Skill File</h3>
-    <div class="anatomy">
-      <div class="anatomy-row"><span class="tag tag--required">Required</span> <strong>Frontmatter</strong> — name + description with trigger phrases and "do NOT use for" conditions</div>
-      <div class="anatomy-row"><span class="tag tag--required">Required</span> <strong>Context</strong> — why this skill exists and what problem it solves</div>
-      <div class="anatomy-row"><span class="tag tag--important">Important</span> <strong>Pre-flight questions</strong> — what Claude should ask before diving in</div>
-      <div class="anatomy-row"><span class="tag tag--required">Required</span> <strong>Execution steps</strong> — the step-by-step process</div>
-      <div class="anatomy-row"><span class="tag tag--required">Required</span> <strong>Output format</strong> — exact template for the output</div>
-      <div class="anatomy-row"><span class="tag tag--important">Important</span> <strong>Key references</strong> — which memory files to read</div>
-      <div class="anatomy-row"><span class="tag tag--important">Important</span> <strong>Self-improvement loop</strong> — how the skill learns from corrections</div>
-      <div class="anatomy-row"><span class="tag tag--optional">Optional</span> <strong>Common mistakes</strong> — specific anti-patterns to avoid</div>
-      <div class="anatomy-row"><span class="tag tag--optional">Optional</span> <strong>Example</strong> — sample input/output showing the skill in action</div>
+      <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 28px;">
+        <span style="background: var(--gold-dim); color: var(--gold); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;">Discovery Notes ✓</span>
+        <span style="background: var(--navy-dim); color: var(--navy); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;">Global Instructions ✓</span>
+        <span style="background: var(--gold-dim); color: var(--gold); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;">CLAUDE.md ✓</span>
+        <span style="background: var(--sage-dim); color: var(--sage); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;">Memory Files ✓</span>
+        <span style="background: var(--terracotta-dim); color: var(--terracotta); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;">Folder Structure ✓</span>
+      </div>
+
+      <p style="font-size: 15px; line-height: 1.7; max-width: 520px; margin: 0 auto; color: var(--text);">Everything from here on is optional — but it's where things get really fun. These sections build on the foundation you just created. Come back whenever you're ready.</p>
     </div>
 
-    <h3>Skills Everyone Should Consider</h3>
-    <div class="grid-2">
-      <div class="ve-card">
-        <div class="card-label card-label--navy">Communication</div>
-        <h4 class="mt-0">Email Drafter</h4>
-        <p class="small mb-0">Writes emails in your voice. Reads writing-voice.md and people.md. Different templates for boss, colleague, friend, cold outreach.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--gold">Productivity</div>
-        <h4 class="mt-0">Inbox Triage</h4>
-        <p class="small mb-0">Scans email, prioritizes by tiers (needs response, FYI, skip). Offers to draft quick responses. Speed over perfection.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--sage">Research</div>
-        <h4 class="mt-0">Research Brief</h4>
-        <p class="small mb-0">Deep research on a topic, company, or person. Structured output with findings, implications, and next steps.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--rose">Planning</div>
-        <h4 class="mt-0">Trip Planner</h4>
-        <p class="small mb-0">Full trip plans respecting your specific preferences — airline status, dietary needs, fitness routine, budget.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--terra">Review</div>
-        <h4 class="mt-0">Weekly Review</h4>
-        <p class="small mb-0">End-of-week recap: what got done, what's stalled, memory file refresh, system health check, next week priorities.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--navy">Career</div>
-        <h4 class="mt-0">Interview Prep</h4>
-        <p class="small mb-0">Company-specific cheat sheet (60-second pitch, STAR stories, questions to ask, landmines) + mock Q&amp;A practice.</p>
-      </div>
+    <!-- PART 5: SESSION CONTINUITY -->
+    <div id="continuity" class="sec-head sec-head--gold">Part 5</div>
+    <h2>Session Continuity</h2>
+    <p class="lead">You've got a second brain. But right now, every time you start a new session, Claude doesn't know what happened in the last one. These two simple files fix that — they're the handoff notes (like leaving a note for the next person who sits down at your desk) that keep everything connected.</p>
+
+    <div style="margin: 20px 0 24px;">
+      <p style="font-size: 15px; line-height: 1.7; margin-bottom: 0;"><strong>Start a new CoWork session for this section.</strong> Copy the prompt below and paste it in. Claude will set up the files that let it pick up where it left off between sessions.</p>
     </div>
-
-    <h3>The Self-Improvement Loop</h3>
-    <div class="callout callout--key">
-      <div class="callout-title">Don't skip this</div>
-      <p>Every skill should have a feedback mechanism. <strong>Before running:</strong> check the skill-feedback file for past corrections. <strong>After running:</strong> collect feedback. <strong>When corrected:</strong> (a) fix the output, (b) log the feedback with date, (c) if there's a pattern, propose an update to the SKILL.md itself.</p>
-      <p class="mb-0">This means your skills get better every time something goes wrong. After a few weeks, mediocre skills become excellent ones.</p>
-    </div>
-
-    <h3>Composable Skill Chains</h3>
-    <p>Skills can be chained for multi-step workflows. Define these in CLAUDE.md:</p>
-    <ul class="disc">
-      <li><strong>Research → Email:</strong> Research a company, then draft outreach referencing specific findings</li>
-      <li><strong>Triage → Draft:</strong> Scan inbox, identify emails needing responses, draft replies</li>
-      <li><strong>Research → Interview Prep:</strong> Research, then generate cheat sheet + mock Q&A</li>
-    </ul>
-
-    <h3>Build Your First Skill</h3>
 
     <div class="paste-prompt">
       <div class="paste-prompt__header">
         <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
         <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
       </div>
-      <div class="paste-prompt__body">I want to build my first custom skill. Before we start, interview me to figure out which skill to build first:
+      <div class="paste-prompt__body">First, read these files in my workspace: discovery-notes.md, GLOBAL-INSTRUCTIONS.md, and CLAUDE.md. Those have everything from my previous sessions.
+
+Set up my session continuity system. Create these two files:
+
+1. session-log.md — A shift handover file. The template should have sections for: session date, session type, what happened, completed items, key decisions made, pending items, files modified, and "next session could" suggestions. Start with an entry for today's session summarizing everything we've set up so far.
+
+2. TASKS.md — A task tracker with sections: Active, Waiting On, Someday, Done. Populate it based on anything I've mentioned wanting to do during our setup conversations.
+
+Then update CLAUDE.md to include Session Continuity instructions:
+- "At the END of every session: Write a shift handover to session-log.md"
+- "At the START of every session: Read session-log.md before beginning any work"
+
+Show me both files before saving.
+
+If you have other ideas for how to maintain continuity between our sessions — beyond what's listed here — suggest them.</div>
+    </div>
+
+    <div class="grid-2">
+      <div class="ve-card">
+        <div class="card-label card-label--gold">What it creates</div>
+        <h4 class="mt-0">session-log.md</h4>
+        <p class="small">The note Claude leaves for itself between sessions. At the end of every session, Claude writes what happened, what's pending, and any decisions made. At the start of the next session, Claude reads it and picks up where it left off.</p>
+        <p class="small mb-0"><strong>Sections:</strong> Date, session type, what happened, completed items, key decisions, pending items, files modified, what next session could do.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--gold">What it creates</div>
+        <h4 class="mt-0">TASKS.md</h4>
+        <p class="small mb-0">A simple, always-current task list. Claude reads and writes to it. Sections: Active, Waiting On, Someday, Done. Check anytime by asking "what's on my plate?"</p>
+      </div>
+    </div>
+
+    <p style="font-size: 13px; color: var(--text-dim);">What Claude will add to your CLAUDE.md:</p>
+    <div class="code-file">
+      <div class="code-file__header">CLAUDE.md excerpt (added automatically)</div>
+      <pre class="code-file__body">## Session Continuity
+- At the END of every session: Write a shift handover to session-log.md
+- At the START of every session: Read session-log.md before beginning work</pre>
+    </div>
+
+    <!-- PART 6: CONNECTORS -->
+    <div id="connectors" class="sec-head sec-head--sage">Part 6</div>
+    <h2>Connectors</h2>
+    <p class="lead">You just set up session continuity — Claude can pick up where it left off. Now let's give it access to the tools you already use every day. When Claude can read your email, check your calendar, and search your files, it stops being a smart assistant and starts being a real teammate.</p>
+
+    <div class="callout callout--key" style="margin: 20px 0;">
+      <div class="callout-title">What's a connector?</div>
+      <p>A <strong>connector</strong> is how Claude gets permission to access an outside service — like Gmail, Google Calendar, or Notion. Think of it like giving a new coworker login access to your tools on their first day. Once connected, Claude can read your emails, check your schedule, search your files, and more — without you having to copy-paste anything into the chat.</p>
+      <p class="mb-0">You connect these through CoWork's settings, not through a chat prompt. Claude can't connect them for you — you have to grant access yourself. But once you do, every session after that has access automatically.</p>
+    </div>
+
+    <h3>How to Connect a Tool</h3>
+    <p>This happens in CoWork's settings, outside of any chat session. Here's the flow:</p>
+
+    <div class="anatomy">
+      <div class="anatomy-row"><span class="tag tag--required">Step 1</span> Open Claude Desktop and click <strong>CoWork</strong> at the top</div>
+      <div class="anatomy-row"><span class="tag tag--required">Step 2</span> Click the <strong>gear icon</strong> (settings) — it's at the bottom left of the CoWork panel</div>
+      <div class="anatomy-row"><span class="tag tag--required">Step 3</span> Find the <strong>Connectors</strong> section — you'll see a list of available services</div>
+      <div class="anatomy-row"><span class="tag tag--required">Step 4</span> Click <strong>Connect</strong> next to the service you want (e.g., Gmail)</div>
+      <div class="anatomy-row"><span class="tag tag--required">Step 5</span> A browser window opens — <strong>sign in</strong> and grant permission like you would for any app</div>
+      <div class="anatomy-row"><span class="tag tag--required">Step 6</span> Done! The service now shows as connected. Claude can access it in every future session.</div>
+    </div>
+
+    <div style="display: flex; gap: 16px; margin: 28px 0;">
+      <div style="flex: 1; min-width: 0;">
+        <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+          <img src="images/connectors-1.png" alt="Connector setup — steps 1-2" style="width: 100%; display: block;">
+        </div>
+        <p class="small" style="text-align: center; color: var(--text-dim); margin-top: 8px;">Steps 1–2</p>
+      </div>
+      <div style="flex: 1; min-width: 0;">
+        <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+          <img src="images/connectors-2.png" alt="Connector setup — steps 3-4" style="width: 100%; display: block;">
+        </div>
+        <p class="small" style="text-align: center; color: var(--text-dim); margin-top: 8px;">Steps 3–4</p>
+      </div>
+    </div>
+
+    <h3>Which Connectors to Start With</h3>
+    <p>There are a lot of connectors available, but don't try to connect everything at once. Start with the ones that give you the most value immediately. You can always add more later.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Service</th><th>What It Unlocks</th><th>Priority</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Gmail</strong></td><td>Inbox triage, email drafting, morning briefings, thread search</td><td style="color: var(--gold); font-weight: 600;">Start here</td></tr>
+          <tr><td><strong>Google Calendar</strong></td><td>Meeting prep, daily agenda, scheduling awareness</td><td style="color: var(--gold); font-weight: 600;">Start here</td></tr>
+          <tr><td><strong>Google Drive</strong></td><td>Document access, file search, shared doc references</td><td style="color: var(--gold); font-weight: 600;">Start here</td></tr>
+          <tr><td><strong>Notion</strong></td><td>Database access, quick capture from phone, cross-platform sync</td><td>Great if you use it</td></tr>
+          <tr><td><strong>Slack</strong></td><td>Channel summaries, message search, catch up on threads</td><td>Great if you use it</td></tr>
+          <tr><td><strong>GitHub / Linear</strong></td><td>Issue tracking, PR reviews, project management</td><td>If you're technical</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout--tip" style="margin: 20px 0; border-left: 4px solid var(--sage); background: var(--sage-dim); padding: 16px 20px;">
+      <div class="callout-title" style="color: var(--sage);">More connectors are being added all the time</div>
+      <p class="mb-0" style="font-size: 14px;">This isn't the full list — CoWork regularly adds new connectors. Check the settings page to see what's currently available. If you use a tool and it's not listed, it might show up soon.</p>
+    </div>
+
+    <h3>After Connecting: Verify With Claude</h3>
+    <p>Once you've connected your tools in settings, open a new CoWork session and paste the prompt below. Claude will verify everything is working and update your system files.</p>
+
+    <div class="callout callout--tip" style="margin: 0 0 20px; border-left: 4px solid var(--gold); background: var(--gold-dim); padding: 16px 20px;">
+      <div class="callout-title" style="color: var(--gold);">Customize step 2 for your connectors</div>
+      <p class="mb-0" style="font-size: 14px;">The prompt below includes example verification tasks for Gmail, Calendar, Drive, and Notion. <strong>Edit that part</strong> to match whatever you actually connected. The idea is simple: give Claude a small task that would only work if the connector is live. Connected Slack? Ask it to pull recent messages from a channel. Connected Spotify? Ask it what's currently playing. Any quick task that proves the connection works.</p>
+    </div>
+
+    <div class="paste-prompt">
+      <div class="paste-prompt__header">
+        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
+        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="paste-prompt__body">First, read these files in my workspace: discovery-notes.md, GLOBAL-INSTRUCTIONS.md, and CLAUDE.md. Those have everything from my previous sessions.
+
+I just connected some tools through CoWork settings. Let's verify everything is working and update my system.
+
+1. Check which connectors are active — can you access my Gmail? Google Calendar? Google Drive? Notion? Any others?
+2. For each connected tool, do a quick test:
+   - Gmail: Pull my 3 most recent emails and show me the subjects
+   - Calendar: Show me what's on my calendar this week
+   - Drive: Search for a recent file I've worked on
+   - Notion: List my workspaces or a recent page
+   - Any others: Do a similar quick check
+3. Tell me which ones worked and which ones didn't
+4. Update the "Connected Tools" section in CLAUDE.md to list what's connected and what each one is used for
+5. If any connections failed, walk me through fixing them
+
+Also ask me: are there any other tools or services I use daily that might be worth connecting? I might not think of everything on my own.</div>
+    </div>
+
+    <!-- PART 6 BONUS: QUICK CAPTURE -->
+    <details id="quickcapture" style="margin-top: 48px; background: var(--surface2); border-radius: 16px; border: 1px solid var(--border);">
+      <summary style="padding: 24px 32px; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; -webkit-user-select: none; user-select: none;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="background: var(--gold-dim); color: var(--gold); padding: 4px 12px; border-radius: 20px; font-family: var(--font-mono); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px;">Bonus</span>
+          <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim);">Level Up</span>
+        </div>
+        <span style="font-family: var(--font-serif); font-size: 20px; font-weight: 900;">Quick Capture Bridge</span>
+        <span style="font-size: 13px; color: var(--text-dim); margin-left: auto;">click to expand</span>
+      </summary>
+      <div style="padding: 0 32px 28px;">
+      <p style="font-size: 15px; line-height: 1.7; color: var(--text-dim); margin-bottom: 20px;">This is for people who want to send tasks to Claude when they're away from their computer — like from your phone during the day. It's totally optional, and your system works great without it. But if you want that "fire off a task on the subway and come home to finished work" workflow, this is how.</p>
+
+      <div class="callout callout--warn" style="margin: 0 0 20px;">
+        <div class="callout-title">Important: your laptop needs to stay open</div>
+        <p class="mb-0" style="font-size: 14px;">For quick capture to work, Claude Desktop just needs to be open on your laptop — you don't have to be sitting there or watching it. Leave it running in the background, go about your day, and send tasks from your phone whenever. Claude handles them automatically. The only thing that breaks it is if your laptop is closed or Claude Desktop is quit entirely.</p>
+      </div>
+
+      <p style="font-size: 15px; line-height: 1.7; margin-bottom: 8px;">There are a few ways to set up quick capture. Pick the one that fits your setup best:</p>
+      <p style="font-size: 14px; line-height: 1.7; color: var(--text-dim); margin-bottom: 20px;"><strong>How this works:</strong> Click one of the three options below. A ready-to-paste prompt will appear underneath it. Copy that prompt, open a new CoWork session, and paste it in. Claude will walk you through the rest.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 16px 0;">
+        <div class="ve-card memory-card capture-card capture-card--active" style="cursor: pointer; transition: box-shadow 0.2s; padding: 14px 16px; border: 2px solid var(--gold);" onclick="switchCapturePrompt('dispatch')">
+          <div class="card-label card-label--gold" style="margin-bottom: 4px;">Recommended</div>
+          <h4 class="mt-0" style="font-size: 13px; margin-bottom: 4px;">Dispatch</h4>
+          <p class="small mb-0" style="font-size: 11px; line-height: 1.4;">Send tasks straight from your phone to Claude. Built into CoWork — everyone gets it.</p>
+        </div>
+        <div class="ve-card memory-card capture-card" style="cursor: pointer; transition: box-shadow 0.2s; padding: 14px 16px;" onclick="switchCapturePrompt('notion')">
+          <div class="card-label card-label--navy" style="margin-bottom: 4px;">If you use Notion</div>
+          <h4 class="mt-0" style="font-size: 13px; margin-bottom: 4px;">Notion Hub</h4>
+          <p class="small mb-0" style="font-size: 11px; line-height: 1.4;">Drop notes in a Notion page from your phone. Claude checks it each session.</p>
+        </div>
+        <div class="ve-card memory-card capture-card" style="cursor: pointer; transition: box-shadow 0.2s; padding: 14px 16px;" onclick="switchCapturePrompt('apple-notes')">
+          <div class="card-label card-label--sage" style="margin-bottom: 4px;">iPhone users</div>
+          <h4 class="mt-0" style="font-size: 13px; margin-bottom: 4px;">Apple Notes</h4>
+          <p class="small mb-0" style="font-size: 11px; line-height: 1.4;">Jot notes on your phone. Claude reads them via the Apple Notes connector.</p>
+        </div>
+      </div>
+
+      <div class="paste-prompt" id="capture-prompt-box">
+        <div class="paste-prompt__header">
+          <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> <span id="capture-prompt-label">Paste this — Dispatch setup</span></span>
+          <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="paste-prompt__body" id="capture-prompt-body">First, read these files in my workspace: discovery-notes.md, GLOBAL-INSTRUCTIONS.md, and CLAUDE.md. Those have everything from my previous sessions.
+
+I want to set up Dispatch so I can send tasks to you from my phone.
+
+Walk me through the setup:
+1. How do I find and pair Dispatch? (I need step-by-step instructions — I haven't done this before.)
+2. Once paired, what kinds of things can I send? (Tasks, research requests, quick notes, links?)
+3. What are the limitations I should know about? (Does my laptop need to be open? How fast do tasks get picked up?)
+
+After we get it working:
+- Add a "Dispatch" section to CLAUDE.md explaining that I use it to send tasks from my phone
+- Include any tips for writing good Dispatch messages (so Claude understands what I want)
+- Update CLAUDE.md with the setup
+
+Also ask me: what kinds of things would I most likely send from my phone during the day? That will help you give me better advice on how to use it.</div>
+        <div class="paste-prompt__note" id="capture-prompt-note">Dispatch is built into CoWork — no extra apps needed. Just pair your phone with a QR code and start sending tasks.</div>
+      </div>
+
+      <p class="small" style="margin-top: 12px; color: var(--text-dim);">These aren't the only options — any app that Claude has a connector for can work as a capture tool. The key idea is: drop something in from your phone, and Claude processes it when you're back at your computer.</p>
+      </div>
+    </details>
+
+    <!-- PART 7: SKILLS -->
+    <div id="skills" class="sec-head sec-head--rose">Part 7</div>
+    <h2>Custom Skills</h2>
+    <p class="lead">You've connected your tools — Claude can now read your email, check your calendar, and search your files. Now let's teach it HOW to do specific tasks the way you want them done.</p>
+
+    <div class="callout callout--key" style="margin: 20px 0;">
+      <div class="callout-title">What's a skill?</div>
+      <p>A <strong>skill</strong> is a set of instructions that lives in a file in your workspace. Think of it like a recipe card — it tells Claude exactly how to do a specific task: what steps to follow, what tone to use, which of your memory files to read, what format the output should be in, and what mistakes to avoid.</p>
+      <p>Skills take what Claude already knows about you — your voice, your preferences, your routine — and turn it into a repeatable workflow. Like the difference between telling a new hire "figure out how to write emails" vs. handing them a style guide and three examples.</p>
+      <p class="mb-0">You don't write the skill yourself — Claude builds it for you based on a conversation. You just answer questions about how you want things done, review the draft, and approve it.</p>
+    </div>
+
+    <div class="callout callout--tip" style="margin: 0 0 20px; border-left: 4px solid var(--sage); background: var(--sage-dim); padding: 16px 20px;">
+      <div class="callout-title" style="color: var(--sage);">Skills are powerful even without connectors</div>
+      <p class="mb-0" style="font-size: 14px;">You don't need Gmail, Calendar, or any connected tools for skills to work. Claude already knows your writing voice, your preferences, your career context, and your daily routine from your memory files — that's enough to draft emails, do research, plan trips, and more. Connected tools make skills <em>even more</em> powerful, but a skill without connectors is still far better than no skill at all.</p>
+    </div>
+
+    <div style="margin: 20px 0 24px;">
+      <p style="font-size: 15px; line-height: 1.7; margin-bottom: 0;"><strong>Start a new CoWork session for this section.</strong> Copy the prompt below and paste it in. Claude will interview you to figure out which skill to build first, then build it with you.</p>
+    </div>
+
+    <!-- TABBED SKILL PROMPT BOX -->
+    <div class="paste-prompt" id="skill-prompt-box">
+      <div class="paste-prompt__header" style="flex-wrap: wrap; gap: 0;">
+        <div style="display: flex; gap: 0; width: 100%; border-bottom: 1px solid var(--border);">
+          <button class="skill-tab skill-tab--active" onclick="switchSkillTab('prompt')" style="flex: 1; padding: 12px 16px; background: var(--surface2); border: none; border-bottom: 2px solid var(--gold); font-family: var(--font-mono); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text); cursor: pointer; transition: all 0.2s;">Build Prompt</button>
+          <button class="skill-tab" onclick="switchSkillTab('ideas')" style="flex: 1; padding: 12px 16px; background: transparent; border: none; border-bottom: 2px solid transparent; font-family: var(--font-mono); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); cursor: pointer; transition: all 0.2s;">Skill Starter Ideas</button>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 12px 16px 0;">
+          <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> <span id="skill-prompt-label">Paste this into CoWork</span></span>
+          <button class="paste-prompt__copy" onclick="copyPrompt(this)" id="skill-copy-btn">Copy</button>
+        </div>
+      </div>
+
+      <!-- TAB 1: BUILD PROMPT -->
+      <div id="skill-tab-prompt">
+        <div class="paste-prompt__body">First, read these files in my workspace: discovery-notes.md, GLOBAL-INSTRUCTIONS.md, and CLAUDE.md. Those have everything from my previous sessions.
+
+I want to build my first custom skill. Before we start, interview me to figure out which skill to build first:
 
 1. What tasks do I do repeatedly that follow a similar pattern each time?
 2. What tasks do you currently do "okay" but not great for me?
@@ -1916,50 +1970,184 @@ Based on my answers, recommend which skill to build first (pick the one with the
 Show me the draft before saving. I want to review it.
 
 Ask me anything else about how I want this task done — the more detail you get from me now, the better the skill will perform every time it runs.</div>
-      <div class="paste-prompt__note">Start with ONE skill. Get it right, then add more. Don't try to build 5 at once.</div>
+        <div class="paste-prompt__note">Start with ONE skill. Get it right, then add more. Don't try to build 5 at once.</div>
+      </div>
+
+      <!-- TAB 2: SKILL STARTER IDEAS -->
+      <div id="skill-tab-ideas" style="display: none;">
+        <div style="padding: 16px 20px 8px;">
+          <p class="small" style="color: var(--text-dim); margin: 0 0 12px;">Already know what you want to build? Hit "Copy" on any idea below — it copies a complete, ready-to-paste prompt with all the instructions Claude needs to build the skill with you.</p>
+        </div>
+        <div style="padding: 0 20px 20px; display: flex; flex-direction: column; gap: 12px;">
+
+          <div class="ve-card" style="padding: 16px; margin: 0;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="card-label card-label--navy" style="margin: 0;">Communication</span>
+                <h4 class="mt-0 mb-0" style="font-size: 16px;">Email Drafter</h4>
+              </div>
+              <button class="paste-prompt__copy" onclick="copySkillIdea(this)" style="font-size: 11px; padding: 4px 10px;">Copy</button>
+            </div>
+            <p class="small" style="margin-bottom: 8px;">Writes emails in your actual voice — not generic AI voice. Reads your writing samples and knows who you're writing to (boss, colleague, friend, cold outreach) so it adjusts tone automatically.</p>
+            <div class="skill-idea-text" style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 13px; line-height: 1.6; font-family: var(--font-mono); color: var(--text-dim);">I want to build an Email Drafter skill. It should write emails in my real voice (read my writing-voice.md for samples). It needs to handle different contexts: writing to my boss, colleagues, friends, and cold outreach — each with a different tone. It should read people.md to know who I'm writing to. Ask me who the email is for and the key points I want to hit, then draft it. Always let me review before sending.</div>
+          </div>
+
+          <div class="ve-card" style="padding: 16px; margin: 0;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="card-label card-label--gold" style="margin: 0;">Productivity</span>
+                <h4 class="mt-0 mb-0" style="font-size: 16px;">Inbox Triage</h4>
+              </div>
+              <button class="paste-prompt__copy" onclick="copySkillIdea(this)" style="font-size: 11px; padding: 4px 10px;">Copy</button>
+            </div>
+            <p class="small" style="margin-bottom: 8px;">Scans your email and sorts it into tiers: needs a response, FYI only, and skip. Offers to draft quick replies for the urgent ones. Prioritizes speed over perfection — the goal is inbox zero, not inbox art.</p>
+            <div class="skill-idea-text" style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 13px; line-height: 1.6; font-family: var(--font-mono); color: var(--text-dim);">I want to build an Inbox Triage skill. It should scan my recent emails (via Gmail connector) and sort them into three tiers: (1) needs a response from me, (2) FYI / read later, (3) skip / archive. For tier 1, offer to draft quick replies in my voice. Prioritize speed — I'd rather get through 20 emails in 10 minutes than craft 3 perfect responses. Show me the triage results as a simple list I can act on.</div>
+          </div>
+
+          <div class="ve-card" style="padding: 16px; margin: 0;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="card-label card-label--sage" style="margin: 0;">Research</span>
+                <h4 class="mt-0 mb-0" style="font-size: 16px;">Research Brief</h4>
+              </div>
+              <button class="paste-prompt__copy" onclick="copySkillIdea(this)" style="font-size: 11px; padding: 4px 10px;">Copy</button>
+            </div>
+            <p class="small" style="margin-bottom: 8px;">Deep research on a topic, company, or person. Gives you a structured brief with key findings, what it means for you, and clear next steps — not a wall of text you have to parse yourself.</p>
+            <div class="skill-idea-text" style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 13px; line-height: 1.6; font-family: var(--font-mono); color: var(--text-dim);">I want to build a Research Brief skill. When I give you a topic, company, or person to research, produce a structured brief: key facts, recent news, why it matters to me (check my career-profile.md and current projects for context), and specific next steps I can take. Cite your sources with dates. Keep it concise — I want to be informed in 5 minutes, not read a thesis.</div>
+          </div>
+
+          <div class="ve-card" style="padding: 16px; margin: 0;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="card-label card-label--rose" style="margin: 0;">Planning</span>
+                <h4 class="mt-0 mb-0" style="font-size: 16px;">Trip Planner</h4>
+              </div>
+              <button class="paste-prompt__copy" onclick="copySkillIdea(this)" style="font-size: 11px; padding: 4px 10px;">Copy</button>
+            </div>
+            <p class="small" style="margin-bottom: 8px;">Plans trips that actually match how you travel — your airline status, dietary restrictions, fitness routine, and budget. No generic "top 10 restaurants" lists. Real recommendations based on what you like.</p>
+            <div class="skill-idea-text" style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 13px; line-height: 1.6; font-family: var(--font-mono); color: var(--text-dim);">I want to build a Trip Planner skill. It should read my travel-preferences.md and food-preferences.md before planning anything. I want it to handle flights (using my airline status and preferences), hotels, restaurants (I'm picky — take my food preferences seriously), and daily itineraries. Ask me about the destination, dates, budget, and trip vibe before building the plan. Include a packing list and fitness options.</div>
+          </div>
+
+          <div class="ve-card" style="padding: 16px; margin: 0;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="card-label card-label--terra" style="margin: 0;">Review</span>
+                <h4 class="mt-0 mb-0" style="font-size: 16px;">Weekly Review</h4>
+              </div>
+              <button class="paste-prompt__copy" onclick="copySkillIdea(this)" style="font-size: 11px; padding: 4px 10px;">Copy</button>
+            </div>
+            <p class="small" style="margin-bottom: 8px;">End-of-week checkpoint that actually keeps you on track. Summarizes what got done, flags what's stalled, refreshes your memory files, and sets up next week — so Monday-you doesn't start from scratch.</p>
+            <div class="skill-idea-text" style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 13px; line-height: 1.6; font-family: var(--font-mono); color: var(--text-dim);">I want to build a Weekly Review skill. Every Friday, it should: (1) summarize what I accomplished this week, (2) flag stalled tasks or projects, (3) review and suggest updates to my memory files based on what changed, (4) do a system health check on my skills and automations, and (5) set priorities for next week. Read my TASKS.md, session-log.md, and project folders to do this. Keep the output scannable — I want to review my week in 5 minutes.</div>
+          </div>
+
+          <div class="ve-card" style="padding: 16px; margin: 0;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="card-label card-label--navy" style="margin: 0;">Career</span>
+                <h4 class="mt-0 mb-0" style="font-size: 16px;">Interview Prep</h4>
+              </div>
+              <button class="paste-prompt__copy" onclick="copySkillIdea(this)" style="font-size: 11px; padding: 4px 10px;">Copy</button>
+            </div>
+            <p class="small" style="margin-bottom: 8px;">Company-specific cheat sheet with a 60-second pitch, STAR stories mapped to their values, smart questions to ask, and landmines to avoid. Then runs a mock interview with coaching feedback.</p>
+            <div class="skill-idea-text" style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 13px; line-height: 1.6; font-family: var(--font-mono); color: var(--text-dim);">I want to build an Interview Prep skill. Given a company name, it should: (1) research the company (or use an existing research brief if I have one), (2) build a one-page cheat sheet — 60-second pitch, 3 STAR stories tailored to their values, talking points, questions to ask, and landmines to avoid, (3) read my career-profile.md to map my experience to what they care about. After the cheat sheet, offer to run a mock interview with realistic questions and coaching feedback.</div>
+          </div>
+
+        </div>
+      </div>
     </div>
 
-    <!-- PART 6: AUTOMATIONS -->
-    <div id="automations" class="sec-head sec-head--navy">Part 6</div>
+    <div class="callout callout--tip" style="margin: 0 0 20px; border-left: 4px solid var(--sage); background: var(--sage-dim); padding: 16px 20px;">
+      <div class="callout-title" style="color: var(--sage);">Where do skills live?</div>
+      <p class="mb-0" style="font-size: 14px;">Claude saves your skills to <code>03-resources/skills/</code> in your workspace folder. Each skill gets its own subfolder with a SKILL.md file inside. You don't need to create anything manually — Claude handles all of this when you run the prompt above.</p>
+    </div>
+
+    <!-- USING YOUR SKILLS -->
+    <div class="callout callout--key" style="margin: 24px 0;">
+      <div class="callout-title">Using your skills</div>
+      <p>Once a skill is built, you don't need to do anything special to activate it. Just talk to Claude like you normally would — the trigger phrases built into the skill file handle the rest. For example:</p>
+      <div style="display: flex; flex-direction: column; gap: 8px; margin: 12px 0;">
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-size: 14px;"><strong style="color: var(--text-dim); margin-right: 6px;">You:</strong> "Draft an email to Nancy about the Q2 budget update"</div>
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-size: 14px;"><strong style="color: var(--text-dim); margin-right: 6px;">You:</strong> "Triage my inbox"</div>
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-size: 14px;"><strong style="color: var(--text-dim); margin-right: 6px;">You:</strong> "Research Anthropic for me"</div>
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-size: 14px;"><strong style="color: var(--text-dim); margin-right: 6px;">You:</strong> "Prep me for my interview at Notion on Thursday"</div>
+      </div>
+      <p class="mb-0">Claude recognizes what you're asking, finds the right skill, and follows the process you defined — your voice, your format, your preferences. No special commands or syntax required.</p>
+    </div>
+
+    <!-- ANATOMY OF A SKILL FILE -->
+    <details style="margin: 24px 0; background: var(--surface2); border-radius: 16px; border: 1px solid var(--border);">
+      <summary style="padding: 20px 24px; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; -webkit-user-select: none; user-select: none;">
+        <span style="font-family: var(--font-serif); font-size: 18px; font-weight: 900;">Anatomy of a Skill File</span>
+        <span style="font-size: 13px; color: var(--text-dim); margin-left: auto;">click to expand</span>
+      </summary>
+      <div style="padding: 0 24px 24px;">
+      <p class="small" style="color: var(--text-dim); margin-bottom: 16px;">You don't need to memorize any of this — Claude builds the entire skill file for you. This is just so you know what's inside if you ever want to peek under the hood or tweak something.</p>
+      <div class="anatomy">
+        <div class="anatomy-row"><span class="tag tag--required">Required</span> <strong>Frontmatter</strong> — name + description with trigger phrases and "do NOT use for" conditions</div>
+        <div class="anatomy-row"><span class="tag tag--required">Required</span> <strong>Context</strong> — why this skill exists and what problem it solves</div>
+        <div class="anatomy-row"><span class="tag tag--important">Important</span> <strong>Pre-flight questions</strong> — what Claude should ask before diving in</div>
+        <div class="anatomy-row"><span class="tag tag--required">Required</span> <strong>Execution steps</strong> — the step-by-step process</div>
+        <div class="anatomy-row"><span class="tag tag--required">Required</span> <strong>Output format</strong> — exact template for the output</div>
+        <div class="anatomy-row"><span class="tag tag--important">Important</span> <strong>Key references</strong> — which memory files to read</div>
+        <div class="anatomy-row"><span class="tag tag--important">Important</span> <strong>Self-improvement loop</strong> — how the skill learns from corrections</div>
+        <div class="anatomy-row"><span class="tag tag--optional">Optional</span> <strong>Common mistakes</strong> — specific anti-patterns to avoid</div>
+        <div class="anatomy-row"><span class="tag tag--optional">Optional</span> <strong>Example</strong> — sample input/output showing the skill in action</div>
+      </div>
+      </div>
+    </details>
+
+    <!-- LEVEL UP — SIDE BY SIDE HEADERS, FULL-WIDTH DROPDOWNS -->
+    <div style="margin: 0 0 24px;">
+      <!-- Header row -->
+      <div style="display: flex; gap: 16px; margin-bottom: 0;">
+        <div class="levelup-header levelup-header--active" onclick="toggleLevelUp('self-improve')" style="flex: 1; min-width: 0; background: var(--surface2); border-radius: 16px 16px 0 0; border: 1px solid var(--border); border-bottom: none; padding: 20px 24px; cursor: pointer; -webkit-user-select: none; user-select: none; transition: all 0.2s;" id="levelup-header-self-improve">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+            <span style="background: var(--gold-dim); color: var(--gold); padding: 4px 12px; border-radius: 20px; font-family: var(--font-mono); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px;">Level Up</span>
+          </div>
+          <span style="font-family: var(--font-serif); font-size: 16px; font-weight: 900; display: block;">The Self-Improvement Loop</span>
+          <span style="font-size: 12px; color: var(--text-dim);" class="levelup-hint" id="levelup-hint-self-improve">click to collapse</span>
+        </div>
+        <div class="levelup-header" onclick="toggleLevelUp('chains')" style="flex: 1; min-width: 0; background: var(--surface2); border-radius: 16px 16px 0 0; border: 1px solid var(--border); border-bottom: none; padding: 20px 24px; cursor: pointer; -webkit-user-select: none; user-select: none; opacity: 0.7; transition: all 0.2s;" id="levelup-header-chains">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+            <span style="background: var(--gold-dim); color: var(--gold); padding: 4px 12px; border-radius: 20px; font-family: var(--font-mono); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px;">Level Up</span>
+          </div>
+          <span style="font-family: var(--font-serif); font-size: 16px; font-weight: 900; display: block;">Composable Skill Chains</span>
+          <span style="font-size: 12px; color: var(--text-dim);" class="levelup-hint" id="levelup-hint-chains">click to expand</span>
+        </div>
+      </div>
+      <!-- Content panels (full width, one visible at a time) -->
+      <div id="levelup-content-self-improve" style="background: var(--surface2); border-radius: 0 0 16px 16px; border: 1px solid var(--border); border-top: 1px solid var(--border); padding: 24px;">
+        <p style="font-size: 14px; line-height: 1.7; margin-bottom: 16px;">Every skill has a built-in feedback mechanism — it learns from your corrections and gets better over time.</p>
+        <div class="callout callout--key" style="margin: 0;">
+          <div class="callout-title">How it works</div>
+          <p style="font-size: 14px;"><strong>Before running:</strong> Claude checks past corrections. <strong>After running:</strong> it collects your feedback. <strong>When you correct something:</strong> (a) fixes the output, (b) logs the feedback, (c) proposes a skill update if there's a pattern.</p>
+          <p class="mb-0" style="font-size: 14px;">After a few weeks, mediocre skills become excellent ones. The paste prompt already includes this — just know it's working in the background.</p>
+        </div>
+      </div>
+      <div id="levelup-content-chains" style="display: none; background: var(--surface2); border-radius: 0 0 16px 16px; border: 1px solid var(--border); border-top: 1px solid var(--border); padding: 24px;">
+        <p style="font-size: 14px; line-height: 1.7; margin-bottom: 16px;">Once you have a few skills, chain them together for multi-step workflows:</p>
+        <ul class="disc" style="font-size: 14px;">
+          <li><strong>Research → Email:</strong> Research a company, then draft outreach referencing specific findings</li>
+          <li><strong>Triage → Draft:</strong> Scan inbox, identify emails needing responses, draft replies</li>
+          <li><strong>Research → Interview Prep:</strong> Research, then generate cheat sheet + mock Q&A</li>
+        </ul>
+        <p class="small mb-0" style="color: var(--text-dim); margin-top: 12px;">Come back to this once you've built 2-3 individual skills.</p>
+      </div>
+    </div>
+
+    <!-- PART 8: AUTOMATIONS -->
+    <div id="automations" class="sec-head sec-head--navy">Part 8</div>
     <h2>Scheduled Tasks</h2>
-    <p class="lead">Scheduled tasks are Claude sessions that run automatically on a schedule. They do work while you're away so things are ready when you sit down.</p>
+    <p class="lead">You've built the knowledge base and the skills. Now let's put them on autopilot. Scheduled tasks are Claude sessions that run automatically — they do work while you're away so things are ready when you sit down.</p>
 
-    <div class="mockup">
-      <div class="mockup__titlebar">
-        <div class="mockup__dot"></div>
-        <div class="mockup__dot"></div>
-        <div class="mockup__dot"></div>
-        <div class="mockup__title">Automations</div>
-      </div>
-      <div class="mockup__timeline">
-        <div class="mockup__timeline-item">
-          <div class="mockup__timeline-dot"></div>
-          <div class="mockup__timeline-content">
-            <div class="mockup__timeline-time">7:00 AM</div>
-            <div class="mockup__timeline-label">Morning Briefing</div>
-          </div>
-        </div>
-        <div class="mockup__timeline-item">
-          <div class="mockup__timeline-dot"></div>
-          <div class="mockup__timeline-content">
-            <div class="mockup__timeline-time">5:00 PM</div>
-            <div class="mockup__timeline-label">AI Radar Sweep</div>
-          </div>
-        </div>
-        <div class="mockup__timeline-item">
-          <div class="mockup__timeline-dot"></div>
-          <div class="mockup__timeline-content">
-            <div class="mockup__timeline-time">Friday 5:00 PM</div>
-            <div class="mockup__timeline-label">Weekly Review</div>
-          </div>
-        </div>
-      </div>
-      <div class="mockup__label">Tasks that run while you're away</div>
+    <div class="callout callout--key" style="margin: 20px 0;">
+      <div class="callout-title">What's a scheduled task?</div>
+      <p>A <strong>scheduled task</strong> is a CoWork session that runs on a timer without you having to start it. Think of it like setting a coffee maker the night before — you set it once, and every morning the work is already done when you show up.</p>
+      <p class="mb-0">For example: a morning briefing that summarizes your email and calendar before you wake up, or a weekly review that recaps your progress every Friday. You tell Claude what to do, when to do it, and where to save the results — then it just runs.</p>
     </div>
 
-    <div class="callout callout--warn">
-      <div class="callout-title">Important constraint</div>
-      <p class="mb-0">Scheduled tasks only run when your computer is awake and Claude Desktop is open. If your laptop is closed, the task misses its window. Build a habit of leaving Claude open.</p>
+    <div style="margin: 20px 0 24px;">
+      <p style="font-size: 15px; line-height: 1.7; margin-bottom: 0;"><strong>Start a new CoWork session for this section.</strong> Copy the prompt below and paste it in. Claude will figure out which automations make sense for your routine.</p>
     </div>
 
     <div class="paste-prompt">
@@ -1967,7 +2155,9 @@ Ask me anything else about how I want this task done — the more detail you get
         <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
         <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
       </div>
-      <div class="paste-prompt__body">Let's set up my scheduled automations. Before creating anything, ask me:
+      <div class="paste-prompt__body">First, read these files in my workspace: discovery-notes.md, GLOBAL-INSTRUCTIONS.md, and CLAUDE.md. Those have everything from my previous sessions.
+
+Let's set up my scheduled automations. Before creating anything, ask me:
 
 1. What time do I usually wake up / start my day?
 2. When do I typically sit down to use Claude? (Morning, evening, weekends?)
@@ -1983,180 +2173,152 @@ Important: Remind me that my laptop needs to be awake and Claude Desktop needs t
 Ask me about anything else in my routine or workflow that could benefit from automation — I might not think of everything on my own.</div>
     </div>
 
+    <div class="callout callout--warn" style="margin: 20px 0;">
+      <div class="callout-title">Keep your laptop awake</div>
+      <p class="mb-0">Scheduled tasks only run when your computer is awake and Claude Desktop is open. If your laptop is closed or Claude isn't running, the task misses its window. The easiest fix: just leave Claude Desktop open in the background and let your laptop sleep on its own schedule.</p>
+    </div>
+
+    <div class="callout callout--tip" style="margin: 0 0 20px; border-left: 4px solid var(--sage); background: var(--sage-dim); padding: 16px 20px;">
+      <div class="callout-title" style="color: var(--sage);">Where do scheduled tasks live?</div>
+      <p class="mb-0" style="font-size: 14px;">Scheduled tasks are managed by CoWork itself — you can see and edit them in <strong>Settings → Scheduled Tasks</strong>. Each task has a name, a schedule (time + days), and a prompt that tells Claude what to do. The output gets saved wherever the prompt specifies.</p>
+    </div>
+
     <h3>Automations to Consider</h3>
 
-    <div class="grid-2">
-      <div class="ve-card">
-        <div class="card-label card-label--gold">Daily</div>
-        <h4 class="mt-0">Morning Briefing</h4>
-        <p class="small mb-0">Email summary, today's calendar with per-meeting context, priorities, relevant news. Weekdays, 30-60 min before you start work.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--sage">Weekly</div>
-        <h4 class="mt-0">Weekly Review</h4>
-        <p class="small mb-0">What got done, what's stalled, project status, memory file refresh, system health check, next week priorities. Friday or Sunday.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--navy">Daily</div>
-        <h4 class="mt-0">Inbox Digest</h4>
-        <p class="small mb-0">Prioritized email summary timed for when you usually sit down with Claude. Batch-process responses.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--terra">Weekly</div>
-        <h4 class="mt-0">Industry Tracker</h4>
-        <p class="small mb-0">News, job postings, company updates in your target area. Weekly on whatever day makes sense for your rhythm.</p>
-      </div>
-    </div>
+    <div class="grid-2" style="gap: 12px;">
 
-    <h3>Tips for Reliable Automations</h3>
-    <ul class="disc">
-      <li><strong>Be specific in the prompt.</strong> Don't just say "check my email." Say exactly what to scan, how to prioritize, what format, and where to save output.</li>
-      <li><strong>Include file paths.</strong> Tell the automation where to save results.</li>
-      <li><strong>Reference skills.</strong> Tell the automation to follow a specific skill for format and tone.</li>
-      <li><strong>Build in verification.</strong> Cross-check against a known source of truth rather than guessing.</li>
-      <li><strong>Check outputs for the first few days.</strong> Automations need tuning. Review and correct early.</li>
-    </ul>
-
-    <!-- PART 7: SESSION CONTINUITY -->
-    <div id="continuity" class="sec-head sec-head--gold">Part 7</div>
-    <h2>Session Continuity</h2>
-    <p class="lead">Claude doesn't have memory between sessions by default. These two files solve that.</p>
-
-    <div class="mockup">
-      <div class="mockup__titlebar">
-        <div class="mockup__dot"></div>
-        <div class="mockup__dot"></div>
-        <div class="mockup__dot"></div>
-        <div class="mockup__title">session-log.md  |  TASKS.md</div>
-      </div>
-      <div class="mockup__body">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 12px; line-height: 1.5; color: var(--text);">
-          <div style="border-right: 1px solid var(--border); padding-right: 16px;">
-            <div style="color: #6a994e; font-weight: 500; margin-bottom: 6px;">## Latest Session</div>
-            <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 8px;">**Date:** March 23, 2026</div>
-            <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 8px;">**What happened:**</div>
-            <div style="font-size: 11px; color: var(--text-light); margin-bottom: 8px;">Set up PARA structure and memory files...</div>
-            <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 8px;">**Pending:** Build skills</div>
+      <div class="ve-card" style="padding: 16px; margin: 0;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="card-label card-label--gold" style="margin: 0;">Daily</span>
+            <h4 class="mt-0 mb-0" style="font-size: 16px;">Morning Briefing</h4>
           </div>
-          <div>
-            <div style="color: #6a994e; font-weight: 500; margin-bottom: 6px;">## Active</div>
-            <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 4px;">- [ ] Build writing-voice skill</div>
-            <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 4px;">- [ ] Interview for people.md</div>
-            <div style="color: #6a994e; font-weight: 500; margin-top: 10px; margin-bottom: 6px;">## Done</div>
-            <div style="font-size: 11px; color: var(--text-dim);">- [x] Set up folder structure</div>
-          </div>
+          <button class="paste-prompt__copy" onclick="copyAutomationIdea(this)" style="font-size: 11px; padding: 4px 10px;">Copy</button>
         </div>
+        <p class="small mb-0">Summarizes your email, walks through today's calendar with context on each meeting and who you're meeting with, flags priorities, and surfaces any relevant news. Runs every weekday, 30-60 minutes before you start work.</p>
+        <div class="automation-idea-text" style="display:none;">I want to set up a Morning Briefing automation. It should run every weekday morning before I start work and produce a single briefing document with: (1) email summary — what came in overnight, what needs a response, (2) today's calendar — each meeting with context on what it's about and who's attending, (3) my top priorities for the day based on what's on my plate. Save the output somewhere I can easily find it when I sit down. Ask me what time I wake up and when I start work so you can schedule it right.</div>
       </div>
-      <div class="mockup__label">Claude picks up where it left off</div>
+
+      <div class="ve-card" style="padding: 16px; margin: 0;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="card-label card-label--sage" style="margin: 0;">Weekly</span>
+            <h4 class="mt-0 mb-0" style="font-size: 16px;">Weekly Review</h4>
+          </div>
+          <button class="paste-prompt__copy" onclick="copyAutomationIdea(this)" style="font-size: 11px; padding: 4px 10px;">Copy</button>
+        </div>
+        <p class="small mb-0">End-of-week checkpoint: what got done, what's stalled, project status updates, memory file refresh suggestions, system health check on your skills and automations, and priorities for next week.</p>
+        <div class="automation-idea-text" style="display:none;">I want to set up a Weekly Review automation. It should run once a week and produce a recap that covers: (1) what I accomplished this week, (2) what's stalled or overdue, (3) project status updates, (4) suggested updates to my memory files based on what changed, (5) a system health check on my skills and automations — are they working well or need tuning?, (6) priorities for next week. Read my TASKS.md, session-log.md, and project folders to build this. Ask me which day and time works best for the review.</div>
+      </div>
+
+      <div class="ve-card" style="padding: 16px; margin: 0;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="card-label card-label--navy" style="margin: 0;">Daily</span>
+            <h4 class="mt-0 mb-0" style="font-size: 16px;">Inbox Digest</h4>
+          </div>
+          <button class="paste-prompt__copy" onclick="copyAutomationIdea(this)" style="font-size: 11px; padding: 4px 10px;">Copy</button>
+        </div>
+        <p class="small mb-0">Scans your email and produces a prioritized digest timed for when you usually sit down with Claude. Groups emails into tiers so you can batch-process responses instead of scrolling through everything.</p>
+        <div class="automation-idea-text" style="display:none;">I want to set up an Inbox Digest automation. It should scan my email and produce a prioritized summary grouped into tiers: (1) needs a response from me, (2) FYI / read when I have time, (3) skip or archive. For tier 1 emails, include a one-line summary of what's needed and suggest a quick response. Time it for when I usually sit down with Claude so it's fresh. Ask me when that is and whether I want it daily or just on weekdays.</div>
+      </div>
+
+      <div class="ve-card" style="padding: 16px; margin: 0;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="card-label card-label--terra" style="margin: 0;">Weekly</span>
+            <h4 class="mt-0 mb-0" style="font-size: 16px;">Industry Tracker</h4>
+          </div>
+          <button class="paste-prompt__copy" onclick="copyAutomationIdea(this)" style="font-size: 11px; padding: 4px 10px;">Copy</button>
+        </div>
+        <p class="small mb-0">Tracks news, job postings, and company updates in your target industry or area of interest. Runs weekly so you stay informed without having to manually check dozens of sources.</p>
+        <div class="automation-idea-text" style="display:none;">I want to set up an Industry Tracker automation. It should run once a week and research what's new in my target area — news, job postings, company updates, product launches, anything relevant. Read my career-profile.md or memory files to understand what industries and companies I care about. Produce a digest I can scan in 5 minutes with the most important developments and why they matter to me. Ask me which day works best and what specific topics or companies to track.</div>
+      </div>
+
     </div>
 
-    <div class="paste-prompt">
-      <div class="paste-prompt__header">
-        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
-        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+    <div style="margin: 28px auto; max-width: 520px;">
+      <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+        <img src="images/automations-1.png" alt="Example of a scheduled task output" style="width: 100%; display: block;">
       </div>
-      <div class="paste-prompt__body">Set up my session continuity system. Create these two files:
-
-1. session-log.md — A shift handover file. The template should have sections for: session date, session type, what happened, completed items, key decisions made, pending items, files modified, and "next session could" suggestions. Start with an entry for today's session summarizing everything we've set up so far.
-
-2. TASKS.md — A task tracker with sections: Active, Waiting On, Someday, Done. Populate it based on anything I've mentioned wanting to do during our setup conversations.
-
-Then update CLAUDE.md to include Session Continuity instructions:
-- "At the END of every session: Write a shift handover to session-log.md"
-- "At the START of every session: Read session-log.md before beginning any work"
-
-Show me both files before saving.
-
-If you have other ideas for how to maintain continuity between our sessions — beyond what's listed here — suggest them.</div>
+      <p class="small" style="text-align: center; color: var(--text-dim); margin-top: 8px;">A screenshot from my daily morning briefing</p>
     </div>
 
-    <div class="grid-2">
-      <div class="ve-card ve-card--hero">
-        <div class="card-label card-label--navy">Critical</div>
-        <h4 class="mt-0">session-log.md</h4>
-        <p class="small">The "shift handover" between sessions. At the end of every session, Claude writes what happened, what's pending, and any decisions made. At the start of the next session, Claude reads it and picks up where it left off.</p>
-        <p class="small mb-0"><strong>Sections:</strong> Date, session type, what happened, completed items, key decisions, pending items, files modified, what next session could do.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--gold">Useful</div>
-        <h4 class="mt-0">TASKS.md</h4>
-        <p class="small mb-0">A simple, always-current task list. Claude reads and writes to it. Sections: Active, Waiting On, Someday, Done. Check anytime by asking "what's on my plate?"</p>
-      </div>
+    <div class="callout callout--tip" style="margin: 0 0 20px; border-left: 4px solid var(--sage); background: var(--sage-dim); padding: 16px 20px;">
+      <div class="callout-title" style="color: var(--sage);">Real example: Newsletter automation</div>
+      <p class="mb-0" style="font-size: 14px;">I built an automation that reads all my newsletters, summarizes them, and delivers a single digest so I never have to scroll through a cluttered inbox again. I wrote about how it works: <a href="https://open.substack.com/pub/chlokey/p/how-i-got-an-ai-to-read-my-newsletters" target="_blank" style="color: var(--terra); text-decoration: underline; text-underline-offset: 3px;">How I Got an AI to Read My Newsletters For Me</a>.</p>
     </div>
 
-    <p>Add this to CLAUDE.md:</p>
-    <div class="code-file">
-      <div class="code-file__header">CLAUDE.md excerpt</div>
-      <pre class="code-file__body">## Session Continuity
-- At the END of every session: Write a shift handover to session-log.md
-- At the START of every session: Read session-log.md before beginning work</pre>
-    </div>
-
-    <!-- PART 8: CONNECTED TOOLS -->
-    <div id="tools" class="sec-head sec-head--sage">Part 8</div>
-    <h2>Connected Tools &amp; Quick Capture</h2>
-    <p class="lead">The more services you connect, the more useful the system becomes. And if you can't access Claude during the day, you need a bridge.</p>
-
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Service</th><th>What It Enables</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Gmail</strong></td><td>Inbox triage, email drafting, morning briefings, thread search</td></tr>
-          <tr><td><strong>Google Calendar</strong></td><td>Meeting prep, scheduling awareness, daily agenda</td></tr>
-          <tr><td><strong>Google Drive</strong></td><td>Document access, file search, shared doc references</td></tr>
-          <tr><td><strong>Notion</strong></td><td>Quick capture from phone, database access, cross-platform sync</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="paste-prompt">
-      <div class="paste-prompt__header">
-        <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
-        <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
+    <details style="margin: 24px 0; background: var(--surface2); border-radius: 16px; border: 1px solid var(--border);">
+      <summary style="padding: 20px 24px; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; -webkit-user-select: none; user-select: none;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="background: var(--gold-dim); color: var(--gold); padding: 4px 12px; border-radius: 20px; font-family: var(--font-mono); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px;">Level Up</span>
+        </div>
+        <span style="font-family: var(--font-serif); font-size: 18px; font-weight: 900;">Making Automations Reliable</span>
+        <span style="font-size: 13px; color: var(--text-dim); margin-left: auto;">click to expand</span>
+      </summary>
+      <div style="padding: 0 24px 24px;">
+      <p style="font-size: 14px; line-height: 1.7; margin-bottom: 16px;">Your first automations will probably need some tuning. Here's how to get them running smoothly:</p>
+      <ul class="disc" style="font-size: 14px;">
+        <li><strong>Be specific in the prompt.</strong> Don't just say "check my email." Tell it exactly what to scan, how to prioritize, what format, and where to save the results.</li>
+        <li><strong>Point to your skills.</strong> If you've built an Inbox Triage skill, tell the automation to use it — that way it follows the same rules every time.</li>
+        <li><strong>Check the output for the first few days.</strong> Automations need tuning early on. Review what they produce, correct mistakes, and they'll improve quickly.</li>
+      </ul>
       </div>
-      <div class="paste-prompt__body">Let's set up my quick capture bridge so I can send tasks to you from my phone during the day.
-
-Ask me:
-1. Can I access Claude during the day, or only at certain times?
-2. Do I have Notion? (If yes, we'll create a Second Brain Hub page for quick captures.)
-3. Have I set up Dispatch in CoWork? (The phone-to-Claude feature.)
-4. What kind of things would I want to send you during the day? (Tasks, research requests, things to remember, ideas?)
-
-Based on my answers, set up the right bridge:
-- If Notion: Create the quick capture page structure and add a "Notion Bridge" section to CLAUDE.md with instructions for you to check it at session start
-- If Dispatch: Walk me through pairing and add Dispatch notes to CLAUDE.md
-- Update CLAUDE.md with whatever we set up
-
-Ask me about any other tools or services I use daily that might be worth connecting — I may forget to mention something obvious.</div>
-    </div>
-
-    <h3>Quick Capture Bridge</h3>
-    <p>If you can't access Claude during the day, you need a way to send tasks from your phone.</p>
-
-    <div class="grid-2">
-      <div class="ve-card">
-        <div class="card-label card-label--navy">Option 1</div>
-        <h4 class="mt-0">Notion Quick Capture</h4>
-        <p class="small mb-0">Create a "Second Brain Hub" page in Notion. Drop notes there from your phone during the day. Claude checks it at session start and processes items into the right workspace files.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--gold">Option 2</div>
-        <h4 class="mt-0">Dispatch</h4>
-        <p class="small mb-0">Pair your phone to CoWork via Dispatch (QR code). Send tasks anytime. They'll be waiting when Claude runs. Same "laptop must be awake" constraint.</p>
-      </div>
-    </div>
+    </details>
 
     <!-- PART 9: MAINTENANCE -->
     <div id="maintenance" class="sec-head sec-head--terra">Part 9</div>
     <h2>Ongoing Maintenance</h2>
-    <p class="lead">A system is only as good as its maintenance. Here's the rhythm.</p>
+    <p class="lead">You've built everything. Now let's make sure it stays useful. A system is only as good as its maintenance — here's the rhythm that keeps it sharp.</p>
+
+    <div class="callout callout--key" style="margin: 20px 0;">
+      <div class="callout-title">What does maintenance actually mean?</div>
+      <p>This isn't busywork. Maintenance just means Claude gets better over time instead of staying the same. Most of it happens automatically — when you correct a mistake, Claude logs it and learns. When a scheduled task runs, it checks for updates.</p>
+      <p class="mb-0">Your only real job is to correct Claude when it gets something wrong, and do a quick weekly check-in to make sure nothing's stalled. That's it.</p>
+    </div>
+
+    <h3>Your Maintenance Rhythm</h3>
+
+    <div class="grid-3">
+      <div class="ve-card">
+        <div class="card-label card-label--navy">Every Session</div>
+        <h4 class="mt-0" style="font-size: 15px;">Happens Automatically</h4>
+        <p class="small mb-0">Claude reads session-log.md to pick up where you left off, checks TASKS.md for what's on your plate, and scans quick capture for anything you dropped in during the day. When you correct a mistake, Claude logs it and learns. You don't need to do anything special — just use the system.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--gold">Weekly</div>
+        <h4 class="mt-0" style="font-size: 15px;">5-Minute Check-In</h4>
+        <p class="small mb-0">Once a week (or set up a scheduled task to do it for you): review what got done, flag anything that's stalled, refresh memory files if something changed in your life, check if your skills and automations are working well. This is your system tune-up.</p>
+      </div>
+      <div class="ve-card">
+        <div class="card-label card-label--rose">Monthly</div>
+        <h4 class="mt-0" style="font-size: 15px;">Quick Audit</h4>
+        <p class="small mb-0">Skim CLAUDE.md — is it still accurate? Archive any completed projects. Check if there's a manual workflow you keep repeating that should become a skill. This takes 10 minutes and keeps the system from getting stale.</p>
+      </div>
+    </div>
+
+    <div class="callout callout--key" style="margin: 24px 0;">
+      <div class="callout-title">The Corrections Loop</div>
+      <p>This is the single most important part of maintenance. Every time Claude gets something wrong, just tell it. Claude will: (1) fix the mistake, (2) log it in CLAUDE.md with the date so it doesn't happen again, (3) check if the mistake reveals something new about you and update the relevant memory file, and (4) check if a skill needs updating and propose changes.</p>
+      <p class="mb-0">You don't need to manage this process — just correct Claude when it's wrong and it handles the rest. Over time, mistakes become rare because Claude is learning from every correction.</p>
+    </div>
+
+    <h3>Your Graduation Step</h3>
+    <p style="font-size: 15px; line-height: 1.7; margin-bottom: 16px;">Once you've been using the system for a few sessions and things feel solid, create a personal reference doc that summarizes how everything works. This is the doc you'd reread if you ever forget how your system is set up.</p>
+
+    <div style="margin: 0 0 24px;">
+      <p style="font-size: 15px; line-height: 1.7; margin-bottom: 0;"><strong>Start a new CoWork session for this section.</strong> Copy the prompt below and paste it in.</p>
+    </div>
 
     <div class="paste-prompt">
       <div class="paste-prompt__header">
         <span class="paste-prompt__label"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Paste this into CoWork</span>
         <button class="paste-prompt__copy" onclick="copyPrompt(this)">Copy</button>
       </div>
-      <div class="paste-prompt__body">We've built the whole system. Now create my GETTING-STARTED.md — a personal reference doc that explains how everything works. It should include:
+      <div class="paste-prompt__body">First, read these files in my workspace: discovery-notes.md, GLOBAL-INSTRUCTIONS.md, and CLAUDE.md. Those have everything from my previous sessions.
+
+We've built the whole system. Now create my GETTING-STARTED.md — a personal reference doc that explains how everything works. It should include:
 
 1. "How It Works" (30-second version) — Context + Instructions + Automations
 2. "Setup Checklist" — What's connected, what's configured
@@ -2172,109 +2334,30 @@ Write it in my voice (reference writing-voice.md). Save to GETTING-STARTED.md at
 If there's anything else you think should be in this reference doc based on everything you've learned about me, add it — and ask me about anything you're unsure of.</div>
     </div>
 
-    <div class="grid-3">
-      <div class="ve-card">
-        <div class="card-label card-label--navy">Every Session</div>
-        <p class="small mb-0">Claude reads session-log.md, checks TASKS.md, scans quick capture for new items. You correct mistakes (they get logged automatically).</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--gold">Weekly</div>
-        <p class="small mb-0">Summarize the week. Check projects for stalls. Refresh memory files. Review skill feedback. Update TASKS.md. System health check.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--rose">Monthly</div>
-        <p class="small mb-0">Review CLAUDE.md for accuracy. Archive completed projects. Check glossary. Evaluate if any manual workflow should become a skill.</p>
-      </div>
-    </div>
-
-    <h3>The Corrections Loop</h3>
-    <p>This is the single most important maintenance mechanism. Every time Claude makes a mistake:</p>
-    <div class="anatomy">
-      <div class="anatomy-row"><span class="tag tag--required">Step 1</span> Fix the mistake immediately</div>
-      <div class="anatomy-row"><span class="tag tag--required">Step 2</span> Log it in CLAUDE.md under Corrections &amp; Learnings with the date</div>
-      <div class="anatomy-row"><span class="tag tag--important">Step 3</span> Check if it reveals new info — update the relevant memory file</div>
-      <div class="anatomy-row"><span class="tag tag--important">Step 4</span> Check if it reveals a skill gap — propose an update to the SKILL.md</div>
-    </div>
-
     <!-- SETUP CHECKLIST -->
     <div id="checklist" class="sec-head sec-head--navy">Setup Checklist</div>
     <h2>Your Step-by-Step Setup Flow</h2>
 
     <ul class="checklist">
-      <li><span class="check-box"></span><span class="session-label">Session 1</span><div><strong>Discovery.</strong> Have the discovery conversation with Claude. Don't build anything yet. Just talk.</div></li>
-      <li><span class="check-box"></span><span class="session-label">Session 2</span><div><strong>Foundation.</strong> Create CLAUDE.md, Global Instructions, PARA folder structure.</div></li>
-      <li><span class="check-box"></span><span class="session-label">Session 3</span><div><strong>Memory.</strong> Build writing-voice.md (with real samples), people.md, life-areas.md, glossary.md.</div></li>
-      <li><span class="check-box"></span><span class="session-label">Session 3-4</span><div><strong>Context.</strong> Build career-profile.md and any optional memory files relevant to your life.</div></li>
-      <li><span class="check-box"></span><span class="session-label">Session 4-5</span><div><strong>Skills.</strong> Build your first 2-3 custom skills for your most common tasks.</div></li>
-      <li><span class="check-box"></span><span class="session-label">Session 5-6</span><div><strong>Automations.</strong> Set up scheduled tasks (morning briefing, weekly review).</div></li>
-      <li><span class="check-box"></span><span class="session-label">Session 6</span><div><strong>Continuity.</strong> Set up session-log.md, TASKS.md, quick capture bridge.</div></li>
-      <li><span class="check-box"></span><span class="session-label">Session 7</span><div><strong>Getting Started guide.</strong> Write your own GETTING-STARTED.md reference doc.</div></li>
-      <li><span class="check-box"></span><span class="session-label">Ongoing</span><div><strong>Refine.</strong> Use the system. Correct mistakes. Let the system learn. It gets better every session.</div></li>
+      <li><span class="check-box"></span><span class="session-label">Session 1</span><div><strong>Discovery.</strong> Have the discovery conversation with Claude. Don't build anything yet. Just talk. (Part 0)</div></li>
+      <li><span class="check-box"></span><span class="session-label">Session 2</span><div><strong>Global Instructions + CLAUDE.md.</strong> Set up how Claude behaves, then create the master context file it reads every session. (Parts 1-2)</div></li>
+      <li><span class="check-box"></span><span class="session-label">Session 3</span><div><strong>Memory Files.</strong> Build writing-voice.md first (with real samples), then people.md, life-areas.md, glossary.md. (Part 3)</div></li>
+      <li><span class="check-box"></span><span class="session-label">Session 3-4</span><div><strong>Additional Memory + Folder Structure.</strong> Build career-profile.md and any optional memory files, then set up your PARA folder structure. (Parts 3-4)</div></li>
+      <li><span class="check-box"></span><span class="session-label">Session 4</span><div><strong>Session Continuity.</strong> Set up session-log.md and TASKS.md so Claude picks up where it left off. (Part 5)</div></li>
+      <li><span class="check-box"></span><span class="session-label">Session 5</span><div><strong>Connectors + Quick Capture.</strong> Connect your tools (Gmail, Calendar, etc.) and set up a way to send tasks from your phone. (Part 6)</div></li>
+      <li><span class="check-box"></span><span class="session-label">Session 5-6</span><div><strong>Custom Skills.</strong> Build your first 1-2 custom skills for your most common tasks. (Part 7)</div></li>
+      <li><span class="check-box"></span><span class="session-label">Session 6-7</span><div><strong>Scheduled Tasks.</strong> Set up automations that run while you're away — morning briefing, weekly review. (Part 8)</div></li>
+      <li><span class="check-box"></span><span class="session-label">Session 7</span><div><strong>Maintenance + Getting Started guide.</strong> Learn the maintenance rhythm, then write your personal GETTING-STARTED.md reference doc. (Part 9)</div></li>
+      <li><span class="check-box"></span><span class="session-label">Ongoing</span><div><strong>Refine.</strong> Use the system. Correct mistakes. Let it learn. It gets better every session.</div></li>
     </ul>
 
-    <!-- LESSONS -->
-    <div id="lessons" class="sec-head sec-head--gold">Lessons Learned</div>
-    <h2>What Actually Matters</h2>
-    <p class="lead">After months of iteration, these are the lessons that made the biggest difference.</p>
-
-    <div class="ve-card ve-card--hero" style="margin-bottom: 24px;">
-      <div class="card-label card-label--navy">Lesson 01</div>
-      <h4 class="mt-0">Real writing samples beat descriptions</h4>
-      <p class="small mb-0">You can describe your voice all day. One real email teaches Claude more than a paragraph of adjectives. Share actual messages across different contexts.</p>
-    </div>
-
-    <div class="grid-2">
-      <div class="ve-card">
-        <div class="card-label card-label--gold">Lesson 02</div>
-        <h4 class="mt-0">Negative instructions are as important as positive ones</h4>
-        <p class="small mb-0">"Never use these words" is just as valuable as "use this tone." The anti-pattern list prevents the most common AI cringe.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--sage">Lesson 03</div>
-        <h4 class="mt-0">The correction loop is the secret weapon</h4>
-        <p class="small mb-0">Systems that learn from mistakes get exponentially better. Systems that don't stay mediocre forever.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--rose">Lesson 04</div>
-        <h4 class="mt-0">Discovery before building</h4>
-        <p class="small mb-0">Sessions spent just talking, before any file was created, produced the best material. You can't build a system for someone you don't know.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--terra">Lesson 05</div>
-        <h4 class="mt-0">Skills need boundaries</h4>
-        <p class="small mb-0">"Do NOT use this skill for" is as important as the trigger. Without it, skills fire on the wrong tasks and produce bad output.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--navy">Lesson 06</div>
-        <h4 class="mt-0">Less is more in CLAUDE.md</h4>
-        <p class="small mb-0">Keep the master file lean (~150 lines) and link to memory files. A 300-line CLAUDE.md is harder for Claude to parse than a 100-line one with good links.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--gold">Lesson 07</div>
-        <h4 class="mt-0">Start with one pain point</h4>
-        <p class="small mb-0">Don't build everything at once. Pick your biggest pain point and build the skill for that first. Expand from there.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--sage">Lesson 08</div>
-        <h4 class="mt-0">Automations need babysitting at first</h4>
-        <p class="small mb-0">Check outputs for the first week. Tweak the prompts. They stabilize after a few iterations.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--rose">Lesson 09</div>
-        <h4 class="mt-0">Specific beats comprehensive</h4>
-        <p class="small mb-0">"Picky eater, loves seafood, hates most cheese" is more useful than a generic dietary questionnaire. Specificity wins.</p>
-      </div>
-      <div class="ve-card">
-        <div class="card-label card-label--terra">Lesson 10</div>
-        <h4 class="mt-0">If maintaining it feels like work, something is wrong</h4>
-        <p class="small mb-0">The system should work for you, not create more work. Reduce friction until it's effortless. If you're avoiding it, redesign it.</p>
-      </div>
-    </div>
 
     <!-- FOOTER -->
-    <div class="footer">
-      <span>Built from a real system. Tested over 25+ iterations.</span>
-      <span style="font-family: var(--font-mono); font-size: 11px;">March 2026</span>
+    <div class="footer" style="flex-direction: column; align-items: center; gap: 8px;">
+      <div style="display: flex; align-items: baseline; gap: 3px;">
+        <span style="font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', var(--font-mono); font-size: 18px; font-weight: 700; color: var(--text);">chl<span class="logo-zero"></span>key</span><span style="font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', var(--font-mono); font-size: 18px; font-weight: 700; color: var(--text); animation: blink 1s step-end infinite;">_</span>
+      </div>
+      <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim);">Learning Out Loud</span>
     </div>
 
   </div><!-- /main -->
@@ -2320,6 +2403,389 @@ function copyPrompt(btn) {
     }, 2000);
   });
 }
+</script>
+
+<!-- MEMORY FILE PROMPT SWITCHER -->
+<script>
+const memoryPrompts = {
+  'writing-voice': {
+    label: 'Paste this — writing-voice.md',
+    body: `First, read these files in my workspace: discovery-notes.md, GLOBAL-INSTRUCTIONS.md, and CLAUDE.md. Those have everything from my previous sessions.
+
+Let's build my memory files. These are the deep-context files that make you actually useful. We'll start with the most important one: writing-voice.md.
+
+For writing-voice.md, I need you to ask me:
+1. How would a friend describe the way I write? What's my vibe?
+2. Ask me to paste 3-5 real emails or messages I've sent recently — to different people in different contexts (a colleague, a friend, a professional contact). I'll paste them in.
+3. How do I sign off emails? Does it change by person?
+4. Do I use exclamation points, emojis, lowercase, any typing quirks?
+5. What words or phrases would I NEVER use in writing?
+6. How does my tone shift between casual and professional?
+
+After I answer, build the full writing-voice.md file: voice characteristics, professional writing style, casual style, "what my voice is NOT," banned words, and paste in my real writing samples with annotations about what to notice in each one. Show me the draft before saving to memory/writing-voice.md.
+
+Ask me anything else about how I communicate that would help you nail my voice — these questions are a starting point, not the whole picture.`,
+    note: 'This is the most important memory file. Real writing samples are the magic ingredient.'
+  },
+  'people': {
+    label: 'Paste this — people.md',
+    body: `First, read these files in my workspace: discovery-notes.md, GLOBAL-INSTRUCTIONS.md, and CLAUDE.md. Those have everything from my previous sessions.
+
+Let's build my people.md file. Interview me one section at a time:
+
+1. WORK: Who are the key people I work with? For each person, get their name, role, my relationship with them, and what we work on together. Ask follow-ups until you have enough context that you'd never need to ask "who is [name]?" again.
+2. PERSONAL: Partner, family members, close friends. Names and relevant context.
+3. PROFESSIONAL NETWORK: Mentors, coaches, key contacts. How I know them and why they matter.
+4. NICKNAMES: Any shortened names or nicknames I use that you should recognize.
+
+Build the full people.md with sections for Work, Personal, and Professional Network. Show me the draft before saving to memory/people.md.
+
+If you think of other questions that would help you understand my relationships and who matters in my world, ask those too.`,
+    note: 'This file means Claude never has to ask "who is [name]?" again.'
+  },
+  'life-areas': {
+    label: 'Paste this — life-areas.md',
+    body: `First, read these files in my workspace: discovery-notes.md, GLOBAL-INSTRUCTIONS.md, and CLAUDE.md. Those have everything from my previous sessions.
+
+Let's build my life-areas.md file. Interview me section by section:
+
+1. DAILY LIFE: Where do I live? Living situation? Walk me through a typical weekday and weekend routine in detail (wake time, commute, work schedule, evenings, bedtime).
+2. HEALTH & FITNESS: Current workout routine, memberships, goals, dietary habits.
+3. HOBBIES: Everything I do for fun. Include side projects, creative interests, guilty pleasures.
+4. FINANCE: General financial goals, budgeting approach, anything relevant (only what I'm comfortable sharing).
+5. LEARNING: How do I learn best? What am I currently learning? Courses, books, interests.
+6. LIFE ADMIN: What's the state of my life admin? Email situation, file organization, recurring tasks.
+7. GOALS: What are my goals for this year?
+8. PERSONALITY PATTERNS: Anything about how I'm wired that affects my productivity (perfectionism, avoidance, energy patterns).
+
+Build life-areas.md with all sections. Show me the draft before saving to memory/life-areas.md.
+
+Don't stop at just these categories — ask me about anything else in my life that would be useful context. The more complete this file is, the better you'll be at helping me.`,
+    note: 'The "whole person" file. The more complete, the more useful Claude becomes.'
+  },
+  'career-profile': {
+    label: 'Paste this — career-profile.md',
+    body: `First, read these files in my workspace: discovery-notes.md, GLOBAL-INSTRUCTIONS.md, and CLAUDE.md. Those have everything from my previous sessions.
+
+Let's build my career-profile.md. Interview me:
+
+1. EDUCATION: Where did I go to school? Any programs or experiences that set me apart?
+2. CURRENT ROLE: What's my current job? What does my day-to-day actually involve? What skills have I developed?
+3. CAREER PROGRESSION: Walk through my career history. Key roles, responsibilities, achievements.
+4. TARGET ROLES: Where am I trying to go? What does the dream role look like?
+5. JOB SEARCH STATUS: Am I actively searching, passively open, or just thinking ahead?
+6. SKILLS TO DEVELOP: What skills do I want to build?
+7. ONLINE PRESENCE: Do I have or want a professional presence online?
+
+Build career-profile.md. Show me the draft before saving to memory/career-profile.md.
+
+Ask me any other career-related questions that would help you give me better job search and professional advice down the road.`,
+    note: 'Essential for anyone doing job search or career development with Claude.'
+  },
+  'glossary': {
+    label: 'Paste this — glossary.md',
+    body: `First, read these files in my workspace: discovery-notes.md, GLOBAL-INSTRUCTIONS.md, and CLAUDE.md. Those have everything from my previous sessions.
+
+Let's build my glossary.md — the decoder ring for my life. Ask me:
+
+1. What acronyms or jargon do I use at work that you might not understand?
+2. What tools or systems do I reference by shorthand? (e.g., "the terminal," "the Hub," "PARA")
+3. Any nicknames for people that you should recognize?
+4. Any other terms, abbreviations, or shorthand I use regularly?
+
+Build glossary.md as a table format (Term | Meaning | Context) grouped by category (Work, Personal, Tools, Nicknames). This file will grow over time — every time you get a term wrong, I'll tell you to add it here. Save to memory/glossary.md.
+
+If you've noticed any terms or shorthand I've already used in our conversations that you're unsure about, ask me about those now too.`,
+    note: 'This file grows over time. Every time Claude gets a term wrong, add it here.'
+  }
+};
+
+function switchMemoryPrompt(key) {
+  const data = memoryPrompts[key];
+  if (!data) return;
+  document.getElementById('memory-prompt-label').textContent = data.label;
+  document.getElementById('memory-prompt-body').textContent = data.body;
+  document.getElementById('memory-prompt-note').textContent = data.note;
+  // Update active card styling
+  document.querySelectorAll('.memory-card').forEach(c => {
+    c.classList.remove('memory-card--active');
+    c.style.borderColor = '';
+  });
+  event.currentTarget.classList.add('memory-card--active');
+  event.currentTarget.style.borderColor = 'var(--gold)';
+  // Scroll prompt into view
+  document.getElementById('memory-prompt-box').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  // Reset copy button
+  const btn = document.querySelector('#memory-prompt-box .paste-prompt__copy');
+  btn.textContent = 'Copy';
+  btn.classList.remove('copied');
+}
+
+// Set initial active state
+document.addEventListener('DOMContentLoaded', function() {
+  const first = document.querySelector('.memory-card--active');
+  if (first) first.style.borderColor = 'var(--gold)';
+  const firstCapture = document.querySelector('.capture-card--active');
+  if (firstCapture) firstCapture.style.borderColor = 'var(--gold)';
+});
+</script>
+
+<!-- QUICK CAPTURE PROMPT SWITCHER -->
+<script>
+const capturePrompts = {
+  'dispatch': {
+    label: 'Paste this — Dispatch setup',
+    body: `First, read these files in my workspace: discovery-notes.md, GLOBAL-INSTRUCTIONS.md, and CLAUDE.md. Those have everything from my previous sessions.
+
+I want to set up Dispatch so I can send tasks to you from my phone.
+
+Walk me through the setup:
+1. How do I find and pair Dispatch? (I need step-by-step instructions — I haven't done this before.)
+2. Once paired, what kinds of things can I send? (Tasks, research requests, quick notes, links?)
+3. What are the limitations I should know about? (Does my laptop need to be open? How fast do tasks get picked up?)
+
+After we get it working:
+- Add a "Dispatch" section to CLAUDE.md explaining that I use it to send tasks from my phone
+- Include any tips for writing good Dispatch messages (so Claude understands what I want)
+- Update CLAUDE.md with the setup
+
+Also ask me: what kinds of things would I most likely send from my phone during the day? That will help you give me better advice on how to use it.`,
+    note: 'Dispatch is built into CoWork — no extra apps needed. Just pair your phone with a QR code and start sending tasks.'
+  },
+  'notion': {
+    label: 'Paste this — Notion Hub setup',
+    body: `First, read these files in my workspace: discovery-notes.md, GLOBAL-INSTRUCTIONS.md, and CLAUDE.md. Those have everything from my previous sessions.
+
+I want to set up a Notion quick capture system so I can drop tasks and notes from my phone during the day and have you process them when I'm back at my computer.
+
+Here's what I need:
+1. Create a "Second Brain Hub" page in my Notion workspace — this will be my drop zone for quick captures
+2. Set it up with a simple structure: a "Quick Captures" section where I can jot things down, and a "Recent Updates" table so I can see what you've processed
+3. Walk me through how I'd use this day-to-day — what do I drop in, and what do you do with it?
+
+After it's set up:
+- Add a "Notion Bridge" section to CLAUDE.md with the page link and instructions for you to check it at the start of every session
+- Explain what "processing" means — how you move captures into the right workspace files
+- Update CLAUDE.md with the setup
+
+Also ask me: what kinds of things would I most likely drop into this page during the day? That will help you set up the right structure.`,
+    note: 'Best if you already use Notion. The Hub becomes a simple drop zone — Claude processes everything into the right place.'
+  },
+  'apple-notes': {
+    label: 'Paste this — Apple Notes setup',
+    body: `First, read these files in my workspace: discovery-notes.md, GLOBAL-INSTRUCTIONS.md, and CLAUDE.md. Those have everything from my previous sessions.
+
+I want to use Apple Notes as my quick capture tool — I'll jot things down on my phone during the day and have you process them when I'm back at my computer.
+
+Help me set this up:
+1. Do you have access to my Apple Notes? (Check if the Apple Notes connector is active.)
+2. Let's create a dedicated note or folder for quick captures — something like "Claude Inbox" that I can find fast on my phone.
+3. Walk me through the workflow: what should I jot down, how should I format it (or does it not matter?), and what do you do with it when I'm back?
+
+After it's set up:
+- Add an "Apple Notes Bridge" section to CLAUDE.md with instructions for you to check the capture note at the start of every session
+- Explain how you'll process items — moving them into the right workspace files and clearing the note
+- Update CLAUDE.md with the setup
+
+Also ask me: what kinds of things would I most likely jot down during the day? That will help you know what to expect and how to process it.`,
+    note: 'Great for iPhone users — jot a note on your phone and Claude picks it up next session. Requires the Apple Notes connector.'
+  }
+};
+
+function switchCapturePrompt(key) {
+  const data = capturePrompts[key];
+  if (!data) return;
+  document.getElementById('capture-prompt-label').textContent = data.label;
+  document.getElementById('capture-prompt-body').textContent = data.body;
+  document.getElementById('capture-prompt-note').textContent = data.note;
+  // Update active card styling
+  document.querySelectorAll('.capture-card').forEach(c => {
+    c.classList.remove('capture-card--active');
+    c.style.borderColor = '';
+  });
+  event.currentTarget.classList.add('capture-card--active');
+  event.currentTarget.style.borderColor = 'var(--gold)';
+  // Scroll prompt into view
+  document.getElementById('capture-prompt-box').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  // Reset copy button
+  const btn = document.querySelector('#capture-prompt-box .paste-prompt__copy');
+  btn.textContent = 'Copy';
+  btn.classList.remove('copied');
+}
+</script>
+
+<!-- SKILL TAB SWITCHER -->
+<script>
+function switchSkillTab(tab) {
+  const promptTab = document.getElementById('skill-tab-prompt');
+  const ideasTab = document.getElementById('skill-tab-ideas');
+  const tabs = document.querySelectorAll('.skill-tab');
+  const copyBtn = document.getElementById('skill-copy-btn');
+  const label = document.getElementById('skill-prompt-label');
+
+  if (tab === 'prompt') {
+    promptTab.style.display = '';
+    ideasTab.style.display = 'none';
+    copyBtn.style.display = '';
+    label.textContent = 'Paste this into CoWork';
+  } else {
+    promptTab.style.display = 'none';
+    ideasTab.style.display = '';
+    copyBtn.style.display = 'none';
+    label.textContent = 'Pick a skill idea, then copy its text into the prompt';
+  }
+
+  tabs.forEach(t => {
+    if ((tab === 'prompt' && t.textContent.trim() === 'Build Prompt') ||
+        (tab === 'ideas' && t.textContent.trim() === 'Skill Starter Ideas')) {
+      t.style.borderBottomColor = 'var(--gold)';
+      t.style.color = 'var(--text)';
+      t.style.background = 'var(--surface2)';
+      t.classList.add('skill-tab--active');
+    } else {
+      t.style.borderBottomColor = 'transparent';
+      t.style.color = 'var(--text-dim)';
+      t.style.background = 'transparent';
+      t.classList.remove('skill-tab--active');
+    }
+  });
+}
+
+const skillPromptBoilerplate = {
+  before: `First, read these files in my workspace: discovery-notes.md, GLOBAL-INSTRUCTIONS.md, and CLAUDE.md. Those have everything from my previous sessions.
+
+I want to build my first custom skill. Here's what I want:
+
+`,
+  after: `
+
+Then build it with me:
+
+- Ask me clarifying questions about how I want the task done (format, tone, what to include/exclude, what "good" looks like)
+- Create the SKILL.md file with all required sections: frontmatter (name + description + triggers + "do NOT use for"), context, pre-flight questions, execution steps, output format template, key memory file references, self-improvement loop, common mistakes, and one example
+- Save it to 03-resources/skills/[skill-name]/SKILL.md
+- Update CLAUDE.md with the new skill listed under Custom Skills
+
+Show me the draft before saving. I want to review it.
+
+Ask me anything else about how I want this task done — the more detail you get from me now, the better the skill will perform every time it runs.`
+};
+
+function copySkillIdea(btn) {
+  const card = btn.closest('.ve-card');
+  const ideaText = card.querySelector('.skill-idea-text').textContent;
+  const fullPrompt = skillPromptBoilerplate.before + ideaText + skillPromptBoilerplate.after;
+  navigator.clipboard.writeText(fullPrompt).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+const automationPromptBoilerplate = {
+  before: `First, read these files in my workspace: discovery-notes.md, GLOBAL-INSTRUCTIONS.md, and CLAUDE.md. Those have everything from my previous sessions.
+
+I want to set up a scheduled automation. Here's what I want:
+
+`,
+  after: `
+
+Important: My laptop needs to be awake and Claude Desktop needs to be open for this to run. Remind me of that and help me figure out the best time to schedule it.
+
+After setting it up, explain how I can check if it ran successfully and where to find the output. If anything needs tuning after the first few runs, tell me how to adjust it.`
+};
+
+function copyAutomationIdea(btn) {
+  const card = btn.closest('.ve-card');
+  const ideaText = card.querySelector('.automation-idea-text').textContent;
+  const fullPrompt = automationPromptBoilerplate.before + ideaText + automationPromptBoilerplate.after;
+  navigator.clipboard.writeText(fullPrompt).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
+<!-- LEVEL UP TOGGLE -->
+<script>
+let activeLevelUp = 'self-improve';
+
+function toggleLevelUp(key) {
+  const contentSI = document.getElementById('levelup-content-self-improve');
+  const contentCH = document.getElementById('levelup-content-chains');
+  const headerSI = document.getElementById('levelup-header-self-improve');
+  const headerCH = document.getElementById('levelup-header-chains');
+  const hintSI = document.getElementById('levelup-hint-self-improve');
+  const hintCH = document.getElementById('levelup-hint-chains');
+
+  if (key === activeLevelUp) {
+    // Clicking the active one — collapse it
+    contentSI.style.display = 'none';
+    contentCH.style.display = 'none';
+    headerSI.style.opacity = '0.7';
+    headerSI.style.borderRadius = '16px';
+    headerCH.style.opacity = '0.7';
+    headerCH.style.borderRadius = '16px';
+    headerSI.style.borderBottom = '1px solid var(--border)';
+    headerCH.style.borderBottom = '1px solid var(--border)';
+    hintSI.textContent = 'click to expand';
+    hintCH.textContent = 'click to expand';
+    activeLevelUp = null;
+  } else {
+    // Open the clicked one
+    activeLevelUp = key;
+    if (key === 'self-improve') {
+      contentSI.style.display = '';
+      contentCH.style.display = 'none';
+      headerSI.style.opacity = '1';
+      headerSI.style.borderRadius = '16px 16px 0 0';
+      headerSI.style.borderBottom = 'none';
+      headerCH.style.opacity = '0.7';
+      headerCH.style.borderRadius = '16px';
+      headerCH.style.borderBottom = '1px solid var(--border)';
+      hintSI.textContent = 'click to collapse';
+      hintCH.textContent = 'click to expand';
+    } else {
+      contentCH.style.display = '';
+      contentSI.style.display = 'none';
+      headerCH.style.opacity = '1';
+      headerCH.style.borderRadius = '16px 16px 0 0';
+      headerCH.style.borderBottom = 'none';
+      headerSI.style.opacity = '0.7';
+      headerSI.style.borderRadius = '16px';
+      headerSI.style.borderBottom = '1px solid var(--border)';
+      hintCH.textContent = 'click to collapse';
+      hintSI.textContent = 'click to expand';
+    }
+  }
+}
+</script>
+
+<!-- STICKY LOGO SCROLL -->
+<script>
+(function() {
+  const heroLogo = document.getElementById('hero-logo');
+  const stickyLogo = document.getElementById('sticky-logo');
+  if (!heroLogo || !stickyLogo) return;
+
+  window.addEventListener('scroll', function() {
+    const rect = heroLogo.getBoundingClientRect();
+    if (rect.bottom < 0) {
+      stickyLogo.style.opacity = '1';
+      stickyLogo.style.pointerEvents = 'auto';
+    } else {
+      stickyLogo.style.opacity = '0';
+      stickyLogo.style.pointerEvents = 'none';
+    }
+  }, { passive: true });
+})();
 </script>
 
 <!-- SCROLL SPY -->
