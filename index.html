@@ -310,15 +310,15 @@
     .layer-stack {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      margin: 28px 0;
+      gap: 2px;
+      margin: 24px 0;
     }
     .layer {
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 14px 20px;
-      border-radius: 10px;
+      gap: 12px;
+      padding: 8px 16px;
+      border-radius: 8px;
       background: var(--surface);
       border: 1px solid var(--border);
       transition: transform 0.15s, box-shadow 0.15s;
@@ -329,19 +329,19 @@
     }
     .layer-num {
       font-family: var(--font-serif);
-      font-size: 22px;
+      font-size: 16px;
       font-weight: 900;
       color: var(--gold);
-      width: 28px;
+      width: 20px;
       flex-shrink: 0;
       text-align: center;
     }
     .layer-title {
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
     }
     .layer-desc {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--text-dim);
       margin-left: auto;
       text-align: right;
@@ -1183,19 +1183,12 @@
       </div>
     </div>
 
-    <div style="display: flex; gap: 16px; margin: 24px 0;">
-      <div style="flex: 1; min-width: 0;">
-        <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
-          <img src="images/cowork-home.png" alt="The CoWork home screen" style="width: 100%; display: block;">
-        </div>
-        <p class="small" style="text-align: center; color: var(--text-dim); margin-top: 8px;">The CoWork home screen — where you start new sessions and access your workspace.</p>
+    <p style="font-size: 15px; line-height: 1.7; margin-top: 8px;">Here's what the CoWork home screen looks like once you're in:</p>
+    <div style="margin: 16px auto 24px; max-width: 520px;">
+      <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+        <img src="images/cowork-home.png" alt="The CoWork home screen" style="width: 100%; display: block;">
       </div>
-      <div style="flex: 1; min-width: 0;">
-        <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
-          <img src="images/cowork-session.png" alt="A CoWork session in progress" style="width: 100%; display: block;">
-        </div>
-        <p class="small" style="text-align: center; color: var(--text-dim); margin-top: 8px;">A CoWork session in progress — your conversation, progress tracker, workspace files, and context panel.</p>
-      </div>
+      <p class="small" style="text-align: center; color: var(--text-dim); margin-top: 8px;">The CoWork home screen — where you start sessions and select your workspace folder.</p>
     </div>
 
     <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
@@ -1222,52 +1215,67 @@
     <h2>How the System Works</h2>
     <p class="lead">Your CoWork second brain has three core ingredients: context (who you are), instructions (how Claude should behave), and automations (work that happens while you're away). Everything else builds on these.</p>
 
-    <div class="layer-stack">
-      <div class="layer fade-in">
-        <span class="layer-num">1</span>
-        <div><span class="layer-title">Global Instructions</span></div>
-        <span class="layer-desc">How Claude should behave</span>
+    <details style="margin: 24px 0; border: 1px solid var(--border); border-radius: 10px; background: var(--surface);">
+      <summary style="padding: 12px 16px; cursor: pointer; font-size: 14px; font-weight: 600; list-style: none; display: flex; align-items: center; justify-content: center; text-align: center;">
+        The 9 layers of your system
+      </summary>
+      <div style="padding: 4px 12px 12px;">
+        <div class="layer-stack" style="margin: 0;">
+          <div class="layer fade-in">
+            <span class="layer-num">1</span>
+            <div><span class="layer-title">Global Instructions</span></div>
+            <span class="layer-desc">How Claude should behave</span>
+          </div>
+          <div class="layer fade-in">
+            <span class="layer-num">2</span>
+            <div><span class="layer-title">CLAUDE.md</span></div>
+            <span class="layer-desc">Who you are</span>
+          </div>
+          <div class="layer fade-in">
+            <span class="layer-num">3</span>
+            <div><span class="layer-title">Memory Files</span></div>
+            <span class="layer-desc">Deep context on specific topics</span>
+          </div>
+          <div class="layer fade-in">
+            <span class="layer-num">4</span>
+            <div><span class="layer-title">Folder Structure</span></div>
+            <span class="layer-desc">Where everything lives (PARA)</span>
+          </div>
+          <div class="layer fade-in">
+            <span class="layer-num">5</span>
+            <div><span class="layer-title">Custom Skills</span></div>
+            <span class="layer-desc">Pre-built workflows</span>
+          </div>
+          <div class="layer fade-in">
+            <span class="layer-num">6</span>
+            <div><span class="layer-title">Scheduled Tasks</span></div>
+            <span class="layer-desc">Automations that run while you're away</span>
+          </div>
+          <div class="layer fade-in">
+            <span class="layer-num">7</span>
+            <div><span class="layer-title">Session Continuity</span></div>
+            <span class="layer-desc">So Claude picks up where it left off</span>
+          </div>
+          <div class="layer fade-in">
+            <span class="layer-num">8</span>
+            <div><span class="layer-title">Connected Tools</span></div>
+            <span class="layer-desc">Gmail, Calendar, Notion, Drive</span>
+          </div>
+          <div class="layer fade-in">
+            <span class="layer-num">9</span>
+            <div><span class="layer-title">Quick Capture</span></div>
+            <span class="layer-desc">Send tasks from your phone</span>
+          </div>
+        </div>
       </div>
-      <div class="layer fade-in">
-        <span class="layer-num">2</span>
-        <div><span class="layer-title">CLAUDE.md</span></div>
-        <span class="layer-desc">Who you are</span>
+    </details>
+
+    <p style="font-size: 15px; line-height: 1.7;">Here's what a session looks like once you're up and running:</p>
+    <div style="margin: 16px auto 32px; max-width: 600px;">
+      <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+        <img src="images/cowork-session.png" alt="A CoWork session in progress" style="width: 100%; display: block;">
       </div>
-      <div class="layer fade-in">
-        <span class="layer-num">3</span>
-        <div><span class="layer-title">Memory Files</span></div>
-        <span class="layer-desc">Deep context on specific topics</span>
-      </div>
-      <div class="layer fade-in">
-        <span class="layer-num">4</span>
-        <div><span class="layer-title">Folder Structure</span></div>
-        <span class="layer-desc">Where everything lives (PARA)</span>
-      </div>
-      <div class="layer fade-in">
-        <span class="layer-num">5</span>
-        <div><span class="layer-title">Custom Skills</span></div>
-        <span class="layer-desc">Pre-built workflows</span>
-      </div>
-      <div class="layer fade-in">
-        <span class="layer-num">6</span>
-        <div><span class="layer-title">Scheduled Tasks</span></div>
-        <span class="layer-desc">Automations that run while you're away</span>
-      </div>
-      <div class="layer fade-in">
-        <span class="layer-num">7</span>
-        <div><span class="layer-title">Session Continuity</span></div>
-        <span class="layer-desc">So Claude picks up where it left off</span>
-      </div>
-      <div class="layer fade-in">
-        <span class="layer-num">8</span>
-        <div><span class="layer-title">Connected Tools</span></div>
-        <span class="layer-desc">Gmail, Calendar, Notion, Drive</span>
-      </div>
-      <div class="layer fade-in">
-        <span class="layer-num">9</span>
-        <div><span class="layer-title">Quick Capture</span></div>
-        <span class="layer-desc">Send tasks from your phone</span>
-      </div>
+      <p class="small" style="text-align: center; color: var(--text-dim); margin-top: 8px;">A CoWork session — your conversation, progress tracker, workspace files, and context panel.</p>
     </div>
 
     <div class="ve-card ve-card--hero" style="margin-top: 32px; padding: 28px 32px;">
